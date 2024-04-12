@@ -1,3 +1,4 @@
+![изображение](https://github.com/Ragnoboy94/flow_expert/assets/108244498/9370a6db-80de-49bc-8756-836b5a4152c2)
 
 # Установка и настройка проекта
 
