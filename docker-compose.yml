@@ -1,0 +1,91 @@
+version: '3'
+services:
+
+    #PHP Service
+    app:
+        build:
+            context: .
+            dockerfile: docker/php/Dockerfile
+            args:
+                TZ: Europe/Moscow
+                USER_GROUP_ID: "${USER_GROUP_ID}"
+                USER_ID: "${USER_ID}"
+        restart: unless-stopped
+        tty: true
+        environment:
+            - SERVICE_TAGS=dev
+        working_dir: /var/www
+        volumes:
+            - ./:/var/www
+            - ./../../.ssh:/home/www/.ssh
+            - ./docker/php/local.ini:/usr/local/etc/php/conf.d/local.ini
+        networks:
+            - internal
+        labels:
+            - traefik.enable=false
+        depends_on:
+            - pgsql
+    #    extra_hosts:
+    #      - "${APP_HOST}:host-gateway"
+
+    #Nginx Service
+    nginx:
+        image: nginx:alpine
+        restart: unless-stopped
+        tty: true
+        environment:
+            NGINX_ENVSUBST_TEMPLATE_SUFFIX: ".conf"
+            FASTCGI_PASS: "${COMPOSE_PROJECT_NAME}-app-1:9000"
+        ports:
+            - "${APP_EXT_PORT:-80}:80"
+        volumes:
+            - ./:/var/www
+            - ./docker/nginx/templates:/etc/nginx/templates
+            - ./docker/nginx/nginx.conf:/etc/nginx/nginx.conf
+        networks:
+            - internal
+            - web
+        depends_on:
+            - app
+
+    #  #PostgreSQL Service
+    pgsql:
+        image: postgres
+        restart: unless-stopped
+        tty: true
+        ports:
+            - "${DB_PGSQL_EXT_PORT}:5432"
+        environment:
+            - TZ="Europe/Moscow"
+            - POSTGRES_DB=${DB_DATABASE}
+            - POSTGRES_USER=${DB_USERNAME}
+            - POSTGRES_PASSWORD=${DB_PASSWORD}
+        volumes:
+            - pgdata:/var/lib/postgresql/data
+        networks:
+            - internal
+
+    #Node Service
+    node:
+        image: node:14-slim
+        restart: unless-stopped
+        tty: true
+        ports:
+            - "${NODE_EXT_PORT:-5173}:5173"
+        working_dir: /var/www
+        volumes:
+            - ./:/var/www
+        networks:
+            - internal
+
+#Docker Networks
+networks:
+    web:
+        external: true
+    internal:
+        external: false
+
+#Volumes
+volumes:
+    pgdata:
+        driver: local
