@@ -59,6 +59,7 @@ services:
             - TZ="Europe/Moscow"
             - POSTGRES_DB=${DB_DATABASE}
             - POSTGRES_USER=${DB_USERNAME}
+            - PGUSER=${DB_USERNAME}
             - POSTGRES_PASSWORD=${DB_PASSWORD}
         volumes:
             - pgdata:/var/lib/postgresql/data
