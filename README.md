@@ -26,12 +26,24 @@ docker-compose up -d --build
 ### Laravel
 
 Заходим внутрь докера, там APP
-
+Либо команда
+```
+docker-compose exec app bash
+```
 И запускаем следующие команды
 
 ```
 composer install
 php artisan key:generate
+```
+>Если есть проблемы с бд, то делаем
+```
+docker-compose exec pgsql bash
+psql postgres
+createdb laravel
+```
+>Проверить все можно через подключние в PHPStorm
+```
 php artisan migrate
 php artisan storage:link
 php artisan db:seed
