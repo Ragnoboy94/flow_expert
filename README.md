@@ -42,7 +42,8 @@ docker-compose exec pgsql bash
 psql postgres
 createdb laravel
 ```
->Проверить все можно через подключние в PHPStorm
+>Проверить все можно через подключение в PHPStorm
+![img.png](img.png)
 ```
 php artisan migrate
 php artisan storage:link
