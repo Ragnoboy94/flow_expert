@@ -67,7 +67,7 @@ services:
 
     #Node Service
     node:
-        image: node:14-slim
+        image: node:21-slim
         restart: unless-stopped
         tty: true
         ports:
