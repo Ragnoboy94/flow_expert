@@ -51,6 +51,14 @@ php artisan db:seed
 php artisan queue:restart
 ```
 
+### Vue3
+```
+docker-compose exec node bash
+npm install
+npm run build
+```
+> ```npm run dev``` пока не настроил. ```npm run build``` делать каждый раз, как хочешь посмотреть изменения
+
 ### Cron
 
 **Добавляем команду в crontab**
