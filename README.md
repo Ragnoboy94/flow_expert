@@ -19,6 +19,7 @@ cp .env.example .env
 Запустить команду
 
 ```
+docker network create web
 docker-compose up -d --build
 ```
 
