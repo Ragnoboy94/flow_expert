@@ -2,31 +2,69 @@
     <header class="header">
         <img src="logo.png" alt="FlowExpert" class="header-logo">
         <nav class="header-nav">
-            <a href="/about" class="header-link">О нас</a>
-            <a href="/contacts" class="header-link">Контакты</a>
+            <router-link to="/about" class="header-link">О нас</router-link>
+            <router-link to="/contacts" class="header-link">Контакты</router-link>
         </nav>
         <div class="header-icons">
             <i class="pi pi-user"></i>
             <i class="pi pi-bars" @click="visible = true"></i>
         </div>
         <Sidebar v-model:visible="visible" position="right" class="header-sidebar">
-            <a href="/about" class="header-link">О нас</a>
-            <a href="/contacts" class="header-link">Контакты</a>
+            <router-link to="/demand">
+                <Button label="Получение приведенной потребности" class="sidebar-button" outlined
+                        icon="pi pi-chart-line"/>
+            </router-link>
+            <router-link to="/lots">
+                <Button label="Оформление лотов" class="sidebar-button" outlined icon="pi pi-inbox"/>
+            </router-link>
+            <router-link to="/instructions">
+                <Button label="Инструкции" class="sidebar-button" outlined icon="pi pi-book"/>
+            </router-link>
+            <router-link to="/offers">
+                <Button label="Формирование коммерческих предложений" class="sidebar-button" outlined
+                        icon="pi pi-briefcase"/>
+            </router-link>
+            <Button label="Расчёт НМЦК" class="sidebar-button" outlined icon="pi pi-calculator" @click="toggleSubMenu"/>
+            <template v-if="showSubMenu">
+                <router-link to="/nmck-settings">
+                    <Button label="Настройка параметров расчёта НМЦК" class="sidebar-button" outlined/>
+                </router-link>
+                <router-link to="/nmck-basis">
+                    <Button label="Обоснование НМЦК" class="sidebar-button" outlined/>
+                </router-link>
+            </template>
+
+            <ConsultationButton/>
+            <router-link to="/logout">
+                <Button class="sidebar-button sidebar-button--outline" label="Выйти" outlined/>
+            </router-link>
         </Sidebar>
     </header>
 </template>
 
 <script>
 import Sidebar from 'primevue/sidebar';
+import Button from "primevue/button";
+import ConsultationButton from './ConsultationButton.vue';
+
+
 export default {
     name: 'Header',
     components: {
-        Sidebar
+        Sidebar,
+        Button,
+        ConsultationButton
     },
     data() {
         return {
-            visible: false
+            visible: false,
+            showSubMenu: false
         };
+    },
+    methods: {
+        toggleSubMenu() {
+            this.showSubMenu = !this.showSubMenu;
+        }
     }
 }
 </script>
@@ -49,16 +87,14 @@ export default {
     display: flex;
 }
 
-.header-link,
-.sidebar-link {
+.header-link {
     margin: 0 1rem;
     color: #333;
     text-decoration: none;
     font-weight: bold;
 }
 
-.header-link:hover,
-.sidebar-link:hover {
+.header-link:hover {
     color: #00a950;
 }
 
@@ -76,4 +112,14 @@ export default {
 .pi:hover {
     color: #00a950;
 }
+
+.sidebar-button:not(:last-child) {
+    margin-bottom: 10px;
+}
+
+.sidebar-button {
+    width: 100%;
+    margin-bottom: 0.5rem;
+}
+
 </style>
