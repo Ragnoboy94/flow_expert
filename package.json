@@ -13,6 +13,8 @@
     },
     "dependencies": {
         "cross-env": "^7.0.3",
+        "primeicons": "^7.0.0",
+        "primevue": "^3.51.0",
         "vue": "^3.4.21",
         "vue-plugin": "^0.0.1",
         "vue-router": "^4.3.0",
