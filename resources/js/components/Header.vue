@@ -76,7 +76,7 @@ export default {
     align-items: center;
     padding: 1rem 2rem;
     background-color: #fff;
-    border-radius: 10px;
+    border-radius: 100px;
 }
 
 .header-logo {
@@ -120,6 +120,7 @@ export default {
 .sidebar-button {
     width: 100%;
     margin-bottom: 0.5rem;
+    border-radius: 100px;
 }
 
 </style>
