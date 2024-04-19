@@ -1,12 +1,12 @@
-import { createRouter, createWebHistory } from 'vue-router';
-import Header from '../components/Header.vue';
+import {createRouter, createWebHistory} from 'vue-router';
 import e404 from '../components/e404.vue'
+import Landing from "../components/Landing.vue";
 
 const routes = [
     {
         path: '/',
-        name: 'Header',
-        component: Header
+        name: 'Landing',
+        component: Landing
     },
     {
         path: '/:pathMatch(.*)*',

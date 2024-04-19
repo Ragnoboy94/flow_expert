@@ -76,7 +76,18 @@ export default {
     align-items: center;
     padding: 1rem 2rem;
     background-color: #fff;
-    border-radius: 100px;
+    border-radius: 1vw;
+}
+@media (min-width: 768px) {
+    .landing-block {
+        border-radius: 7.5px; /* максимальный радиус для средних экранов */
+    }
+}
+
+@media (min-width: 1200px) {
+    .landing-block {
+        border-radius: 10px; /* максимальный радиус для больших экранов */
+    }
 }
 
 .header-logo {
@@ -120,7 +131,7 @@ export default {
 .sidebar-button {
     width: 100%;
     margin-bottom: 0.5rem;
-    border-radius: 100px;
+    border-radius: 1vw;
 }
 
 </style>
