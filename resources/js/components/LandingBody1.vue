@@ -47,23 +47,17 @@ export default {
 }
 
 .content-container {
-    max-width: 50%; /* подстройте под ваш дизайн */
+    max-width: 50%;
 }
 
 .title {
-    font-size: 2.5rem; /* подстройте под ваш дизайн */
-    color: #000; /* подстройте под ваш дизайн */
+    font-size: 2.5rem;
     margin-bottom: 1rem;
 }
 
 .subtitle {
-    font-size: 1rem; /* подстройте под ваш дизайн */
-    color: #666; /* подстройте под ваш дизайн */
+    font-size: 1rem;
     margin-bottom: 2rem;
-}
-
-.image-container {
-    /* Добавьте стили если нужно */
 }
 
 .image-container img {

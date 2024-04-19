@@ -1,6 +1,10 @@
 <template>
     <header class="header">
-        <img src="logo.png" alt="FlowExpert" class="header-logo">
+        <router-link to="/" class="logo-container">
+            <img src="../../pics/logo.webp" alt="FlowExpert" class="header-logo">
+            <span class="logo-title">Flow Expert</span>
+        </router-link>
+
         <nav class="header-nav">
             <router-link to="/about" class="header-link">О нас</router-link>
             <router-link to="/contacts" class="header-link">Контакты</router-link>
@@ -78,21 +82,23 @@ export default {
     background-color: #fff;
     border-radius: 1vw;
 }
-@media (min-width: 768px) {
-    .landing-block {
-        border-radius: 7.5px; /* максимальный радиус для средних экранов */
-    }
-}
 
-@media (min-width: 1200px) {
-    .landing-block {
-        border-radius: 10px; /* максимальный радиус для больших экранов */
-    }
+.logo-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 .header-logo {
-    width: 100px;
+    width: 50px;
 }
+
+.logo-title {
+    font-size: 0.5rem;
+    color: #333;
+    text-align: center;
+}
+
 
 .header-nav {
     display: flex;
