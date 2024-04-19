@@ -39,9 +39,7 @@
             </template>
 
             <ConsultationButton/>
-            <router-link to="/logout">
-                <Button class="sidebar-button sidebar-button--outline" label="Выйти" outlined/>
-            </router-link>
+            <LogoutButton/>
         </Sidebar>
     </header>
 </template>
@@ -49,12 +47,14 @@
 <script>
 import Sidebar from 'primevue/sidebar';
 import Button from "primevue/button";
-import ConsultationButton from './ConsultationButton.vue';
+import ConsultationButton from './buttons/ConsultationButton.vue';
+import LogoutButton from "./buttons/LoginButton.vue";
 
 
 export default {
     name: 'Header',
     components: {
+        LogoutButton,
         Sidebar,
         Button,
         ConsultationButton

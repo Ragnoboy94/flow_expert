@@ -15,7 +15,7 @@
 </template>
 
 <script>
-import ConsultationButton from './ConsultationButton.vue'
+import ConsultationButton from './buttons/ConsultationButton.vue'
 
 export default {
     components: {

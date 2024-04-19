@@ -1,33 +1,9 @@
-import { createStore } from 'vuex';
+import Vuex from 'vuex';
 
-// Определите состояние, мутации, действия и геттеры
-const state = {
-    // пример состояния
-    count: 0
-};
+import {auth} from './modules/auth';
 
-const mutations = {
-    // пример мутации
-    increment(state) {
-        state.count++;
-    }
-};
-
-const actions = {
-    // пример действия
-    increment({ commit }) {
-        commit('increment');
-    }
-};
-
-const getters = {
-    // пример геттера
-    count: state => state.count
-};
-
-export default createStore({
-    state,
-    mutations,
-    actions,
-    getters
+export const store = new Vuex.Store({
+    modules: {
+        auth,
+    },
 });

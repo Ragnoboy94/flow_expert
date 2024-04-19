@@ -1,8 +1,4 @@
 <?php
 
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Route;
-
-Route::get('/user', function (Request $request) {
-    return $request->user();
-})->middleware('auth:sanctum');
+Route::post('/login', 'Auth\LoginController@login')->name('login');
+Route::post('/verify', 'Auth\LoginController@verify')->name('verify');
