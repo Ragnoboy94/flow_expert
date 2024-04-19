@@ -29,7 +29,7 @@
                 <Textarea placeholder="Комментарии" v-model="formData.comments" class="field text-area" rows="5"/>
             </div>
             <div class="flex align-items-center">
-                <Checkbox v-model="formData.agreement" inputId="agreement" name="agreement"/>
+                <Checkbox v-model="formData.agreement" binary inputId="agreement"/>
                 <label for="agreement" class="ml-2">Нажимая кнопку "Отправить", я даю согласие на обработку моих персональных данных...</label>
             </div>
             <Button label="Заказать консультацию" class="consultation-button"/>
@@ -53,13 +53,6 @@ export default {
         Checkbox,
         Button
     },
-    props: {
-        show: {
-            type: Boolean,
-            required: true
-        }
-    },
-    emits: ['update:show'],
     data() {
         return {
             dialogVisible: false,
