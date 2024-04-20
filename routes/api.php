@@ -1,4 +1,5 @@
 <?php
+use App\Http\Controllers\Auth\LoginController;
 
-Route::post('/login', 'Auth\LoginController@login')->name('login');
-Route::post('/verify', 'Auth\LoginController@verify')->name('verify');
+Route::post('/login', [LoginController::class, 'login']);
+Route::post('/verify', [LoginController::class, 'verify']);
