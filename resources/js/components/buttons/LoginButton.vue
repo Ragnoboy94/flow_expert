@@ -6,30 +6,31 @@
             <TabPanel header="Войти">
                 <div v-if="loginStep === 'inputInfo'">
                     <form @submit.prevent="verifyUser">
-                        <InputText placeholder="ФИО" v-model="loginInfo.fullName" required />
-                        <InputText placeholder="Телефон" v-model="loginInfo.phone" required />
-                        <Button label="Далее" class="p-button-success" @click="verifyUser"/>
+                        <InputText placeholder="ФИО" v-model="loginInfo.fullName" required/>
+                        <InputText placeholder="Телефон" v-model="loginInfo.phone" required/>
+                        <Button type="submit" label="Далее" class="p-button-success"/>
                     </form>
                 </div>
                 <div v-else-if="loginStep === 'inputPassword'">
                     <form @submit.prevent="login">
-                        <InputText type="password" placeholder="Пароль" v-model="loginInfo.password" required />
-                        <Button label="Войти" class="p-button-success"/>
+                        <InputText type="password" placeholder="Пароль" v-model="loginInfo.password" required/>
+                        <Button type="submit" label="Войти" class="p-button-success"/>
                     </form>
                 </div>
             </TabPanel>
             <TabPanel header="Зарегистрироваться">
-                <form @submit.prevent="onRegister" class="p-fluid form-layout">
-                    <InputText placeholder="ФИО" v-model="registerForm.fullName" class="form-field"/>
-                    <InputText placeholder="Телефон" v-model="registerForm.phone" class="form-field"/>
-                    <InputText placeholder="E-mail" v-model="registerForm.email" class="form-field"/>
-                    <InputText type="password" placeholder="Пароль" v-model="registerForm.password" class="form-field"/>
-                    <InputText type="password" placeholder="Пароль ещё раз" v-model="registerForm.confirmPassword"
-                               class="form-field"/>
+                <form @submit.prevent="register" class="p-fluid form-layout">
+                    <InputText placeholder="ФИО" v-model="registerInfo.fullName" class="form-field" required/>
+                    <InputText placeholder="Телефон" v-model="registerInfo.phone" class="form-field" required/>
+                    <InputText placeholder="E-mail" v-model="registerInfo.email" class="form-field" required/>
+                    <InputText type="password" placeholder="Пароль" v-model="registerInfo.password" class="form-field"
+                               required/>
+                    <InputText type="password" placeholder="Пароль ещё раз" v-model="registerInfo.password_confirmation"
+                               class="form-field" required/>
                     <div class="form-radio-group">
 
                     </div>
-                    <Button label="Зарегистрироваться" class="register-button"/>
+                    <Button type="submit" label="Зарегистрироваться" class="register-button"/>
                 </form>
             </TabPanel>
         </TabView>
@@ -37,7 +38,7 @@
 </template>
 
 <script>
-import { mapState, mapActions } from 'vuex';
+import {mapState, mapActions} from 'vuex';
 import Dialog from 'primevue/dialog';
 import TabView from 'primevue/tabview';
 import TabPanel from 'primevue/tabpanel';
@@ -56,20 +57,13 @@ export default {
     data() {
         return {
             showLoginDialog: false,
-            registerForm: {
-                fullName: '',
-                phone: '',
-                email: '',
-                password: '',
-                confirmPassword: ''
-            }
         };
     },
     computed: {
-        ...mapState('auth', ['loginInfo', 'loginStep'])
+        ...mapState('auth', ['loginInfo', 'loginStep', 'registerInfo'])
     },
     methods: {
-        ...mapActions('auth', ['verifyUser', 'login', 'onRegister'])
+        ...mapActions('auth', ['verifyUser', 'login', 'register'])
     }
 }
 </script>
