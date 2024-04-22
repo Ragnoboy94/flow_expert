@@ -1,6 +1,7 @@
 <template>
-    <Button class="sidebar-button sidebar-button--outline" label="Войти" outlined @click="showLoginDialog = true"/>
-    <Dialog v-model:visible="showLoginDialog" :modal="true" :showHeader="false" :dismissableMask="true"
+    <Button class="sidebar-button sidebar-button--outline" label="Войти" v-if="!isAuthenticated" outlined @click="showLoginDialog = true"/>
+    <Button class="sidebar-button sidebar-button--outline" label="Выйти" v-else outlined @click="logout"/>
+    <Dialog v-model:visible="showLoginDialog" v-if="loginStep !== 'loginSuccess'" :modal="true" :showHeader="false" :dismissableMask="true"
             :style="{ width: '450px' }">
         <TabView>
             <TabPanel header="Войти">
@@ -35,6 +36,13 @@
             </TabPanel>
         </TabView>
     </Dialog>
+    <Dialog v-model:visible="showLoginDialog" v-else :modal="true" :showHeader="true" :dismissableMask="true"
+            :style="{ width: '450px' }">
+        <div class="text-center text-success">
+            <h3>Авторизация прошла успешно!</h3>
+            <p>Добро пожаловать в систему. Теперь вы можете воспользоваться всеми функциями платформы.</p>
+        </div>
+    </Dialog>
 </template>
 
 <script>
@@ -60,10 +68,14 @@ export default {
         };
     },
     computed: {
-        ...mapState('auth', ['loginInfo', 'loginStep', 'registerInfo'])
+        ...mapState('auth', ['loginInfo', 'loginStep', 'registerInfo', 'isAuthenticated'])
     },
     methods: {
-        ...mapActions('auth', ['verifyUser', 'login', 'register'])
+        ...mapActions('auth', ['verifyUser', 'login', 'register', 'Logout']),
+
+        logout() {
+            this.Logout();
+        }
     }
 }
 </script>

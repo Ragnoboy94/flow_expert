@@ -19,8 +19,8 @@ class LoginController extends Controller
 
         $request = Request::create('/oauth/token', 'POST', [
             'grant_type' => 'password',
-            'client_id' => env('VUE_CLIENT_ID'),
-            'client_secret' => env('VUE_CLIENT_SECRET'),
+            'client_id' => config('auth.passport.client_id'),
+            'client_secret' => config('auth.passport.client_secret'),
             'username' => $request->phone,
             'password' => $request->password,
         ]);

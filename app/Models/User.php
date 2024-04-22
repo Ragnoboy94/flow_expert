@@ -46,4 +46,9 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+
+    public function findForPassport($username)
+    {
+        return $this->where('phone', $username)->first();
+    }
 }

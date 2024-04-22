@@ -1,4 +1,5 @@
 import axios from 'axios';
+import Cookies from 'js-cookie';
 
 export const auth = {
     namespaced: true,
@@ -15,27 +16,39 @@ export const auth = {
             password: '',
             password_confirmation: ''
         },
-        loginStep: 'inputInfo'
+        loginStep: 'inputInfo',
+        isAuthenticated: false,
     },
     mutations: {
-        SET_LOGIN_INFO(state, { key, value }) {
+        SET_LOGIN_INFO(state, {key, value}) {
             state.loginInfo[key] = value;
         },
         SET_LOGIN_STEP(state, step) {
             state.loginStep = step;
         },
         RESET_LOGIN_INFO(state) {
-            state.loginInfo = { fullName: '', phone: '', password: '' };
+            state.loginInfo = {fullName: '', phone: '', password: ''};
         },
-        SET_REGISTER_INFO(state, { key, value }) {
+        SET_REGISTER_INFO(state, {key, value}) {
             state.registerInfo[key] = value;
         },
         RESET_REGISTER_INFO(state) {
-            state.registerInfo = { fullName: '', email: '', password: '', confirmPassword: '' };
-        }
+            state.registerInfo = {fullName: '', email: '', password: '', confirmPassword: ''};
+        },
+        SET_AUTHENTICATED(state, value) {
+            state.isAuthenticated = value;
+        },
+        RESET_AUTH(state) {
+            state.loginInfo = {fullName: '', phone: '', password: ''};
+            state.registerInfo = {fullName: '', email: '', phone: '', password: '', confirmPassword: ''};
+            state.isAuthenticated = false;
+        },
+        TOGGLE_LOGIN_DIALOG(state, value) {
+            state.showLoginDialog = value;
+        },
     },
     actions: {
-        async verifyUser({ commit, state }) {
+        async verifyUser({commit, state}) {
             try {
                 const response = await axios.post('/api/verify', {
                     fullName: state.loginInfo.fullName,
@@ -51,23 +64,19 @@ export const auth = {
                 console.error("Error verifying user:", error);
             }
         },
-        async login({ commit, state }) {
+        async login({commit, state}) {
             try {
                 const response = await axios.post('/api/login', state.loginInfo);
-                if (response.data.success) {
-                    commit('RESET_LOGIN_INFO');
-                    commit('SET_LOGIN_STEP', 'exit');
-                    Cookies.remove('access_token');
-                    axios.defaults.headers.common['Authorization'] = '';
+                commit('RESET_LOGIN_INFO');
+                commit('SET_LOGIN_STEP', 'loginSuccess');
+                Cookies.remove('access_token');
+                axios.defaults.headers.common['Authorization'] = '';
 
-
-                    let access_token = 'Bearer '+response.data.access_token;
-                    Cookies.set('access_token', access_token, { expires: 1 });
-                    axios.defaults.headers.common['Authorization'] = access_token;
-                    store.commit('authSuccess', access_token);
-                } else {
-                    console.error('Login failed');
-                }
+                let access_token = 'Bearer ' + response.data.access_token;
+                Cookies.set('access_token', access_token, {expires: 1});
+                axios.defaults.headers.common['Authorization'] = access_token;
+                commit('SET_AUTHENTICATED', true);
+                this.showLoginDialog = false;
             } catch (error) {
                 console.error("Error during login:", error);
             }
@@ -77,16 +86,17 @@ export const auth = {
                 Cookies.remove('access_token');
                 axios.post('/api/logout')
                     .then((resp) => {
-                        commit('SET_LOGIN_STEP', 'inputInfo');
+                        commit('RESET_AUTH');
                         axios.defaults.headers.common['Authorization'] = '';
                         window.location.href = '/';
+                        resolve();
                     })
                     .catch((err) => {
-                        store.commit('authError', err);
+                        console.error("Error during logout:", error);
                     });
             })
         },
-        async register({ commit, state }) {
+        async register({commit, state}) {
             try {
                 const response = await axios.post('/api/register', state.registerInfo);
                 if (response.data.success) {

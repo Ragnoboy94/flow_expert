@@ -49,7 +49,7 @@ php artisan migrate
 php artisan storage:link
 php artisan db:seed
 php artisan queue:restart
-php artisan passport:keys
+php artisan passport:install
 ```
 
 ### Vue3
