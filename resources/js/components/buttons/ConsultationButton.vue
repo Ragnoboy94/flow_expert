@@ -84,26 +84,7 @@ export default {
 
 
 <style scoped>
-.consultation-button {
-    background: #00A950;
-    color: white;
-    border: none;
-    margin-top: 10px;
-    cursor: pointer;
-    text-align: center;
-    padding: 10px 20px;
-    width: 100%;
-    margin-bottom: 0.5rem;
-    border-radius: 100px;
-}
 
-.field {
-    margin-top: 10px;
-    width: 100%;
-    border-radius: 100px;
-    padding-left: 20px;
-    border-color: #00a950;
-}
 
 .text-area {
     border-radius: 10px;

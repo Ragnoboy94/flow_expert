@@ -1,6 +1,12 @@
 import axios from 'axios';
 import Cookies from 'js-cookie';
 
+const categories = [
+    {key: 0, name: 'регионального министерства или комитета здравоохранения'},
+    {key: 1, name: 'аптечной сети федерального или регионального уровня'},
+    {key: 2, name: 'частной клиники'},
+    {key: 3, name: 'государственного учреждения здравоохранения'},
+];
 export const auth = {
     namespaced: true,
     state: {
@@ -16,6 +22,7 @@ export const auth = {
             password: '',
             password_confirmation: ''
         },
+        categories: categories,
         loginStep: 'inputInfo',
         isAuthenticated: false,
     },
@@ -48,6 +55,14 @@ export const auth = {
         },
     },
     actions: {
+        async checkAuthentication({commit}) {
+            const accessToken = Cookies.get('access_token');
+            if (accessToken) {
+                commit('SET_AUTHENTICATED', true);
+            } else {
+                commit('SET_AUTHENTICATED', false);
+            }
+        },
         async verifyUser({commit, state}) {
             try {
                 const response = await axios.post('/api/verify', {
@@ -81,18 +96,18 @@ export const auth = {
                 console.error("Error during login:", error);
             }
         },
-        Logout(store) {
+        Logout({store, commit}) {
             return new Promise((resolve, reject) => {
                 Cookies.remove('access_token');
                 axios.post('/api/logout')
                     .then((resp) => {
-                        commit('RESET_AUTH');
                         axios.defaults.headers.common['Authorization'] = '';
-                        window.location.href = '/';
+                        commit('SET_AUTHENTICATED', false);
+                        commit('SET_LOGIN_STEP', 'inputInfo');
                         resolve();
                     })
                     .catch((err) => {
-                        console.error("Error during logout:", error);
+                        console.error("Error during logout:", err);
                     });
             })
         },
