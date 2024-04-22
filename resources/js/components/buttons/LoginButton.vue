@@ -16,7 +16,7 @@
                             <Button link class="forgot-password-link" type="button" label="Забыли пароль?" @click="redirectToForgotPassword"/>
                         </div>
                         <div class="user-agreement">
-                            Авторизуясь, я соглашаюсь с условиями <span link class="forgot-password-link" type="button" @click="redirectToForgotPassword">Пользовательского соглашения</span>.
+                            Авторизуясь, я соглашаюсь с условиями <span link class="forgot-password-link" @click="redirectToForgotPassword">Пользовательского соглашения</span>.
                         </div>
                     </form>
                 </div>
@@ -44,7 +44,7 @@
                                class="field" required/>
                     <Button type="submit" label="Зарегистрироваться" class="consultation-button"/>
                     <div class="user-agreement">
-                        Продолжая регистрацию, вы соглашаетесь с нашим <span link class="forgot-password-link" type="button" @click="redirectToForgotPassword">пользовательским соглашением</span> и <span link class="forgot-password-link" type="button" @click="redirectToForgotPassword">политикой конфиденциальности</span>.
+                        Продолжая регистрацию, вы соглашаетесь с нашим <span link class="forgot-password-link" @click="redirectToForgotPassword">пользовательским соглашением</span> и <span link class="forgot-password-link" type="button" @click="redirectToForgotPassword">политикой конфиденциальности</span>.
                     </div>
                 </form>
             </TabPanel>

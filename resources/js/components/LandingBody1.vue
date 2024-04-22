@@ -1,15 +1,15 @@
 <template>
     <section class="landing-block">
         <div class="content-container">
-            <h1 class="title">Flow Expert</h1>
+            <h1 class="title">Flow<br><span style="margin-left:5rem;">Expert</span></h1>
             <p class="subtitle">
                 Интеллектуальная система управления заказами лекарственных препаратов и
                 расходных материалов для медицины
             </p>
-            <ConsultationButton />
+            <ConsultationButton/>
         </div>
         <div class="image-container">
-            <img src="doctor-image.png" alt="Doctor" />
+            <img src="../../pics/landing_image1.webp" alt="Doctor"/>
         </div>
     </section>
 </template>
@@ -34,6 +34,7 @@ export default {
     border-radius: 1vw;
     margin-top: 2px;
 }
+
 @media (min-width: 768px) {
     .landing-block {
         border-radius: 7.5px;
@@ -46,13 +47,20 @@ export default {
     }
 }
 
+@media (max-width: 1200px) {
+    .image-container img {
+        display: none;
+    }
+}
+
 .content-container {
     max-width: 50%;
+    margin-left: 10%;
+    margin-right: 10%;
 }
 
 .title {
-    font-size: 2.5rem;
-    margin-bottom: 1rem;
+    font-size: 5.5rem;
 }
 
 .subtitle {
@@ -61,7 +69,7 @@ export default {
 }
 
 .image-container img {
-    max-width: 100%;
     height: auto;
+    margin-right: 10%;
 }
 </style>

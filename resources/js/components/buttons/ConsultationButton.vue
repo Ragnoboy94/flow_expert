@@ -3,7 +3,7 @@
     <Dialog header="Заполните форму и мы свяжемся с вами в ближайшее время"
             v-model:visible="dialogVisible"
             :modal="true"
-            :style="{ width: '400px' }"
+            :style="{ width: '450px' }"
             :dismissableMask="true">
         <template #header>
             <div class="inline-flex align-items-center justify-content-center gap-2">
