@@ -18,6 +18,7 @@
 import ConsultationButton from './buttons/ConsultationButton.vue'
 
 export default {
+    name: 'LandingBody1',
     components: {
         ConsultationButton
     }
@@ -25,15 +26,6 @@ export default {
 </script>
 
 <style scoped>
-.landing-block {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    background: #fff;
-    padding: 2rem;
-    border-radius: 1vw;
-    margin-top: 2px;
-}
 
 @media (min-width: 768px) {
     .landing-block {
