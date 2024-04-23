@@ -33,3 +33,8 @@
     border-radius: 1vw;
     margin-top: 2px;
 }
+.content-container {
+    max-width: 50%;
+    margin-left: 10%;
+    margin-right: 10%;
+}

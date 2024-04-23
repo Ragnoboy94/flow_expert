@@ -45,12 +45,6 @@ export default {
     }
 }
 
-.content-container {
-    max-width: 50%;
-    margin-left: 10%;
-    margin-right: 10%;
-}
-
 .title {
     font-size: 5.5rem;
 }
