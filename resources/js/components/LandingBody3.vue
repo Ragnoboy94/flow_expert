@@ -11,23 +11,23 @@
                     <span>Формировать запросы и получать коммерческие предложения от неограниченного количества дистрибьюторов как национальных, так и локальных;</span>
                 </div>
                 <div class="col-6">
-                    <i class="pi pi-check-circle feature-icon"></i>
+                    <i class="pi pi-link feature-icon"></i>
                     <span>Обеспечивать кросс-платформенное связывание номенклатур лекарственных препаратов с целью создания единой структурированной базы;</span>
                 </div>
                 <div class="col-6">
-                    <i class="pi pi-check-circle feature-icon"></i>
+                    <i class="pi pi-list feature-icon"></i>
                     <span>Упрощённое формирование заявок по консолидированным закупках с несколькими участниками;</span>
                 </div>
                 <div class="col-6">
-                    <i class="pi pi-check-circle feature-icon"></i>
+                    <i class="pi pi-chart-bar feature-icon"></i>
                     <span>Универсальные выгрузки данных о закупках и движении препаратов для маркетингового анализа;</span>
                 </div>
                 <div class="col-6">
-                    <i class="pi pi-check-circle feature-icon"></i>
+                    <i class="pi pi-dollar feature-icon"></i>
                     <span>Контролировать закупочные цены и формировать оптимальный пул поставщиков;</span>
                 </div>
                 <div class="col-6">
-                    <i class="pi pi-check-circle feature-icon"></i>
+                    <i class="pi pi-file feature-icon"></i>
                     <span>Оформлять заказы с использованием электронного документооборота.</span>
                 </div>
             </div>

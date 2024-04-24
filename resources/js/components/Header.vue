@@ -62,13 +62,13 @@ export default {
     data() {
         return {
             visible: false,
-            showSubMenu: false
+            showSubMenu: false,
         };
     },
     methods: {
         toggleSubMenu() {
             this.showSubMenu = !this.showSubMenu;
-        }
+        },
     }
 }
 </script>
@@ -99,9 +99,10 @@ export default {
     text-align: center;
 }
 
-
-.header-nav {
-    display: flex;
+@media screen and (max-width: 767px) { /* или другая ширина экрана, которую вы считаете мобильной */
+    .header-link {
+        display: none;
+    }
 }
 
 .header-link {
