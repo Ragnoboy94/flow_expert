@@ -1,5 +1,5 @@
 <template>
-    <section class="landing-block flex align-items-stretch flex-column lg:flex-row">
+    <section class="landing-block flex flex-column lg:flex-row">
         <div class="content-container">
             <h1 class="title">Flow<br><span style="margin-left:5rem;">Expert</span></h1>
             <p class="subtitle">
