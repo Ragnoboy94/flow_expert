@@ -41,19 +41,19 @@
                         развития, связи
                         и массовых коммуникаций:</h4>
                 </div>
-                <div class="flex justify-content-center xl:flex-row flex-column ">
-                    <Button class="card-landing2 flex align-items-center justify-content-center" link>
+                <div class="flex justify-content-center xl:flex-row flex-column">
+                    <a href="/downloads/certificate.pdf" download="Certificate_of_Registration.pdf" class="card-landing2 flex align-items-center justify-content-center" Link>
                         <span>Свидетельство о государственной регистрации программы для ЭВМ </span>
                         <i class="pi pi-file-export registry-icon ml-1"></i>
-                    </Button>
-                    <Button class="card-landing2 flex align-items-center justify-content-center" link>
+                    </a>
+                    <a href="/downloads/extract.pdf" download="Extract_from_the_Accredited_Organizations_Register.pdf" class="card-landing2 flex align-items-center justify-content-center" Link>
                         <span>Выписка из реестра аккредитованных организаций </span>
                         <i class="pi pi-file-export registry-icon ml-1"></i>
-                    </Button>
-                    <Button class="card-landing2 flex align-items-center justify-content-center" link>
+                    </a>
+                    <a href="/downloads/application.pdf" download="Application_for_Inclusion_in_the_Unified_Register.pdf" class="card-landing2 flex align-items-center justify-content-center" Link>
                         <span>Заявления о включении связей в единый реестр</span>
                         <i class="pi pi-file-export registry-icon ml-1"></i>
-                    </Button>
+                    </a>
                 </div>
             </div>
         </div>
@@ -95,6 +95,7 @@ export default {
     padding: 1rem;
     box-shadow: 0 4px 8px rgba(0, 169, 80, 0.2);
     border-radius: 7vh;
+    text-decoration: none;
 }
 
 .registry-title {
