@@ -34,7 +34,8 @@ export default {
 .subtitle {
     font-size: 1rem;
     margin-bottom: 2rem;
-}.image-container{
+}
+.image-container{
      margin-left: 10%;
      margin-right: 10%;
  }

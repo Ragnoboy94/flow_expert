@@ -30,14 +30,11 @@
 
 <script>
 export default {
-    name: 'LandingBody3',
+    name: 'LandingBody4',
 };
 </script>
 
 <style scoped>
-.title-section h3 {
-    font-size: 3.5em;
-}
 
 .step-icon {
     font-size: 2em;
