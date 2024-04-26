@@ -52,10 +52,5 @@ export default {
     color: #333;
 }
 
-.feature-icon {
-    font-size: 2em;
-    color: #00A950;
-    margin-right: 0.5rem;
-}
 
 </style>
