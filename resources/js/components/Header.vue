@@ -83,16 +83,6 @@ export default {
     border-radius: 1vw;
 }
 
-.logo-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
-
-.header-logo {
-    width: 50px;
-}
-
 .logo-title {
     font-size: 0.5rem;
     color: #333;

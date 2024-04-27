@@ -6,7 +6,7 @@
                 <p>Заполните форму и мы свяжемся с вами в ближайшее время </p>
             </div>
             <div class="flex align-items-stretch flex-column lg:flex-row">
-                <div class="flex mt-3 lg:col-6 hidden lg:block">
+                <div class="flex-1 lg:flex-none mt-3 lg:col-6 hidden lg:block">
                     <div class="flex-row">
                         <p>Контактная информация</p>
                     </div>

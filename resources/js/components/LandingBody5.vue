@@ -2,7 +2,7 @@
     <section class="landing-block2 about-section">
         <div class="content-container">
             <div class="flex">
-                <div class="flex1 about-content">
+                <div class="flex-1 about-content">
                     <div class="title-section">
                         <h3 class="title-section">О Нас</h3>
                     </div>
@@ -19,7 +19,7 @@
                     <p>Кроме основного офиса в Иркутске в нашей команде есть сотрудники в <b>Новосибирске, Омске,
                         Санкт-Петербурге</b>.</p>
                 </div>
-                <div class="flex1 image-container hidden lg:block">
+                <div class="flex-1 image-container hidden lg:block">
                     <img src="../../pics/landing5_logo.png" alt="FlowExpert Logo" class="about-logo">
                 </div>
             </div>

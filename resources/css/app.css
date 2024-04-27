@@ -46,3 +46,13 @@
     color: #00A950;
     margin-right: 0.5rem;
 }
+
+.logo-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.header-logo {
+    width: 50px;
+}
