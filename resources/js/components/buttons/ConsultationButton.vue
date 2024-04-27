@@ -7,7 +7,7 @@
             :dismissableMask="true">
         <template #header>
             <div class="inline-flex align-items-center justify-content-center gap-2">
-                <span class="font-bold white-space-nowrap text-header">Заполните форму и мы свяжемся с вами в ближайшее время</span>
+                <span class="font-bold text-header">Заполните форму и мы свяжемся с вами в ближайшее время</span>
             </div>
         </template>
         <form @submit.prevent="submitForm" class="form">
@@ -30,7 +30,7 @@
             </div>
             <div class="flex align-items-center">
                 <Checkbox v-model="formData.agreement" binary inputId="agreement"/>
-                <label for="agreement" class="ml-2">Нажимая кнопку "Отправить", я даю согласие на обработку моих персональных данных...</label>
+                <label for="agreement" class="ml-2">Нажимая кнопку «Отправить», я даю свое согласие на обработку моих персональных данных, в соответствии с Федеральным законом от 27.07.2006 года №152-ФЗ «О персональных данных», на условиях и для целей, определенных в Согласии на обработку персональных данных *</label>
             </div>
             <Button label="Заказать консультацию" class="consultation-button"/>
         </form>
