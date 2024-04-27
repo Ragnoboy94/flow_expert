@@ -1,17 +1,20 @@
 <template>
     <section class="landing-block2 ">
         <div class="content-container">
+            <div class="title-section">
+                <h3>Команда Flow Expert</h3>
+            </div>
             <Carousel :value="employees" :numVisible="3" :numScroll="1" :responsiveOptions="responsiveOptions" circular :autoplayInterval="3000">
                 <template #item="slotProps">
                     <div class="border-1 surface-border border-round m-2  p-3">
                         <div class="mb-3">
                             <div class="relative mx-auto">
-                                <img :src="'https://primefaces.org/cdn/primevue/images/product/' + slotProps.data.image" :alt="slotProps.data.name" class="w-full border-round" />
+                                <img :src="'images/' + slotProps.data.image" :alt="slotProps.data.name" class="w-full border-round" />
                             </div>
                         </div>
                         <div class="mb-3 font-medium">{{ slotProps.data.name }}</div>
                         <div class="flex justify-content-between align-items-center">
-                            <div class="mt-0 font-semibold text-xl">${{ slotProps.data.job }}</div>
+                            <div class="mt-0 font-semibold text-xl">{{ slotProps.data.job }}</div>
                         </div>
                     </div>
                 </template>
@@ -32,10 +35,25 @@ export default {
         return {
             employees: [
                 {
-                    image: 'photo1',
+                    image: 'emp_photo_1.webp',
                     name: 'Гуккина Юлия Александровна',
                     job: 'Эксперт по всему'
-                }
+                },
+                {
+                    image: 'emp_photo_2.webp',
+                    name: 'Новолотцкий Александр Юрьевич',
+                    job: 'Эксперт по всему'
+                },
+                {
+                    image: 'emp_photo_3.webp',
+                    name: 'Фролова Анна',
+                    job: 'Эксперт по всему'
+                },
+                {
+                    image: 'emp_photo_4.webp',
+                    name: 'Бонячук Мария Владимировна',
+                    job: 'Системный аналитик проекта Flow Expert'
+                },
             ],
             responsiveOptions: [
                 {
@@ -66,42 +84,4 @@ export default {
 
 <style scoped>
 
-.about-text h1 {
-    font-weight: bold;
-    color: #000;
-}
-
-.about-content {
-    max-width: 80%;
-}
-
-.image-container {
-    margin-left: 10%;
-    margin-right: 10%;
-}
-
-.card-landing2 {
-    height: 100%;
-    border: 2px solid #00A950;
-    padding: 1rem;
-    box-shadow: 0 4px 8px rgba(0, 169, 80, 0.2);
-    border-radius: 7vh;
-    text-decoration: none;
-}
-
-.registry-title {
-    font-size: 1.2rem;
-    margin-bottom: 1rem;
-}
-
-.registry-icon {
-    font-size: 2rem;
-    color: #00A950;
-}
-
-@media screen and (max-width: 991px) {
-    .about-content {
-        max-width: 100%;
-    }
-}
 </style>

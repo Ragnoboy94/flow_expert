@@ -3,7 +3,9 @@
         <div class="content-container">
             <div class="flex">
                 <div class="flex1 about-content">
-                    <h3 class="title-section">О Нас</h3>
+                    <div class="title-section">
+                        <h3 class="title-section">О Нас</h3>
+                    </div>
                     <p><b>Компания ООО Информационный центр «Аптекарь» уже более 20 лет</b>, с 2002г, занимается
                         разработкой
                         программного обеспечения для автоматизации деятельности аптек, медицинских учреждений,
