@@ -10,7 +10,9 @@
             <router-link to="/contacts" class="header-link">Контакты</router-link>
         </nav>
         <div class="header-icons">
-            <i class="pi pi-user"></i>
+            <router-link to="/profile">
+                <i class="pi pi-user"></i>
+            </router-link>
             <i class="pi pi-bars" @click="visible = true"></i>
         </div>
         <Sidebar v-model:visible="visible" position="right" class="header-sidebar">
@@ -28,7 +30,8 @@
                 <Button label="Формирование коммерческих предложений" class="sidebar-button" text raised
                         icon="pi pi-briefcase"/>
             </router-link>
-            <Button class="sidebar-button" text raised @click="toggleSubMenu"><i class="pi pi-calculator ml-0"></i> <span class="ml-auto">Расчёт НМЦК</span> <i class="pi pi-chevron-down ml-auto"></i></Button>
+            <Button class="sidebar-button" text raised @click="toggleSubMenu"><i class="pi pi-calculator ml-0"></i>
+                <span class="ml-auto">Расчёт НМЦК</span> <i class="pi pi-chevron-down ml-auto"></i></Button>
             <template v-if="showSubMenu">
                 <router-link to="/nmck-settings">
                     <Button label="Настройка параметров расчёта НМЦК" class="sidebar-button ml-4 w-11" text raised/>
@@ -88,7 +91,8 @@ export default {
     text-align: center;
 }
 
-@media screen and (max-width: 767px) { /* или другая ширина экрана, которую вы считаете мобильной */
+@media screen and (max-width: 767px) {
+    /* или другая ширина экрана, которую вы считаете мобильной */
     .header-link {
         display: none;
     }

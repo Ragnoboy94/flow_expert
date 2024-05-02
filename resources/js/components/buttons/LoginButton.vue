@@ -50,7 +50,7 @@
             </TabPanel>
         </TabView>
     </Dialog>
-    <Dialog v-model:visible="showLoginDialog" v-else :modal="true" :showHeader="true" :dismissableMask="true"
+    <Dialog v-model:visible="showLoginDialog" v-else :modal="true" @update:visible="handleDialogClose" :showHeader="true" :dismissableMask="true"
             :style="{ width: '450px' }">
         <div class="text-center text-success">
             <h3>Авторизация прошла успешно!</h3>
@@ -91,10 +91,19 @@ export default {
         },
     },
     methods: {
-        ...mapActions('auth', ['verifyUser', 'login', 'register', 'Logout']),
+        ...mapActions('auth', ['verifyUser', 'register', 'Logout']),
 
         logout() {
             this.Logout();
+        },
+        login(){
+            this.$store.dispatch('auth/login');
+        },
+        handleDialogClose(newValue) {
+            if (!newValue && this.isAuthenticated) {
+                const redirectUrl = this.$route.query.redirect || '/';
+                this.$router.push(redirectUrl);
+            }
         },
         redirectToForgotPassword() {
             ///

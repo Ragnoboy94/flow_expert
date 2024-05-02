@@ -5,6 +5,7 @@ import Cookies from 'js-cookie';
 import Unauthorized from '../components/Unauthorized.vue';
 import About from "../components/About.vue";
 import Contacts from "../components/Contacts.vue";
+import Profile from "../components/authorized/Profile.vue";
 
 const routes = [
     {
@@ -32,6 +33,12 @@ const routes = [
         path: '/contacts',
         name: 'Contacts',
         component: Contacts
+    },
+    {
+        path: '/profile',
+        name: 'Profile',
+        component: Profile,
+        meta: { requiresAuth: true }
     }
 
 ];
@@ -45,7 +52,7 @@ const router = createRouter({
 router.beforeEach(async (to, from, next) => {
     const requiresAuth = to.matched.some(record => record.meta.requiresAuth);
     if (requiresAuth && !Cookies.get('access_token')) {
-        next('Unauthorized');
+        next({ path: '/unauthorized', query: { redirect: to.fullPath } });
     } else {
         next();
     }
