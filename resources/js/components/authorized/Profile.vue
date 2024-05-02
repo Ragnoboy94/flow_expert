@@ -61,6 +61,12 @@
                     </Card>
                     <LoginButton></LoginButton>
                 </div>
+                <Dialog header="Данные пользователя" v-model:visible="dialogProfileVisible" @update:visible="handleDialogProfileVisibilityChange" :modal="true" :showHeader="true" :dismissableMask="true"
+                        :style="{ width: '450px' }">
+                    <div class="text-center" :style="{ color: dialogProfileColor }">
+                        <h3>{{ dialogProfileMessage }}</h3>
+                    </div>
+                </Dialog>
             </div>
         </div>
     </section>
@@ -75,20 +81,13 @@ import Button from "primevue/button";
 import Card from "primevue/card";
 import LoginButton from "../buttons/LoginButton.vue";
 import TabMenu from "primevue/tabmenu";
+import {mapState} from "vuex";
+import Dialog from "primevue/dialog";
 
 export default {
-    components: {LoginButton, Header, Footer, InputText, Button, Card, TabMenu},
+    components: {LoginButton, Header, Footer, InputText, Button, Card, TabMenu, Dialog},
     data() {
         return {
-            user: {
-                fullName: '',
-                position: '',
-                company: '',
-                inn: '',
-                kpp: '',
-                phone: '',
-                email: ''
-            },
             items: [
                 {
                     label: 'Профиль пользователя', to: '/profile', command: () => {
@@ -114,16 +113,20 @@ export default {
         },
         saveChanges() {
             this.$store.dispatch('profile/updateUserData');
-        }
+        },
+        handleDialogProfileVisibilityChange(newValue) {
+            this.$store.commit('profile/SET_DIALOG_PROFILE_VISIBLE', newValue);
+        },
     },
     computed: {
+        ...mapState('profile', ['dialogProfileVisible', 'dialogProfileMessage', 'dialogProfileColor']),
         activeIndex() {
             const activeItem = this.items.findIndex(item => this.$route.path === item.to);
             return activeItem !== -1 ? activeItem : null;
         },
         user() {
             return this.$store.getters['profile/userInfo'];
-        }
+        },
     },
     created() {
         this.$store.dispatch('profile/fetchUserData');

@@ -11,7 +11,10 @@ export const profile = {
             kpp: '',
             phone: '',
             email: ''
-        }
+        },
+        dialogProfileVisible: false,
+        dialogProfileMessage: '',
+        dialogProfileColor: 'green'
     }),
     mutations: {
         SET_USER_DATA(state, payload) {
@@ -21,6 +24,15 @@ export const profile = {
             if (state.user.hasOwnProperty(key)) {
                 state.user[key] = value;
             }
+        },
+        SET_DIALOG_PROFILE_VISIBLE(state, visible) {
+            state.dialogProfileVisible = visible;
+        },
+        SET_DIALOG_PROFILE_MESSAGE(state, message) {
+            state.dialogProfileMessage = message;
+        },
+        SET_DIALOG_PROFILE_COLOR(state, message) {
+            state.dialogProfileColor = message;
         }
     },
     actions: {
@@ -36,10 +48,13 @@ export const profile = {
             try {
                 const response = await axios.post('/api/profile/update', state.user);
                 commit('SET_USER_DATA', state.user);
-                alert('Профиль успешно обновлен!');
+                commit('SET_DIALOG_PROFILE_MESSAGE', 'Все изменения сохранены!');
+                commit('SET_DIALOG_PROFILE_VISIBLE', true);
             } catch (error) {
                 console.error("Error updating user data:", error);
-                alert('Ошибка обновления профиля!');
+                commit('SET_DIALOG_PROFILE_MESSAGE', 'Ошибка обновления профиля!');
+                commit('SET_DIALOG_PROFILE_VISIBLE', true);
+                commit('SET_DIALOG_PROFILE_COLOR', 'red');
             }
         }
     },
