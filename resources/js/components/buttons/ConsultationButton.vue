@@ -63,7 +63,7 @@ export default {
         };
     },
     computed: {
-        ...mapState('landing', ['formData', 'dialogVisible', 'dialogMessage'])
+        ...mapState('landing', ['formData'])
     },
     methods: {
         ...mapActions('landing', ['setFormData', 'submitForm']),

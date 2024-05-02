@@ -55,7 +55,7 @@
                     </form>
                 </div>
             </div>
-            <Dialog header="Отправка формы" v-model:visible="dialogVisible" :modal="true" :showHeader="true" :dismissableMask="true"
+            <Dialog header="Отправка формы" v-model:visible="dialogVisible" @update:visible="handleDialogVisibilityChange" :modal="true" :showHeader="true" :dismissableMask="true"
                     :style="{ width: '450px' }">
                 <div class="text-center text-success">
                     <h3>{{ dialogMessage }}</h3>
@@ -86,7 +86,10 @@ export default {
         ...mapState('landing', ['formData', 'dialogVisible', 'dialogMessage'])
     },
     methods: {
-        ...mapActions('landing', ['setFormData', 'submitForm'])
+        ...mapActions('landing', ['setFormData', 'submitForm']),
+        handleDialogVisibilityChange(newValue) {
+            this.$store.commit('landing/SET_DIALOG_VISIBLE', newValue);
+        },
     },
 };
 </script>
