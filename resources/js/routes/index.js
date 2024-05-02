@@ -3,6 +3,8 @@ import e404 from '../components/e404.vue'
 import Landing from "../components/Landing.vue";
 import Cookies from 'js-cookie';
 import Unauthorized from '../components/Unauthorized.vue';
+import About from "../components/About.vue";
+import Contacts from "../components/Contacts.vue";
 
 const routes = [
     {
@@ -20,7 +22,18 @@ const routes = [
         path: '/unauthorized',
         name: 'Unauthorized',
         component: Unauthorized
+    },
+    {
+        path: '/about',
+        name: 'About',
+        component: About
+    },
+    {
+        path: '/contacts',
+        name: 'Contacts',
+        component: Contacts
     }
+
 ];
 
 

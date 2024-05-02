@@ -15,29 +15,28 @@
         </div>
         <Sidebar v-model:visible="visible" position="right" class="header-sidebar">
             <router-link to="/demand">
-                <Button label="Получение приведенной потребности" class="sidebar-button" outlined
+                <Button label="Получение приведенной потребности" class="sidebar-button" text raised
                         icon="pi pi-chart-line"/>
             </router-link>
             <router-link to="/lots">
-                <Button label="Оформление лотов" class="sidebar-button" outlined icon="pi pi-inbox"/>
+                <Button label="Оформление лотов" class="sidebar-button" text raised icon="pi pi-inbox"/>
             </router-link>
             <router-link to="/instructions">
-                <Button label="Инструкции" class="sidebar-button" outlined icon="pi pi-book"/>
+                <Button label="Инструкции" class="sidebar-button" text raised icon="pi pi-book"/>
             </router-link>
             <router-link to="/offers">
-                <Button label="Формирование коммерческих предложений" class="sidebar-button" outlined
+                <Button label="Формирование коммерческих предложений" class="sidebar-button" text raised
                         icon="pi pi-briefcase"/>
             </router-link>
-            <Button label="Расчёт НМЦК" class="sidebar-button" outlined icon="pi pi-calculator" @click="toggleSubMenu"/>
+            <Button class="sidebar-button" text raised @click="toggleSubMenu"><i class="pi pi-calculator ml-0"></i> <span class="ml-auto">Расчёт НМЦК</span> <i class="pi pi-chevron-down ml-auto"></i></Button>
             <template v-if="showSubMenu">
                 <router-link to="/nmck-settings">
-                    <Button label="Настройка параметров расчёта НМЦК" class="sidebar-button" outlined/>
+                    <Button label="Настройка параметров расчёта НМЦК" class="sidebar-button ml-4 w-11" text raised/>
                 </router-link>
                 <router-link to="/nmck-basis">
-                    <Button label="Обоснование НМЦК" class="sidebar-button" outlined/>
+                    <Button label="Обоснование НМЦК" class="sidebar-button ml-4 w-11" text raised/>
                 </router-link>
             </template>
-
             <ConsultationButton/>
             <LogoutButton/>
         </Sidebar>
@@ -128,7 +127,6 @@ export default {
 .sidebar-button {
     width: 100%;
     margin-bottom: 0.5rem;
-    border-radius: 1vw;
 }
 
 </style>
