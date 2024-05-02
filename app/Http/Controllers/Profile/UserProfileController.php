@@ -20,10 +20,10 @@ class UserProfileController extends Controller
 
         $validated = $request->validate([
             'name' => 'sometimes|string|max:255',
-            'position' => 'sometimes|string|max:255',
-            'company' => 'sometimes|string|max:255',
-            'inn' => 'sometimes|numeric',
-            'kpp' => 'sometimes|numeric',
+            'position' => 'nullable|string|max:255',
+            'company' => 'nullable|string|max:255',
+            'inn' => 'nullable|numeric',
+            'kpp' => 'nullable|numeric',
             'phone' => 'sometimes|string',
             'email' => 'sometimes|string|email|max:255|unique:users,email,' . $user->id,
         ]);
