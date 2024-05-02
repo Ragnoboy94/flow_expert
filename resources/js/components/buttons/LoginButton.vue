@@ -107,7 +107,8 @@ export default {
 .sidebar-button--outline {
     width: 100%;
     margin-bottom: 0.5rem;
-    border-radius: 1vw;
+    border-radius: 3vw;
+    margin-top: 10px;
 }
 .forgot-password-container {
     text-align: center;

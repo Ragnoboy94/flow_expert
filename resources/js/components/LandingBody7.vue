@@ -57,7 +57,7 @@
             </div>
             <Dialog header="Отправка формы" v-model:visible="dialogVisible" @update:visible="handleDialogVisibilityChange" :modal="true" :showHeader="true" :dismissableMask="true"
                     :style="{ width: '450px' }">
-                <div class="text-center text-success">
+                <div class="text-center" :style="{ color: dialogColor }">
                     <h3>{{ dialogMessage }}</h3>
                 </div>
             </Dialog>
@@ -83,7 +83,7 @@ export default {
         Dialog
     },
     computed: {
-        ...mapState('landing', ['formData', 'dialogVisible', 'dialogMessage'])
+        ...mapState('landing', ['formData', 'dialogVisible', 'dialogMessage', 'dialogColor'])
     },
     methods: {
         ...mapActions('landing', ['setFormData', 'submitForm']),

@@ -15,7 +15,8 @@ export const landing = {
             agreement: false
         },
         dialogVisible: false,
-        dialogMessage: ''
+        dialogMessage: '',
+        dialogColor: 'green'
 
     }),
     mutations: {
@@ -27,6 +28,9 @@ export const landing = {
         },
         SET_DIALOG_MESSAGE(state, message) {
             state.dialogMessage = message;
+        },
+        SET_DIALOG_COLOR(state, message) {
+            state.dialogColor = message;
         }
     },
     actions: {
@@ -37,12 +41,13 @@ export const landing = {
             try {
                 const response = await axios.post('/api/inquiries', state.formData);
                 console.log('Form submitted:', response.data);
-                commit('SET_DIALOG_MESSAGE', 'Форма успешно отправлена!');
+                commit('SET_DIALOG_MESSAGE', 'Ваши данные успешно отправлены! В ближайшее время мы с вами свяжемся!');
                 commit('SET_DIALOG_VISIBLE', true);
             } catch (error) {
                 console.error('Error submitting form:', error);
                 commit('SET_DIALOG_MESSAGE', 'Ошибка при отправке формы.');
                 commit('SET_DIALOG_VISIBLE', true);
+                commit('SET_DIALOG_COLOR', 'red');
             }
         }
     }
