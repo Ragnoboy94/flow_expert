@@ -3,54 +3,58 @@
     <section class="landing-block2 about-section">
         <div class="content-container">
             <div>
-                <TabMenu :model="items" :activeIndex="activeIndex" />
+                <TabMenu :model="items" :activeIndex="activeIndex"/>
             </div>
             <div class="flex lg:flex-row flex-column">
-                <Card class="card-landing2 flex flex-column mt-3 lg:col-9 flex-order-1">
+                <Card class="card-landing2 flex flex-column mt-3 lg:col-9 flex-order-1 lg:flex-order-0">
                     <template #content>
                         <div class="p-grid p-fluid">
                             <div class="p-col-12 p-md-6">
-                                <div class="p-field">
-                                    <label for="fullName">ФИО</label>
-                                    <InputText id="fullName" v-model="user.fullName"/>
+                                <div class="flex justify-content-between flex-wrap">
+                                    <span class="flex align-items-center justify-content-center">
+                                        Данные пользователя
+                                    </span>
+                                    <span class="flex align-items-center justify-content-center">
+                                        Изменить пароль
+                                    </span>
                                 </div>
-                                <div class="p-field">
-                                    <label for="position">Должность</label>
-                                    <InputText id="position" v-model="user.position"/>
-                                </div>
-                                <div class="p-field">
-                                    <label for="company">Наименование организации</label>
-                                    <InputText id="company" v-model="user.company"/>
-                                </div>
-                                <div class="p-field">
-                                    <label for="inn">ИНН</label>
-                                    <InputText id="inn" v-model="user.inn"/>
-                                </div>
-                                <div class="p-field">
-                                    <label for="kpp">КПП</label>
-                                    <InputText id="kpp" v-model="user.kpp"/>
-                                </div>
-                                <div class="p-field">
-                                    <label for="phone">Контактный телефон</label>
-                                    <InputText id="phone" v-model="user.phone"/>
-                                </div>
-                                <div class="p-field">
-                                    <label for="email">E-mail</label>
-                                    <InputText id="email" v-model="user.email"/>
-                                </div>
-                                <Button label="Сохранить изменения" class="p-button-success"/>
+                                <form @submit.prevent="saveChanges">
+                                    <div class="p-field">
+                                        <InputText placeholder="ФИО" class="field" required v-model="user.name"/>
+                                    </div>
+                                    <div class="p-field">
+                                        <InputText placeholder="Должность" class="field" required v-model="user.position"/>
+                                    </div>
+                                    <div class="p-field">
+                                        <InputText placeholder="Наименование организации" class="field"
+                                                   v-model="user.company"/>
+                                    </div>
+                                    <div class="p-field">
+                                        <InputText placeholder="ИНН" class="field" v-model="user.inn"/>
+                                    </div>
+                                    <div class="p-field">
+                                        <InputText placeholder="КПП" class="field" v-model="user.kpp"/>
+                                    </div>
+                                    <div class="p-field">
+                                        <InputText placeholder="Контактный телефон" required class="field" v-model="user.phone"/>
+                                    </div>
+                                    <div class="p-field">
+                                        <InputText placeholder="E-mail" class="field" required v-model="user.email"/>
+                                    </div>
+                                    <Button type="submit" label="Сохранить изменения" class="consultation-button"/>
+                                </form>
                             </div>
                         </div>
                     </template>
                 </Card>
-                <div class="flex flex-column lg:col-3 ml-2 flex-order-0">
+                <div class="flex flex-column lg:col-3 ml-2">
                     <Card class="flex mt-3 bg-green-100">
                         <template #content>
                             <div class="user-profile">
                                 <div class="user-details">
-                                    <h4>Осипов Петр Иванович</h4>
-                                    <p><i class="pi pi-phone"></i> +7 (905) - 077 - 77-99</p>
-                                    <p><i class="pi pi-envelope"></i> name2010@gmail.com</p>
+                                    <h4> {{ user.name }}</h4>
+                                    <p><i class="pi pi-phone"></i> {{user.phone}}</p>
+                                    <p><i class="pi pi-envelope"></i> {{user.email}}</p>
                                 </div>
                             </div>
                         </template>
@@ -86,34 +90,49 @@ export default {
                 email: ''
             },
             items: [
-                { label: 'Профиль пользователя', to: '/profile', command: () => { this.navigate('/profile') } },
-                { label: 'История загрузок', to: '/download_history', command: () => { this.navigate('/download_history') } },
-                { label: 'Черновик по расчёту нмцк', to: '/nmck_history', command: () => { this.navigate('/nmck_history') } },
+                {
+                    label: 'Профиль пользователя', to: '/profile', command: () => {
+                        this.navigate('/profile')
+                    }
+                },
+                {
+                    label: 'История загрузок', to: '/download_history', command: () => {
+                        this.navigate('/download_history')
+                    }
+                },
+                {
+                    label: 'Черновик по расчёту нмцк', to: '/nmck_history', command: () => {
+                        this.navigate('/nmck_history')
+                    }
+                },
             ]
         };
     },
     methods: {
         navigate(route) {
             this.$router.push(route);
+        },
+        saveChanges() {
+            this.$store.dispatch('profile/updateUserData');
         }
     },
     computed: {
         activeIndex() {
             const activeItem = this.items.findIndex(item => this.$route.path === item.to);
             return activeItem !== -1 ? activeItem : null;
+        },
+        user() {
+            return this.$store.getters['profile/userInfo'];
         }
-    }
+    },
+    created() {
+        this.$store.dispatch('profile/fetchUserData');
+    },
 
 }
 </script>
 
 <style scoped>
-.user-profile {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-direction: column;
-}
 
 .user-details h4 {
     margin-top: 0;
