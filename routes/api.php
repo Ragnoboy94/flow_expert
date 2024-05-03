@@ -4,12 +4,14 @@ use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\InquiryController;
 use App\Http\Controllers\Profile\UserProfileController;
+use App\Http\Controllers\Auth\PasswordController;
 
 //Auth
 Route::post('/login', [LoginController::class, 'login']);
 Route::post('/logout', [LoginController::class, 'logout'])->middleware('auth:api');;
 Route::post('/verify', [LoginController::class, 'verify']);
 Route::post('/register', [RegisterController::class, 'register']);
+Route::post('/password/change', [PasswordController::class, 'change']);
 
 Route::post('/inquiries', [InquiryController::class, 'store']);
 

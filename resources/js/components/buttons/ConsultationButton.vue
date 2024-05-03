@@ -38,6 +38,12 @@
             <Button type="submit" label="Заказать консультацию" class="consultation-button"/>
         </form>
     </Dialog>
+    <Dialog header="Отправка формы" v-model:visible="dialogVisible" @update:visible="handleDialogVisibilityChange" :modal="true" :showHeader="true" :dismissableMask="true"
+            :style="{ width: '450px' }">
+        <div class="text-center" :style="{ color: dialogColor }">
+            <h3>{{ dialogMessage }}</h3>
+        </div>
+    </Dialog>
 </template>
 
 <script>
@@ -63,10 +69,10 @@ export default {
         };
     },
     computed: {
-        ...mapState('landing', ['formData'])
+        ...mapState('consultation', ['formData', 'dialogVisible', 'dialogMessage', 'dialogColor'])
     },
     methods: {
-        ...mapActions('landing', ['setFormData', 'submitForm']),
+        ...mapActions('consultation', ['setFormData', 'submitForm']),
 
         showDialog() {
             this.dialogConsultationVisible = true;
@@ -74,7 +80,9 @@ export default {
         hideDialog() {
             this.dialogConsultationVisible = false;
         },
-
+        handleDialogVisibilityChange(newValue) {
+            this.$store.commit('consultation/SET_DIALOG_VISIBLE', newValue);
+        },
     }
 }
 </script>

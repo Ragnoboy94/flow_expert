@@ -20,7 +20,7 @@ export const profile = {
         SET_USER_DATA(state, payload) {
             state.user = payload;
         },
-        UPDATE_USER_FIELD(state, { key, value }) {
+        UPDATE_USER_FIELD(state, {key, value}) {
             if (state.user.hasOwnProperty(key)) {
                 state.user[key] = value;
             }
@@ -36,7 +36,7 @@ export const profile = {
         }
     },
     actions: {
-        async fetchUserData({ commit }) {
+        async fetchUserData({commit}) {
             try {
                 const response = await axios.get('/api/profile');
                 commit('SET_USER_DATA', response.data);
@@ -44,7 +44,7 @@ export const profile = {
                 console.error("Error fetching user data:", error);
             }
         },
-        async updateUserData({ commit, state }) {
+        async updateUserData({commit, state}) {
             try {
                 const response = await axios.post('/api/profile/update', state.user);
                 commit('SET_USER_DATA', state.user);
@@ -56,9 +56,18 @@ export const profile = {
                 commit('SET_DIALOG_PROFILE_VISIBLE', true);
                 commit('SET_DIALOG_PROFILE_COLOR', 'red');
             }
+        },
+        async changePassword({commit}, payload) {
+            try {
+                const response = await axios.post('/api/password/change', payload);
+                commit('SET_DIALOG_PROFILE_MESSAGE', 'Код для смены пароля отправлен на ваш телефон');
+            } catch (error) {
+                commit('SET_DIALOG_PROFILE_MESSAGE', error.response.data.message);
+                commit('SET_DIALOG_PROFILE_COLOR', 'red');
+            }
         }
     },
     getters: {
         userInfo: state => state.user
-    }
+    },
 };
