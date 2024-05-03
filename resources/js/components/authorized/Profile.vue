@@ -11,14 +11,17 @@
                         <div class="p-grid p-fluid">
                             <div class="p-col-12 p-md-6">
                                 <div class="flex justify-content-between flex-wrap">
-                                    <span class="flex align-items-center justify-content-center">
+                                    <span v-if="!changePassword" class="flex align-items-center justify-content-center">
                                         Данные пользователя
                                     </span>
-                                    <span class="flex align-items-center justify-content-center">
+                                    <span v-else class="flex align-items-center justify-content-center">
+                                        Изменить пароль
+                                    </span>
+                                    <span class="flex align-items-center justify-content-center" @click="clickChangePassword">
                                         Изменить пароль
                                     </span>
                                 </div>
-                                <form @submit.prevent="saveChanges">
+                                <form v-if="!changePassword" @submit.prevent="saveChanges">
                                     <div class="p-field">
                                         <InputText placeholder="ФИО" class="field" required v-model="user.name"/>
                                     </div>
@@ -40,6 +43,18 @@
                                     </div>
                                     <div class="p-field">
                                         <InputText placeholder="E-mail" class="field" required v-model="user.email"/>
+                                    </div>
+                                    <Button type="submit" label="Сохранить изменения" class="consultation-button"/>
+                                </form>
+                                <form v-else @submit.prevent="submitPasswordChange">
+                                    <div class="p-field">
+                                        <InputText placeholder="Старый пароль" type="password" class="field" required v-model="changePasswordData.old_password"/>
+                                    </div>
+                                    <div class="p-field">
+                                        <InputText placeholder="Новый пароль" type="password" class="field" required v-model="changePasswordData.new_password"/>
+                                    </div>
+                                    <div class="p-field">
+                                        <InputText placeholder="Подтверждение пароля" type="password" class="field" required v-model="changePasswordData.new_password_confirmation"/>
                                     </div>
                                     <Button type="submit" label="Сохранить изменения" class="consultation-button"/>
                                 </form>
@@ -104,7 +119,13 @@ export default {
                         this.navigate('/nmck_history')
                     }
                 },
-            ]
+            ],
+            changePassword: false,
+            changePasswordData: {
+                old_password: '',
+                new_password: '',
+                new_password_confirmation: ''
+            }
         };
     },
     methods: {
@@ -117,6 +138,12 @@ export default {
         handleDialogProfileVisibilityChange(newValue) {
             this.$store.commit('profile/SET_DIALOG_PROFILE_VISIBLE', newValue);
         },
+        clickChangePassword() {
+            this.changePassword = !this.changePassword;
+        },
+        submitPasswordChange() {
+            this.$store.dispatch('profile/changePassword', this.changePasswordData);
+        }
     },
     computed: {
         ...mapState('profile', ['dialogProfileVisible', 'dialogProfileMessage', 'dialogProfileColor']),

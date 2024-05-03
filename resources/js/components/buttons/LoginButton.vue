@@ -137,7 +137,7 @@ export default {
             this.changePasswordDialogVisible = true;
         },
         submitPasswordChange() {
-            this.$store.dispatch('profile/changePassword', this.changePassword);
+            this.$store.dispatch('profile/forgotPassword', this.changePassword);
         },
         handleDialogVisibilityChange() {
             this.$store.commit('profile/SET_DIALOG_PROFILE_MESSAGE', '');

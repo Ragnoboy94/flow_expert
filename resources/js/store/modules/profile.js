@@ -57,13 +57,27 @@ export const profile = {
                 commit('SET_DIALOG_PROFILE_COLOR', 'red');
             }
         },
-        async changePassword({commit}, payload) {
+        async forgotPassword({commit}, payload) {
             try {
-                const response = await axios.post('/api/password/change', payload);
+                const response = await axios.post('/api/password/forgot', payload);
                 commit('SET_DIALOG_PROFILE_MESSAGE', 'Код для смены пароля отправлен на ваш телефон');
             } catch (error) {
                 commit('SET_DIALOG_PROFILE_MESSAGE', error.response.data.message);
                 commit('SET_DIALOG_PROFILE_COLOR', 'red');
+            }
+        },
+        async changePassword({commit}, payload) {
+            try {
+                const response = await axios.post('/api/password/change', payload);
+                commit('SET_DIALOG_PROFILE_MESSAGE', 'Пароль успешно изменен!');
+                commit('SET_DIALOG_PROFILE_COLOR', 'green');
+                commit('SET_DIALOG_PROFILE_VISIBLE', true);
+                return response;
+            } catch (error) {
+                commit('SET_DIALOG_PROFILE_MESSAGE', error.response.data.message);
+                commit('SET_DIALOG_PROFILE_COLOR', 'red');
+                commit('SET_DIALOG_PROFILE_VISIBLE', true);
+                throw error;
             }
         }
     },
