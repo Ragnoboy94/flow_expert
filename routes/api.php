@@ -5,6 +5,7 @@ use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\InquiryController;
 use App\Http\Controllers\Profile\UserProfileController;
 use App\Http\Controllers\Auth\PasswordController;
+use App\Http\Controllers\UploadController;
 
 //Auth
 Route::post('/login', [LoginController::class, 'login']);
@@ -19,4 +20,5 @@ Route::post('/inquiries', [InquiryController::class, 'store']);
 Route::middleware('auth:api')->group(function () {
     Route::get('/profile', [UserProfileController::class, 'index']);
     Route::post('/profile/update', [UserProfileController::class, 'update']);
+    Route::post('/upload', [UploadController::class, 'upload']);
 });

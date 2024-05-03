@@ -1,0 +1,56 @@
+<template>
+    <Header></Header>
+    <section class="landing-block2">
+        <div class="content-container" style="max-width: 100%;">
+            <div class="title-section">
+                <h3>Получение приведённой потребности</h3>
+                <p>Скачайте шаблон и заполните его. Далее загрузите заполненный документ в формате Excel.</p>
+            </div>
+            <div class="flex align-items-stretch flex-column lg:flex-row">
+                <div class="flex mt-3 lg:col-6">
+                    <a href="/downloads/template.xlsx" class="w-12" download="privedonnaya_potrebnost.xlsx">
+                        <Button class="consultation-button h-3rem" label="Скачать шаблон" icon="pi pi-file-export" icon-pos="right"/>
+                    </a>
+                </div>
+                <div class="flex mt-3 lg:col-6">
+                    <input type="file" ref="fileInput" @change="handleFileUpload" accept=".xlsx" style="display: none;"/>
+                    <Button class="consultation-button h-3rem text-green-500 bg-white border-green-500 border-1" label="Загрузить файл" icon="pi pi-upload" icon-pos="right" @click="triggerFileInput"/>
+                </div>
+            </div>
+        </div>
+    </section>
+    <Footer></Footer>
+</template>
+
+<script>
+import Header from "./../Header.vue";
+import Footer from "./../Footer.vue";
+import Button from "primevue/button";
+import {mapActions} from "vuex";
+import FileUpload from 'primevue/fileupload';
+
+
+export default {
+    components: {Header, Footer, Button, FileUpload},
+    methods: {
+        ...mapActions('upload', ['uploadFile']),
+        handleFileUpload(event) {
+            const file = event.target.files[0];
+            if (file) {
+                this.uploadFile(file);
+                this.$refs.fileInput.value = '';
+            }
+        },
+        triggerFileInput() {
+            this.$refs.fileInput.click();
+        }
+    }
+}
+</script>
+
+<style scoped>
+.title-section p {
+    font-size: 1.5em;
+    color: #333;
+}
+</style>

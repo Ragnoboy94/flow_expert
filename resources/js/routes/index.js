@@ -6,6 +6,7 @@ import Unauthorized from '../components/Unauthorized.vue';
 import About from "../components/About.vue";
 import Contacts from "../components/Contacts.vue";
 import Profile from "../components/authorized/Profile.vue";
+import Demand from "../components/authorized/Demand.vue";
 
 const routes = [
     {
@@ -38,6 +39,12 @@ const routes = [
         path: '/profile',
         name: 'Profile',
         component: Profile,
+        meta: { requiresAuth: true }
+    },
+    {
+        path: '/demand',
+        name: 'Demand',
+        component: Demand,
         meta: { requiresAuth: true }
     }
 
