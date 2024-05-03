@@ -11,6 +11,7 @@
                     <form @submit.prevent="verifyUser">
                         <InputText placeholder="ФИО" v-model="loginInfo.fullName" class="field" required/>
                         <InputText placeholder="Телефон" v-model="loginInfo.phone" class="field" required/>
+                        <span v-if="loginErrorText" style="color: red">{{ loginErrorText }}</span>
                         <Button type="submit" label="Далее" class="consultation-button"/>
                         <div class="forgot-password-container">
                             <Button link class="forgot-password-link" type="button" label="Забыли пароль?"
@@ -36,10 +37,8 @@
                     <InputText placeholder="Телефон" v-model="registerInfo.phone" class="field" required/>
                     <InputText placeholder="E-mail" v-model="registerInfo.email" class="field" required/>
                     <div class="category-item">Хочу зарегистрироваться, как сотрудник</div>
-                    <div v-for="category in categories" :key="category.key"
-                         class="flex align-items-center category-item">
-                        <RadioButton v-model="selectedCategory" :inputId="category.key" name="dynamic"
-                                     :value="category.name"/>
+                    <div v-for="category in categories" :key="category.key" class="flex align-items-center category-item">
+                        <RadioButton v-model="registerInfo.category_id" :inputId="category.key" name="dynamic" :value="category.key"/>
                         <label :for="category.key" class="ml-2">{{ category.name }}</label>
                     </div>
                     <InputText type="password" placeholder="Пароль" v-model="registerInfo.password" class="field"
@@ -75,6 +74,12 @@
             <h3>{{ dialogProfileMessage }}</h3>
         </div>
     </Dialog>
+    <Dialog header="Регистрация" v-model:visible="dialogRegistrationVisible" @update:visible="handleDialogRegistrationVisibilityChange" :modal="true" :showHeader="true" :dismissableMask="true"
+            :style="{ width: '450px' }">
+        <div class="text-center" :style="{ color: dialogRegistrationColor }">
+            <h3>{{ dialogRegistrationMessage }}</h3>
+        </div>
+    </Dialog>
 
 </template>
 
@@ -105,11 +110,11 @@ export default {
             changePassword: {
                 phone: '',
                 fullName: ''
-            }
+            },
         };
     },
     computed: {
-        ...mapState('auth', ['loginInfo', 'loginStep', 'registerInfo', 'isAuthenticated',]),
+        ...mapState('auth', ['loginInfo', 'loginStep', 'registerInfo', 'isAuthenticated', 'dialogRegistrationMessage', 'dialogRegistrationColor', 'dialogRegistrationVisible', 'loginErrorText']),
         ...mapState('profile', ['dialogProfileMessage', 'dialogProfileColor']),
         categories() {
             return this.$store.state.auth.categories;
@@ -141,6 +146,9 @@ export default {
         },
         handleDialogVisibilityChange() {
             this.$store.commit('profile/SET_DIALOG_PROFILE_MESSAGE', '');
+        },
+        handleDialogRegistrationVisibilityChange(newValue) {
+            this.$store.commit('auth/SET_DIALOG_REGISTRATION_VISIBLE', newValue);
         },
     }
 }

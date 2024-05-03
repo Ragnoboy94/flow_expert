@@ -25,7 +25,8 @@ class User extends Authenticatable
         'position',
         'company',
         'inn',
-        'kpp'
+        'kpp',
+        'category_id'
     ];
 
     /**

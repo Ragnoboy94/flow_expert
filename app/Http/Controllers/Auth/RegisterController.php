@@ -16,6 +16,7 @@ class RegisterController extends Controller
             'phone' => 'required|int|min:11',
             'email' => 'required|string|email|max:255|unique:users',
             'password' => 'required|string|min:8|confirmed',
+            'category_id' => 'required|exists:categories,id'
         ]);
 
         $user = User::create([
@@ -23,6 +24,7 @@ class RegisterController extends Controller
             'email' => $validated['email'],
             'phone' => $validated['phone'],
             'password' => Hash::make($validated['password']),
+            'category_id' => $validated['category_id']
         ]);
 
         return response()->json(['success' => true, 'user' => $user, 'message' => 'Registration successful'], 201);

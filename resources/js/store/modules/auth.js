@@ -2,10 +2,10 @@ import axios from 'axios';
 import Cookies from 'js-cookie';
 
 const categories = [
-    {key: 0, name: 'регионального министерства или комитета здравоохранения'},
-    {key: 1, name: 'аптечной сети федерального или регионального уровня'},
-    {key: 2, name: 'частной клиники'},
-    {key: 3, name: 'государственного учреждения здравоохранения'},
+    {key: 1, name: 'регионального министерства или комитета здравоохранения'},
+    {key: 2, name: 'аптечной сети федерального или регионального уровня'},
+    {key: 3, name: 'частной клиники'},
+    {key: 4, name: 'государственного учреждения здравоохранения'},
 ];
 export const auth = {
     namespaced: true,
@@ -20,13 +20,21 @@ export const auth = {
             phone: '',
             email: '',
             password: '',
-            password_confirmation: ''
+            password_confirmation: '',
+            category_id: 3,
         },
         categories: categories,
         loginStep: 'inputInfo',
         isAuthenticated: false,
+        dialogRegistrationMessage: '',
+        dialogRegistrationColor: 'green',
+        dialogRegistrationVisible: false,
+        loginErrorText: ''
     },
     mutations: {
+        SET_LOGIN_ERROR_TEXT(state, text) {
+            state.loginErrorText = text;
+        },
         SET_LOGIN_INFO(state, {key, value}) {
             state.loginInfo[key] = value;
         },
@@ -53,6 +61,15 @@ export const auth = {
         TOGGLE_LOGIN_DIALOG(state, value) {
             state.showLoginDialog = value;
         },
+        SET_DIALOG_REGISTRATION_MESSAGE(state, message) {
+            state.dialogRegistrationMessage = message;
+        },
+        SET_DIALOG_REGISTRATION_COLOR(state, message) {
+            state.dialogRegistrationColor = message;
+        },
+        SET_DIALOG_REGISTRATION_VISIBLE(state, visible) {
+            state.dialogRegistrationVisible = visible;
+        },
     },
     actions: {
         async checkAuthentication({commit}) {
@@ -69,14 +86,11 @@ export const auth = {
                     fullName: state.loginInfo.fullName,
                     phone: state.loginInfo.phone
                 });
-                console.log(response.data);
                 if (response.data.verified) {
                     commit('SET_LOGIN_STEP', 'inputPassword');
-                } else {
-                    console.error('User not verified');
                 }
             } catch (error) {
-                console.error("Error verifying user:", error);
+                commit('SET_LOGIN_ERROR_TEXT', 'Ошибка авторизации: неверный формат данных');
             }
         },
         async login({commit, state}) {
@@ -93,7 +107,7 @@ export const auth = {
                 commit('SET_AUTHENTICATED', true);
                 this.showLoginDialog = false;
             } catch (error) {
-                console.error("Error during login:", error);
+                commit('SET_LOGIN_ERROR_TEXT', 'Ошибка авторизации: неверный логин или пароль');
             }
         },
         Logout({store, commit}) {
@@ -116,13 +130,14 @@ export const auth = {
                 const response = await axios.post('/api/register', state.registerInfo);
                 if (response.data.success) {
                     commit('RESET_REGISTER_INFO');
-                    alert('Registration successful');
-                    commit('SET_LOGIN_STEP', 'inputPassword');
-                } else {
-                    alert('Registration failed');
+                    commit('SET_DIALOG_REGISTRATION_MESSAGE', 'Вы успешно зарегистрировались! Авторизуйтесь под своими данными!');
+                    commit('SET_DIALOG_REGISTRATION_COLOR', 'green');
+                    commit('SET_DIALOG_REGISTRATION_VISIBLE', true);
                 }
             } catch (error) {
-                console.error("Error during registration:", error);
+                commit('SET_DIALOG_REGISTRATION_MESSAGE', error.response.data.message);
+                commit('SET_DIALOG_REGISTRATION_COLOR', 'red');
+                commit('SET_DIALOG_REGISTRATION_VISIBLE', true);
             }
         }
     }
