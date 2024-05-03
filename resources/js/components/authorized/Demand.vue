@@ -9,13 +9,32 @@
             <div class="flex align-items-stretch flex-column lg:flex-row">
                 <div class="flex mt-3 lg:col-6">
                     <a href="/downloads/template.xlsx" class="w-12" download="privedonnaya_potrebnost.xlsx">
-                        <Button class="consultation-button h-3rem" label="Скачать шаблон" icon="pi pi-file-export" icon-pos="right"/>
+                        <Button class="consultation-button h-3rem" label="Скачать шаблон" icon="pi pi-file-export"
+                                icon-pos="right"/>
                     </a>
                 </div>
                 <div class="flex mt-3 lg:col-6">
-                    <input type="file" ref="fileInput" @change="handleFileUpload" accept=".xlsx" style="display: none;"/>
-                    <Button class="consultation-button h-3rem text-green-500 bg-white border-green-500 border-1" label="Загрузить файл" icon="pi pi-upload" icon-pos="right" @click="triggerFileInput"/>
+                    <input type="file" ref="fileInput" @change="handleFileUpload" accept=".xlsx"
+                           style="display: none;"/>
+                    <Button class="consultation-button h-3rem text-green-500 bg-white border-green-500 border-1"
+                            label="Загрузить файл" icon="pi pi-upload" icon-pos="right" @click="triggerFileInput"/>
                 </div>
+            </div>
+            <span v-if="uploadStatus" style="color: green">{{ uploadStatus }}</span>
+            <div v-if="files.length" class="files-table mt-3">
+                <h4>Загруженные файлы:</h4>
+                <table>
+                    <tr>
+                        <th>Имя файла</th>
+                        <th>Дата добавления</th>
+                        <th>Действия</th>
+                    </tr>
+                    <tr v-for="file in files" :key="file.id">
+                        <td>{{ file.filename }}</td>
+                        <td>{{ new Date(file.created_at).toLocaleDateString() }}</td>
+                        <td><a :href="`/uploads/${file.filename}`" download>Скачать</a></td>
+                    </tr>
+                </table>
             </div>
         </div>
     </section>
@@ -26,24 +45,32 @@
 import Header from "./../Header.vue";
 import Footer from "./../Footer.vue";
 import Button from "primevue/button";
-import {mapActions} from "vuex";
+import {mapActions, mapState} from "vuex";
 import FileUpload from 'primevue/fileupload';
 
 
 export default {
-    components: {Header, Footer, Button, FileUpload},
+    components: {Header, Footer, Button},
+    computed: {
+        ...mapState('upload', ['uploadStatus', 'files']),
+    },
     methods: {
-        ...mapActions('upload', ['uploadFile']),
+        ...mapActions('upload', ['uploadFile', 'fetchFiles']),
         handleFileUpload(event) {
             const file = event.target.files[0];
             if (file) {
-                this.uploadFile(file);
+                this.uploadFile(file).then(() => {
+                    this.fetchFiles();
+                });
                 this.$refs.fileInput.value = '';
             }
         },
         triggerFileInput() {
             this.$refs.fileInput.click();
         }
+    },
+    created() {
+        this.fetchFiles();
     }
 }
 </script>
@@ -52,5 +79,21 @@ export default {
 .title-section p {
     font-size: 1.5em;
     color: #333;
+}
+
+.title-section p {
+    font-size: 1.5em;
+    color: #333;
+}
+
+.files-table table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.files-table th, .files-table td {
+    border: 1px solid #ccc;
+    padding: 8px;
+    text-align: left;
 }
 </style>

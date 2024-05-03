@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\DemandFile;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class UploadController extends Controller
 {
@@ -12,10 +14,23 @@ class UploadController extends Controller
 
         if ($file) {
             $filename = time() . '_' . $file->getClientOriginalName();
-            $file->move(public_path('uploads'), $filename);
+            $destinationPath = public_path('/uploads');
+            $file->move($destinationPath, $filename);
+
+            DemandFile::create([
+                'user_id' => Auth::id(),
+                'filename' => $filename
+            ]);
+
             return response()->json(['message' => 'File uploaded successfully', 'filename' => $filename], 200);
         }
 
         return response()->json(['message' => 'File not provided'], 400);
+    }
+
+    public function index(Request $request)
+    {
+        $files = DemandFile::where('user_id', Auth::id())->get();
+        return response()->json($files);
     }
 }
