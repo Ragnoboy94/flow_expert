@@ -3,7 +3,7 @@ import axios from 'axios';
 export const consultation = {
     namespaced: true,
     state: () => ({
-        formData: {
+        formDataConsultation: {
             company_name: '',
             position: '',
             surname: '',
@@ -20,7 +20,7 @@ export const consultation = {
     }),
     mutations: {
         SET_FORM_DATA(state, payload) {
-            state.formData = { ...state.formData, ...payload };
+            state.formDataConsultation = { ...state.formDataConsultation, ...payload };
         },
         SET_DIALOG_VISIBLE(state, visible) {
             state.dialogVisible = visible;
@@ -38,7 +38,7 @@ export const consultation = {
         },
         async submitForm({ commit, state }) {
             try {
-                const response = await axios.post('/api/inquiries', state.formData);
+                const response = await axios.post('/api/inquiries', state.formDataConsultation);
                 console.log('Form submitted:', response.data);
                 commit('SET_DIALOG_MESSAGE', 'Ваши данные успешно отправлены! В ближайшее время мы с вами свяжемся!');
                 commit('SET_DIALOG_VISIBLE', true);

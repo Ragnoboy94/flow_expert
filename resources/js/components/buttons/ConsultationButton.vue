@@ -11,27 +11,27 @@
             </div>
         </template>
         <form class="form" @submit.prevent="submitForm">
-            <InputText placeholder="Название компании" v-model="formData.company_name" required class="field"/>
-            <InputText placeholder="Должность" v-model="formData.position" required class="field"/>
+            <InputText placeholder="Название компании" v-model="formDataConsultation.company_name" required class="field"/>
+            <InputText placeholder="Должность" v-model="formDataConsultation.position" required class="field"/>
             <div class="p-field">
-                <InputText placeholder="Фамилия" v-model="formData.surname" required class="field"/>
+                <InputText placeholder="Фамилия" v-model="formDataConsultation.surname" required class="field"/>
             </div>
             <div class="p-field">
-                <InputText placeholder="Имя" v-model="formData.name" required class="field"/>
+                <InputText placeholder="Имя" v-model="formDataConsultation.name" required class="field"/>
             </div>
             <div class="p-field">
-                <InputText placeholder="Телефон" v-model="formData.phone" required class="field"/>
+                <InputText placeholder="Телефон" v-model="formDataConsultation.phone" required class="field"/>
             </div>
             <div class="p-field">
-                <InputText placeholder="E-mail" v-model="formData.email" required class="field"/>
+                <InputText placeholder="E-mail" v-model="formDataConsultation.email" required class="field"/>
             </div>
             <div class="p-field">
-                <Textarea placeholder="Комментарии" v-model="formData.comments" class="field text-area"
+                <Textarea placeholder="Комментарии" v-model="formDataConsultation.comments" class="field text-area"
                           style="border-radius: 15px;" rows="4"/>
             </div>
             <div class="flex align-items-center">
-                <Checkbox v-model="formData.agreement" required binary inputId="agreement"/>
-                <label for="agreement" class="ml-2">Нажимая кнопку «Отправить», я даю свое согласие на обработку моих
+                <Checkbox v-model="formDataConsultation.agreement" required binary inputId="agreementConsultation"/>
+                <label for="agreementConsultation" class="ml-2">Нажимая кнопку «Отправить», я даю свое согласие на обработку моих
                     персональных данных, в соответствии с Федеральным законом от 27.07.2006 года №152-ФЗ «О персональных
                     данных», на условиях и для целей, определенных в Согласии на обработку персональных данных *</label>
             </div>
@@ -69,7 +69,7 @@ export default {
         };
     },
     computed: {
-        ...mapState('consultation', ['formData', 'dialogVisible', 'dialogMessage', 'dialogColor'])
+        ...mapState('consultation', ['formDataConsultation', 'dialogVisible', 'dialogMessage', 'dialogColor'])
     },
     methods: {
         ...mapActions('consultation', ['setFormData', 'submitForm']),
