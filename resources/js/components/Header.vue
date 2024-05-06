@@ -21,7 +21,7 @@
                         icon="pi pi-chart-line"/>
             </router-link>
             <router-link to="/lots">
-                <Button label="Оформление лотов" class="sidebar-button" text raised icon="pi pi-inbox"/>
+                <Button label="Формирование лотов" class="sidebar-button" text raised icon="pi pi-inbox"/>
             </router-link>
             <router-link to="/instructions">
                 <Button label="Инструкции" class="sidebar-button" text raised icon="pi pi-book"/>

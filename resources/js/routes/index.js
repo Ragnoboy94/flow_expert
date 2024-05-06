@@ -7,6 +7,8 @@ import About from "../components/About.vue";
 import Contacts from "../components/Contacts.vue";
 import Profile from "../components/authorized/Profile.vue";
 import Demand from "../components/authorized/Demand.vue";
+import UserAgreement from "../components/UserAgreement.vue";
+import PrivacyPolicy from "../components/PrivacyPolicy.vue";
 
 const routes = [
     {
@@ -46,6 +48,16 @@ const routes = [
         name: 'Demand',
         component: Demand,
         meta: { requiresAuth: true }
+    },
+    {
+        path: '/user_agreement',
+        name: 'UserAgreement',
+        component: UserAgreement,
+    },
+    {
+        path: '/privacy_policy',
+        name: 'PrivacyPolicy',
+        component: PrivacyPolicy,
     }
 
 ];

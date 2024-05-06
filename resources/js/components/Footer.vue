@@ -2,7 +2,8 @@
     <section class="landing-block2 flow-expert-ai">
         <div class="content-container" style="max-width: 100%;">
             <div class="flex align-items-stretch flex-column lg:flex-row">
-                <div class="flex mt-3 lg:align-content-start align-items-center lg:justify-content-start justify-content-center lg:col-6">
+                <div
+                    class="flex mt-3 lg:align-content-start align-items-center lg:justify-content-start justify-content-center lg:col-6">
                     <router-link to="/" class="logo-container">
                         <img src="../../pics/logo.webp" alt="FlowExpert" class="header-logo">
                         <span class="logo-title">Flow Expert</span>
@@ -23,13 +24,16 @@
                     </div>
                 </div>
             </div>
-            <span link class="forgot-password-link">Пользовательское соглашение</span>
+            <router-link to="user_agreement">
+                <span link class="forgot-password-link">Пользовательское соглашение</span>
+            </router-link>
         </div>
     </section>
 </template>
 
 <script>
 import Button from 'primevue/button';
+
 export default {
     name: 'LandingBody3',
     components: {

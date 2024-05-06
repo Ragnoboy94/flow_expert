@@ -18,8 +18,7 @@
                                     @click="openChangePasswordDialog"/>
                         </div>
                         <div class="user-agreement">
-                            Авторизуясь, я соглашаюсь с условиями <span link class="forgot-password-link"
-                                                                        @click="redirectToForgotPassword">Пользовательского соглашения</span>.
+                            Авторизуясь, я соглашаюсь с условиями <router-link to="user_agreement" target="_blank"><span link class="forgot-password-link">Пользовательского соглашения</span></router-link>.
                         </div>
                     </form>
                 </div>
@@ -47,9 +46,8 @@
                                class="field" required/>
                     <Button type="submit" label="Зарегистрироваться" class="consultation-button"/>
                     <div class="user-agreement">
-                        Продолжая регистрацию, вы соглашаетесь с нашим <span link class="forgot-password-link"
-                                                                             @click="redirectToForgotPassword">пользовательским соглашением</span>
-                        и <span link class="forgot-password-link" type="button" @click="redirectToForgotPassword">политикой конфиденциальности</span>.
+                        Продолжая регистрацию, вы соглашаетесь с нашим <router-link to="user_agreement" target="_blank"><span link class="forgot-password-link">пользовательским соглашением</span></router-link>
+                        и <router-link to="privacy_policy" target="_blank"><span link class="forgot-password-link" type="button">политикой конфиденциальности</span></router-link>.
                     </div>
                 </form>
             </TabPanel>
@@ -136,7 +134,7 @@ export default {
             }
         },
         redirectToForgotPassword() {
-            ///
+            //
         },
         openChangePasswordDialog() {
             this.changePasswordDialogVisible = true;
