@@ -1,7 +1,7 @@
 <template>
     <section class="landing-block2 about-section">
         <div class="content-container">
-            <div class="flex">
+            <div class="flex align-items-center">
                 <div class="flex-1 about-content">
                     <div class="title-section">
                         <h3 class="title-section">О Нас</h3>
@@ -20,7 +20,7 @@
                         Санкт-Петербурге</b>.</p>
                 </div>
                 <div class="flex-1 image-container hidden lg:block">
-                    <img src="../../pics/landing5_logo.png" alt="FlowExpert Logo" class="about-logo">
+                    <img src="../../pics/landing5_logo.png" alt="FlowExpert Logo" class="about-logo mt-5" width="90%">
                 </div>
             </div>
             <Card class="card-landing2">
