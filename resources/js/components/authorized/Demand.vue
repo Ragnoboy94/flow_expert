@@ -23,18 +23,21 @@
             <span v-if="uploadStatus" style="color: green">{{ uploadStatus }}</span>
             <div v-if="files.length" class="files-table mt-3">
                 <h4>Загруженные файлы:</h4>
-                <table>
-                    <tr>
-                        <th>Имя файла</th>
-                        <th>Дата добавления</th>
-                        <th>Действия</th>
-                    </tr>
-                    <tr v-for="file in files" :key="file.id">
-                        <td>{{ file.filename }}</td>
-                        <td>{{ new Date(file.created_at).toLocaleDateString() }}</td>
-                        <td><a :href="`/uploads/${file.filename}`" download>Скачать</a></td>
-                    </tr>
-                </table>
+                <DataTable :value="files" table-style="border-color: green">
+                    <Column field="filename" header="Имя файла"></Column>
+                    <Column field="created_at" header="Дата добавления">
+                        <template #body="{ data }">
+                            {{ new Date(data.created_at).toLocaleDateString() }}
+                        </template>
+                    </Column>
+                    <Column field="filename" header="Скачать исходный">
+                        <template #body="{ data }">
+                            <a :href="`/uploads/${data.filename}`" download>
+                                <i class="pi pi-file-export feature-icon"></i>
+                            </a>
+                        </template>
+                    </Column>
+                </DataTable>
             </div>
         </div>
     </section>
@@ -46,11 +49,11 @@ import Header from "./../Header.vue";
 import Footer from "./../Footer.vue";
 import Button from "primevue/button";
 import {mapActions, mapState} from "vuex";
-import FileUpload from 'primevue/fileupload';
-
+import DataTable from "primevue/datatable";
+import Column from "primevue/column";
 
 export default {
-    components: {Header, Footer, Button},
+    components: {Header, Footer, Button, DataTable, Column},
     computed: {
         ...mapState('upload', ['uploadStatus', 'files']),
     },

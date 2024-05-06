@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class DemandFile extends Model
 {
     use HasFactory;
-    protected $fillable = ['user_id', 'filename'];
+    protected $fillable = ['user_id', 'filename', 'created_at'];
 
     public function user()
     {
