@@ -33,7 +33,7 @@
                 <Checkbox v-model="formDataConsultation.agreement" required binary inputId="agreementConsultation"/>
                 <label for="agreementConsultation" class="ml-2">Нажимая кнопку «Отправить», я даю свое согласие на обработку моих
                     персональных данных, в соответствии с Федеральным законом от 27.07.2006 года №152-ФЗ «О персональных
-                    данных», на условиях и для целей, определенных в Согласии на обработку персональных данных *</label>
+                    данных», на условиях и для целей, определенных в <router-link to="agree_personal" target="_blank">Согласии на обработку персональных данных *</router-link></label>
             </div>
             <Button type="submit" label="Заказать консультацию" class="consultation-button"/>
         </form>

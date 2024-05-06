@@ -23,6 +23,7 @@ import setComers from "../components/instructions/SetComers.vue";
 import setParametersNmck from "../components/instructions/SetParametersNmck.vue";
 import getJustificationNmck from "../components/instructions/GetJustificationNmck.vue";
 import viewFiles from "../components/instructions/ViewFiles.vue";
+import AgreePersonal from "../components/AgreePersonal.vue";
 
 const routes = [
     {
@@ -77,6 +78,11 @@ const routes = [
         path: '/download_history',
         name: 'DownloadHistory',
         component: DownloadHistory,
+    },
+    {
+        path: '/agree_personal',
+        name: 'AgreePersonal',
+        component: AgreePersonal,
     },
     {
         path: '/instructions',
@@ -155,7 +161,6 @@ const routes = [
         component: viewFiles,
         meta: { requiresAuth: true }
     },
-
 
 ];
 
