@@ -9,6 +9,7 @@ import Profile from "../components/authorized/Profile.vue";
 import Demand from "../components/authorized/Demand.vue";
 import UserAgreement from "../components/UserAgreement.vue";
 import PrivacyPolicy from "../components/PrivacyPolicy.vue";
+import DownloadHistory from "../components/authorized/DownloadHistory.vue";
 
 const routes = [
     {
@@ -58,6 +59,11 @@ const routes = [
         path: '/privacy_policy',
         name: 'PrivacyPolicy',
         component: PrivacyPolicy,
+    },
+    {
+        path: '/download_history',
+        name: 'DownloadHistory',
+        component: DownloadHistory,
     }
 
 ];
