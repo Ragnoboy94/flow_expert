@@ -66,7 +66,6 @@
 
 <script>
 import Card from "primevue/card";
-import Button from "primevue/button";
 import Header from "./Header.vue";
 import Footer from "./Footer.vue";
 
@@ -75,7 +74,6 @@ export default {
     components: {
         Header,
         Card,
-        Button,
         Footer
     }
 };

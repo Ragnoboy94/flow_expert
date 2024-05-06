@@ -64,13 +64,11 @@
 
 <script>
 import Card from "primevue/card";
-import Button from "primevue/button";
 
 export default {
     name: 'LandingBody5',
     components: {
         Card,
-        Button
     }
 };
 </script>

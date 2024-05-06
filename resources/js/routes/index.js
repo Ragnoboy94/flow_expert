@@ -10,6 +10,19 @@ import Demand from "../components/authorized/Demand.vue";
 import UserAgreement from "../components/UserAgreement.vue";
 import PrivacyPolicy from "../components/PrivacyPolicy.vue";
 import DownloadHistory from "../components/authorized/DownloadHistory.vue";
+import Instructions from "../components/Instructions.vue";
+import OrderConsultation from "../components/instructions/OrderConsultation.vue";
+import AboutCompany from "../components/instructions/AboutCompany.vue";
+import Register from "../components/instructions/Register.vue";
+import ForgotPassword from "../components/instructions/ForgotPassword.vue";
+import Procedures from "../components/instructions/Procedures.vue";
+import InitialNeeds from "../components/instructions/InitialNeeds.vue";
+import AuctionLots from "../components/instructions/AuctionLots.vue";
+import CalculateNmck from "../components/instructions/CalculateNmck.vue";
+import setComers from "../components/instructions/SetComers.vue";
+import setParametersNmck from "../components/instructions/SetParametersNmck.vue";
+import getJustificationNmck from "../components/instructions/GetJustificationNmck.vue";
+import viewFiles from "../components/instructions/ViewFiles.vue";
 
 const routes = [
     {
@@ -64,7 +77,72 @@ const routes = [
         path: '/download_history',
         name: 'DownloadHistory',
         component: DownloadHistory,
-    }
+    },
+    {
+        path: '/instructions',
+        name: 'Instructions',
+        component: Instructions,
+    },
+    {
+        path: '/instruction/order_consultation',
+        name: 'OrderConsultation',
+        component: OrderConsultation,
+    },
+    {
+        path: '/instruction/about_company',
+        name: 'AboutCompany',
+        component: AboutCompany,
+    },
+    {
+        path: '/instruction/register',
+        name: 'Register',
+        component: Register,
+    },
+    {
+        path: '/instruction/forgot_password',
+        name: 'ForgotPassword',
+        component: ForgotPassword,
+    },
+    {
+        path: '/instruction/procedures',
+        name: 'Procedures',
+        component: Procedures,
+    },
+    {
+        path: '/instruction/initial_needs',
+        name: 'InitialNeeds',
+        component: InitialNeeds,
+    },{
+        path: '/instruction/auction_lots',
+        name: 'AuctionLots',
+        component: AuctionLots,
+    },
+    {
+        path: '/instruction/calculate_nmck',
+        name: 'CalculateNmck',
+        component: CalculateNmck,
+    },
+    {
+        path: '/instruction/set_comers',
+        name: 'setComers',
+        component: setComers,
+    },
+    {
+        path: '/instruction/set_parameters_nmck',
+        name: 'setParametersNmck',
+        component: setParametersNmck,
+    },
+    {
+        path: '/instruction/get_justification_nmck',
+        name: 'getJustificationNmck',
+        component: getJustificationNmck,
+    },
+    {
+        path: '/instruction/view_files',
+        name: 'viewFiles',
+        component: viewFiles,
+    },
+
 
 ];
 

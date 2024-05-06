@@ -68,13 +68,12 @@ import TabMenu from "primevue/tabmenu";
 import {mapActions, mapState} from "vuex";
 import TabView from "primevue/tabview";
 import TabPanel from 'primevue/tabpanel';
-import Button from "primevue/button";
 import DataTable from "primevue/datatable";
 import Column from "primevue/column";
 
 
 export default {
-    components: {LoginButton, Header, Footer, TabMenu, TabView, TabPanel, Button, DataTable, Column},
+    components: {LoginButton, Header, Footer, TabMenu, TabView, TabPanel, DataTable, Column},
     data() {
         return {
             items: [

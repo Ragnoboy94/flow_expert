@@ -47,13 +47,12 @@
 <script>
 import Header from "./../Header.vue";
 import Footer from "./../Footer.vue";
-import Button from "primevue/button";
 import {mapActions, mapState} from "vuex";
 import DataTable from "primevue/datatable";
 import Column from "primevue/column";
 
 export default {
-    components: {Header, Footer, Button, DataTable, Column},
+    components: {Header, Footer, DataTable, Column},
     computed: {
         ...mapState('upload', ['uploadStatus', 'files']),
     },

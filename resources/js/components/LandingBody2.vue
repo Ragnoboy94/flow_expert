@@ -61,7 +61,6 @@
 
 <script>
 import Card from "primevue/card";
-import Button from "primevue/button";
 import Dialog from "primevue/dialog";
 import ConsultationButton from "./buttons/ConsultationButton.vue";
 
@@ -69,7 +68,6 @@ export default {
     name: 'LandingBody2',
     components: {
         Card,
-        Button,
         Dialog,
         ConsultationButton
     },

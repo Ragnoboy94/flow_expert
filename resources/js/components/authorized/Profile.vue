@@ -92,7 +92,6 @@
 import Header from "../Header.vue";
 import Footer from "../Footer.vue";
 import InputText from "primevue/inputtext";
-import Button from "primevue/button";
 import Card from "primevue/card";
 import LoginButton from "../buttons/LoginButton.vue";
 import TabMenu from "primevue/tabmenu";
@@ -100,7 +99,7 @@ import {mapState} from "vuex";
 import Dialog from "primevue/dialog";
 
 export default {
-    components: {LoginButton, Header, Footer, InputText, Button, Card, TabMenu, Dialog},
+    components: {LoginButton, Header, Footer, InputText, Card, TabMenu, Dialog},
     data() {
         return {
             items: [

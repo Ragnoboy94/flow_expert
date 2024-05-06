@@ -48,7 +48,6 @@
 
 <script>
 import Sidebar from 'primevue/sidebar';
-import Button from "primevue/button";
 import ConsultationButton from './buttons/ConsultationButton.vue';
 import LogoutButton from "./buttons/LoginButton.vue";
 
@@ -58,7 +57,6 @@ export default {
     components: {
         LogoutButton,
         Sidebar,
-        Button,
         ConsultationButton
     },
     data() {
