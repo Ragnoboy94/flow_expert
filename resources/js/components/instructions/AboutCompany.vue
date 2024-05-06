@@ -7,6 +7,12 @@
                 <h3>Инструкция</h3>
                 <p>Как мне узнать подробнее вашей компании?</p>
             </div>
+            <p>Нажмите на клавишу «О нас»</p>
+            <Image src="../instructions/AboutCompany.png" alt="Image" width="100%" />
+            <p>Вы можете просмотреть в данном разделе:
+                <br>- Свидетельство о государственной регистрации программы для ЭВМ
+                <br>- Выписка из реестра аккредитованных организаций
+                <br>- Заявление о включении сведений в единый реестр</p>
         </div>
     </section>
     <Footer></Footer>
@@ -16,9 +22,10 @@
 
 import Header from "./../Header.vue";
 import Footer from "./../Footer.vue";
+import Image from "primevue/image";
 
 export default {
-    components: {Header, Footer}
+    components: {Header, Footer, Image}
 }
 </script>
 <style scoped>

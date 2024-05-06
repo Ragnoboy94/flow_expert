@@ -82,65 +82,78 @@ const routes = [
         path: '/instructions',
         name: 'Instructions',
         component: Instructions,
+        meta: { requiresAuth: true }
     },
     {
         path: '/instruction/order_consultation',
         name: 'OrderConsultation',
         component: OrderConsultation,
+        meta: { requiresAuth: true }
     },
     {
         path: '/instruction/about_company',
         name: 'AboutCompany',
         component: AboutCompany,
+        meta: { requiresAuth: true }
     },
     {
         path: '/instruction/register',
         name: 'Register',
         component: Register,
+        meta: { requiresAuth: true }
     },
     {
         path: '/instruction/forgot_password',
         name: 'ForgotPassword',
         component: ForgotPassword,
+        meta: { requiresAuth: true }
     },
     {
         path: '/instruction/procedures',
         name: 'Procedures',
         component: Procedures,
+        meta: { requiresAuth: true }
     },
     {
         path: '/instruction/initial_needs',
         name: 'InitialNeeds',
         component: InitialNeeds,
+        meta: { requiresAuth: true }
     },{
         path: '/instruction/auction_lots',
         name: 'AuctionLots',
         component: AuctionLots,
+        meta: { requiresAuth: true }
     },
     {
         path: '/instruction/calculate_nmck',
         name: 'CalculateNmck',
         component: CalculateNmck,
+        meta: { requiresAuth: true }
     },
     {
         path: '/instruction/set_comers',
         name: 'setComers',
         component: setComers,
+        meta: { requiresAuth: true }
     },
     {
         path: '/instruction/set_parameters_nmck',
         name: 'setParametersNmck',
         component: setParametersNmck,
+        meta: { requiresAuth: true }
     },
     {
         path: '/instruction/get_justification_nmck',
         name: 'getJustificationNmck',
         component: getJustificationNmck,
+        meta: { requiresAuth: true }
     },
     {
         path: '/instruction/view_files',
         name: 'viewFiles',
         component: viewFiles,
+        meta: { requiresAuth: true }
     },
 
 
