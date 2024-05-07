@@ -34,7 +34,7 @@ class UploadController extends Controller
 
     public function index(Request $request)
     {
-        $files = DemandFile::where('user_id', Auth::id())->get();
+        $files = DemandFile::with('status')->where('user_id', Auth::id())->get();
         return response()->json($files);
     }
 }

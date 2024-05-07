@@ -25,6 +25,7 @@
                 <h4>Загруженные файлы:</h4>
                 <DataTable :value="files" table-style="border-color: green">
                     <Column field="filename" header="Имя файла"></Column>
+                    <Column field="status_name" header="Статус"></Column>
                     <Column field="created_at" header="Дата добавления">
                         <template #body="{ data }">
                             {{ new Date(data.created_at).toLocaleDateString() }}

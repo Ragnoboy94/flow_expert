@@ -50,6 +50,7 @@ php artisan storage:link
 php artisan db:seed
 php artisan queue:restart
 php artisan passport:install
+php artisan config:clear
 ```
 
 ### Vue3

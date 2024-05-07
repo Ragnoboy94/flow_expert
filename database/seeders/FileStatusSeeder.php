@@ -14,10 +14,10 @@ class FileStatusSeeder extends Seeder
     public function run(): void
     {
         DB::table('file_statuses')->insert([
-            ['name' => 'Pending'],
-            ['name' => 'Processing'],
-            ['name' => 'Done'],
-            ['name' => 'Error'],
+            ['name' => 'Загружен'],
+            ['name' => 'Обработка'],
+            ['name' => 'Готов'],
+            ['name' => 'Ошибка'],
         ]);
     }
 }
