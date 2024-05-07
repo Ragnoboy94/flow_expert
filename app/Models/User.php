@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Backpack\CRUD\app\Models\Traits\CrudTrait;
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -10,6 +11,7 @@ use Laravel\Passport\HasApiTokens;
 
 class User extends Authenticatable
 {
+    use CrudTrait;
     use HasApiTokens, HasFactory, Notifiable;
 
     /**
@@ -28,6 +30,10 @@ class User extends Authenticatable
         'kpp',
         'category_id'
     ];
+    public function category()
+    {
+        return $this->belongsTo(Category::class);
+    }
 
     /**
      * The attributes that should be hidden for serialization.
