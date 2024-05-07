@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Jobs\SendFileToGrantAPI;
 use App\Models\DemandFile;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -17,11 +18,14 @@ class UploadController extends Controller
             $destinationPath = public_path('/uploads');
             $file->move($destinationPath, $filename);
 
-            DemandFile::create([
+            $demandFile = DemandFile::create([
                 'user_id' => Auth::id(),
                 'filename' => $filename
             ]);
-
+            /*
+             * Очередь для отправки файла на обработку
+             */
+            //SendFileToGrantAPI::dispatch($destinationPath . '/' . $filename, $demandFile);
             return response()->json(['message' => 'File uploaded successfully', 'filename' => $filename], 200);
         }
 
