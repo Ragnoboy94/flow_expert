@@ -45,7 +45,7 @@ class LoginController extends Controller
         if ($user) {
             return response()->json(['message' => 'User verified', 'verified' => true]);
         } else {
-            return response()->json(['message' => 'User not found', 'verified' => false], 404);
+            return response()->json(['message' => 'Пользователь не найден', 'verified' => false], 404);
         }
     }
 

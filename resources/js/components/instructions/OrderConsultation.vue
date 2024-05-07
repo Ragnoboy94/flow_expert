@@ -8,7 +8,7 @@
                 <p>Как заказать консультацию по продукту?</p>
             </div>
             <p>Заполните форму и нажмите на кнопку «Заказать консультацию». Специалист свяжется с вами в ближайшее время!</p>
-            <Image src="../instructions/OrderConsultation.png" alt="Image" width="100%" />
+            <Image src="../instructions/OrderConsultation.png" alt="Image" width="70%" />
         </div>
     </section>
     <Footer></Footer>

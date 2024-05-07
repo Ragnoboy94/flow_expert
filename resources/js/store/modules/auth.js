@@ -84,13 +84,13 @@ export const auth = {
             try {
                 const response = await axios.post('/api/verify', {
                     fullName: state.loginInfo.fullName,
-                    phone: state.loginInfo.phone
+                    phone: state.loginInfo.phone.replace(/[^\d]/g, '')
                 });
                 if (response.data.verified) {
                     commit('SET_LOGIN_STEP', 'inputPassword');
                 }
             } catch (error) {
-                commit('SET_LOGIN_ERROR_TEXT', 'Ошибка авторизации: неверный формат данных');
+                commit('SET_LOGIN_ERROR_TEXT', error.response.data.message);
             }
         },
         async login({commit, state}) {

@@ -10,9 +10,9 @@
                 <div v-if="loginStep === 'inputInfo'">
                     <form @submit.prevent="verifyUser">
                         <InputText placeholder="ФИО" v-model="loginInfo.fullName" class="field" required/>
-                        <InputText placeholder="Телефон" v-model="loginInfo.phone" class="field" required/>
+                        <InputText v-mask="'# (###) ###-##-##'" placeholder="Телефон" v-model="loginInfo.phone" class="field" required/>
                         <span v-if="loginErrorText" style="color: red">{{ loginErrorText }}</span>
-                        <Button type="submit" label="Далее" class="consultation-button"/>
+                        <Button type="submit" label="Далее" class="consultation-button" :disabled="!isLoginValid"/>
                         <div class="forgot-password-container">
                             <Button link class="forgot-password-link" type="button" label="Забыли пароль?"
                                     @click="openChangePasswordDialog"/>
@@ -117,6 +117,9 @@ export default {
         categories() {
             return this.$store.state.auth.categories;
         },
+        isLoginValid() {
+            return this.loginInfo.fullName.split(' ').filter(Boolean).length >= 2 && this.loginInfo.phone.length === 17;
+        }
     },
     methods: {
         ...mapActions('auth', ['verifyUser', 'register', 'Logout']),
@@ -132,9 +135,6 @@ export default {
                 const redirectUrl = this.$route.query.redirect || '/';
                 this.$router.push(redirectUrl);
             }
-        },
-        redirectToForgotPassword() {
-            //
         },
         openChangePasswordDialog() {
             this.changePasswordDialogVisible = true;

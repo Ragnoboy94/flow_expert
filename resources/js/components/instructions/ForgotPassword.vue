@@ -8,7 +8,7 @@
                 <p>Что делать, если я забыл пароль от своего личного кабинета?</p>
             </div>
             <p>Воспользуйтесь кликабельной ссылкой «Забыли пароль?» </p>
-            <Image src="../instructions/ForgotPassword.png" alt="Image" width="100%" />
+            <Image src="../instructions/ForgotPassword.png" alt="Image" width="70%" />
         </div>
     </section>
     <Footer></Footer>

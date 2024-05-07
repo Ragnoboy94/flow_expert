@@ -9,13 +9,13 @@
             </div>
             <p>Процессы, реализуемые на ресурсе FlowExpert представлены ниже:</p>
             <p>1	функция. Приведение потребности в необходимый вид</p>
-            <Image src="../instructions/Procedures1.png" alt="Image" width="100%" />
+            <Image src="../instructions/Procedures1.png" alt="Image" width="70%" />
             <p>2	функция. Формирование лотов</p>
-            <Image src="../instructions/Procedures2.png" alt="Image" width="100%" />
+            <Image src="../instructions/Procedures2.png" alt="Image" width="70%" />
             <p>3	функция. Настройка параметров расчета НМЦК</p>
-            <Image src="../instructions/Procedures3.png" alt="Image" width="100%" />
+            <Image src="../instructions/Procedures3.png" alt="Image" width="70%" />
             <p>4	функция. Обоснование получения НМЦК</p>
-            <Image src="../instructions/Procedures4.png" alt="Image" width="100%" />
+            <Image src="../instructions/Procedures4.png" alt="Image" width="70%" />
         </div>
     </section>
     <Footer></Footer>
