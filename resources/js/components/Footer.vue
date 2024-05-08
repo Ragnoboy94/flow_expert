@@ -12,15 +12,15 @@
                 <div class="flex-1 mt-3 lg:col-6">
                     <div class="flex-row">
                         <i class="pi pi-map-marker feature-icon"></i>
-                        <span>г. Иркутск, ул Байкальска 344</span>
+                        <span>г. Иркутск, ул. Академическая, д. 26, ТЦ «БУМ»</span>
                     </div>
                     <div class="flex-row">
                         <i class="pi pi-phone feature-icon"></i>
-                        <span>+7 (934) 757-88-99</span>
+                        <span>+ 7 (800) 500-1091</span>
                     </div>
                     <div class="flex-row">
                         <i class="pi pi-envelope feature-icon"></i>
-                        <span>info@company24.com</span>
+                        <span>aptekar@irk.ru</span>
                     </div>
                 </div>
             </div>
