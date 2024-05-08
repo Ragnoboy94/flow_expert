@@ -10,7 +10,7 @@
                 <div v-if="loginStep === 'inputInfo'">
                     <form @submit.prevent="verifyUser">
                         <InputText placeholder="ФИО" v-model="loginInfo.fullName" class="field" required/>
-                        <InputText v-mask="'# (###) ###-##-##'" placeholder="Телефон" v-model="loginInfo.phone" class="field" required/>
+                        <InputText pattern=".{17,}" title="Номер телефона должен состоять из 11 цифр" v-mask="'# (###) ###-##-##'" placeholder="Телефон" v-model="loginInfo.phone" class="field" required/>
                         <span v-if="loginErrorText" style="color: red">{{ loginErrorText }}</span>
                         <Button type="submit" label="Далее" class="consultation-button" :disabled="!isLoginValid"/>
                         <div class="forgot-password-container">
@@ -33,7 +33,7 @@
             <TabPanel header="Зарегистрироваться">
                 <form @submit.prevent="register" class="p-fluid form-layout">
                     <InputText placeholder="ФИО" v-model="registerInfo.fullName" class="field" required/>
-                    <InputText v-mask="'# (###) ###-##-##'" placeholder="Телефон" v-model="registerInfo.phone" class="field" required/>
+                    <InputText pattern=".{17,}" title="Номер телефона должен состоять из 11 цифр" v-mask="'# (###) ###-##-##'" placeholder="Телефон" v-model="registerInfo.phone" class="field" required/>
                     <InputText placeholder="E-mail" v-model="registerInfo.email" class="field" required/>
                     <div class="category-item">Хочу зарегистрироваться, как сотрудник</div>
                     <div v-for="category in categories" :key="category.key" class="flex align-items-center category-item">

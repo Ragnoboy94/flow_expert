@@ -20,7 +20,7 @@
                 <InputText placeholder="Имя" v-model="formDataConsultation.name" required class="field"/>
             </div>
             <div class="p-field">
-                <InputText placeholder="Телефон" v-model="formDataConsultation.phone" required class="field"/>
+                <InputText pattern=".{17,}" title="Номер телефона должен состоять из 11 цифр" v-mask="'# (###) ###-##-##'" placeholder="Телефон" v-model="formDataConsultation.phone" required class="field"/>
             </div>
             <div class="p-field">
                 <InputText placeholder="E-mail" v-model="formDataConsultation.email" required class="field"/>
