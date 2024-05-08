@@ -25,12 +25,9 @@
                 <h4>Загруженные файлы:</h4>
                 <DataTable :value="files" table-style="border-color: green">
                     <Column field="filename" header="Имя файла"></Column>
+                    <Column field="count_accept" header="Позиций связано"></Column>
+                    <Column field="count_failed" header="Позиций не связано"></Column>
                     <Column field="status_name" header="Статус"></Column>
-                    <Column field="created_at" header="Дата добавления">
-                        <template #body="{ data }">
-                            {{ new Date(data.created_at).toLocaleDateString() }}
-                        </template>
-                    </Column>
                     <Column field="filename" header="Скачать исходный">
                         <template #body="{ data }">
                             <a :href="`/uploads/${data.filename}`" download>
@@ -38,6 +35,19 @@
                             </a>
                         </template>
                     </Column>
+                    <Column field="filename" header="Скачать обработанный">
+                        <template #body="{ data }">
+                            <a v-if="data.new_filename" :href="`/processed_files/${data.new_filename}`" download>
+                                <i class="pi pi-file-export feature-icon"></i>
+                            </a>
+                        </template>
+                    </Column>
+                    <Column field="created_at" header="Дата">
+                        <template #body="{ data }">
+                            {{ new Date(data.created_at).toLocaleDateString() }}
+                        </template>
+                    </Column>
+                    <Column field="error_description" header="Ошибки"></Column>
                 </DataTable>
             </div>
         </div>

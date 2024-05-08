@@ -37,7 +37,7 @@ class CheckAndDownloadProcessedFile implements ShouldQueue
                             'count_row' => $file['CountRow'],
                             'count_accept' => $file['CountAccept'],
                             'count_failed' => $file['CountFailed'],
-                            'new_filename' => 'processed_files/' . $this->demandFile->filename
+                            'new_filename' => $this->demandFile->filename
                         ]);
                     } elseif (!is_null($file['ErrorDescription'])) {
                         $this->demandFile->update([
