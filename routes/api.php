@@ -22,4 +22,5 @@ Route::middleware('auth:api')->group(function () {
     Route::post('/profile/update', [UserProfileController::class, 'update']);
     Route::post('/upload', [UploadController::class, 'upload']);
     Route::get('/files', [UploadController::class, 'index']);
+    Route::post('/files', [UploadController::class, 'index']);
 });

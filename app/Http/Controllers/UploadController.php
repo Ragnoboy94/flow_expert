@@ -41,8 +41,11 @@ class UploadController extends Controller
             CheckAndDownloadProcessedFile::dispatch($file);
         }
 
-        $allFiles = DemandFile::where('user_id', Auth::id())->get();
-
+        if ($request->status_id) {
+            $allFiles = DemandFile::where('user_id', Auth::id())->where('status_id', $request->status_id)->get();
+        } else {
+            $allFiles = DemandFile::where('user_id', Auth::id())->get();
+        }
         return response()->json($allFiles);
     }
 

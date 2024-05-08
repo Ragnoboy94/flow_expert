@@ -89,10 +89,6 @@ export default {
 </script>
 
 <style scoped>
-.title-section p {
-    font-size: 1.5em;
-    color: #333;
-}
 
 .title-section p {
     font-size: 1.5em;

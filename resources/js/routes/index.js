@@ -24,6 +24,7 @@ import setParametersNmck from "../components/instructions/SetParametersNmck.vue"
 import getJustificationNmck from "../components/instructions/GetJustificationNmck.vue";
 import viewFiles from "../components/instructions/ViewFiles.vue";
 import AgreePersonal from "../components/AgreePersonal.vue";
+import Lots from "../components/authorized/Lots.vue";
 
 const routes = [
     {
@@ -84,6 +85,19 @@ const routes = [
         name: 'AgreePersonal',
         component: AgreePersonal,
     },
+    {
+        path: '/lots',
+        name: 'Lots',
+        component: Lots,
+        meta: { requiresAuth: true }
+    },
+
+
+
+
+    /*
+    Блок инструкций
+     */
     {
         path: '/instructions',
         name: 'Instructions',

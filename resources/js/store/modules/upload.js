@@ -30,6 +30,10 @@ export const upload = {
         async fetchFiles({ commit }) {
             const response = await axios.get('/api/files');
             commit('SET_FILES', response.data);
+        },
+        async fetchReadyFiles({ commit }) {
+            const response = await axios.post('/api/files', {'status_id': 3});
+            commit('SET_FILES', response.data);
         }
     }
 }
