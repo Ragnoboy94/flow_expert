@@ -9,7 +9,7 @@ class GrantService
 
     public function authenticate()
     {
-        $response = Http::post(config('grant.base_uri') . 'GetToken', [
+        $response = Http::post(config('grant.base_uri') . '/GetToken', [
             'Login' => config('grant.login'),
             'Password' => config('grant.password')
         ]);
@@ -33,7 +33,7 @@ class GrantService
 
         $response = Http::withHeaders([
             'Authorization' => 'Bearer ' . $this->token
-        ])->post(config('grant.base_uri') . 'Upload', [
+        ])->post(config('grant.base_uri') . '/Upload', [
             'FileName' => basename($filePath),
             'File' => $base64File
         ]);
@@ -51,7 +51,7 @@ class GrantService
 
         $response = Http::withHeaders([
             'Authorization' => 'Bearer ' . $this->token
-        ])->get(config('grant.base_uri') . 'DownLoadExport', [
+        ])->post(config('grant.base_uri') . '/DownLoadExport', [
             'FileWorkId' => $fileWorkId
         ]);
 
@@ -61,4 +61,24 @@ class GrantService
             throw new \Exception('Failed to download processed file from Grant API');
         }
     }
+
+    public function getFileStatus()
+    {
+        if (!$this->token) {
+            $this->authenticate();
+        }
+
+        $response = Http::withHeaders([
+            'Authorization' => 'Bearer ' . $this->token
+        ])->post(config('grant.base_uri') . '/GetFiles', [
+            'Offset' => 0,
+            'Limit' => 1000
+        ]);
+        if ($response->successful()) {
+            return $response->json();
+        } else {
+            throw new \Exception('Failed to check file status from Grant API');
+        }
+    }
+
 }

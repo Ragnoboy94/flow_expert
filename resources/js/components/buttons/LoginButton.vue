@@ -128,6 +128,7 @@ export default {
             this.Logout();
         },
         login() {
+            this.loginInfo.phone = this.loginInfo.phone.replace(/[^\d]/g, '');
             this.$store.dispatch('auth/login');
         },
         handleDialogClose(newValue) {

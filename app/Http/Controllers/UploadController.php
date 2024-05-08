@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Jobs\CheckAndDownloadProcessedFile;
 use App\Jobs\SendFileToGrantAPI;
 use App\Models\DemandFile;
 use Illuminate\Http\Request;
@@ -22,10 +23,7 @@ class UploadController extends Controller
                 'user_id' => Auth::id(),
                 'filename' => $filename
             ]);
-            /*
-             * Очередь для отправки файла на обработку
-             */
-            //SendFileToGrantAPI::dispatch($destinationPath . '/' . $filename, $demandFile);
+            SendFileToGrantAPI::dispatch($destinationPath . '/' . $filename, $demandFile);
             return response()->json(['message' => 'File uploaded successfully', 'filename' => $filename], 200);
         }
 
@@ -34,7 +32,18 @@ class UploadController extends Controller
 
     public function index(Request $request)
     {
-        $files = DemandFile::where('user_id', Auth::id())->get();
-        return response()->json($files);
+        $filesToCheck = DemandFile::where('user_id', Auth::id())
+            ->where('status_id', 2)
+            ->whereNotNull('file_work_id')
+            ->get();
+
+        foreach ($filesToCheck as $file) {
+            CheckAndDownloadProcessedFile::dispatch($file);
+        }
+
+        $allFiles = DemandFile::where('user_id', Auth::id())->get();
+
+        return response()->json($allFiles);
     }
+
 }

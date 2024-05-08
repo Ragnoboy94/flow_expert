@@ -26,6 +26,7 @@ class SendFileToGrantAPI implements ShouldQueue
     {
         $grantResponse = $grantService->uploadFile($this->filePath);
         $this->demandFile->update([
+            'status_id' => 2,
             'file_work_id' => $grantResponse['FileWorkId'] ?? null
         ]);
     }
