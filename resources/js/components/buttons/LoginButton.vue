@@ -33,18 +33,18 @@
             <TabPanel header="Зарегистрироваться">
                 <form @submit.prevent="register" class="p-fluid form-layout">
                     <InputText placeholder="ФИО" v-model="registerInfo.fullName" class="field" required/>
-                    <InputText placeholder="Телефон" v-model="registerInfo.phone" class="field" required/>
+                    <InputText v-mask="'# (###) ###-##-##'" placeholder="Телефон" v-model="registerInfo.phone" class="field" required/>
                     <InputText placeholder="E-mail" v-model="registerInfo.email" class="field" required/>
                     <div class="category-item">Хочу зарегистрироваться, как сотрудник</div>
                     <div v-for="category in categories" :key="category.key" class="flex align-items-center category-item">
                         <RadioButton v-model="registerInfo.category_id" :inputId="category.key" name="dynamic" :value="category.key"/>
                         <label :for="category.key" class="ml-2">{{ category.name }}</label>
                     </div>
-                    <InputText type="password" placeholder="Пароль" v-model="registerInfo.password" class="field"
+                    <InputText pattern=".{8,}" title="Пароль должен быль больше 8 символов" type="password" placeholder="Пароль" v-model="registerInfo.password" class="field"
                                required/>
-                    <InputText type="password" placeholder="Пароль ещё раз" v-model="registerInfo.password_confirmation"
+                    <InputText pattern=".{8,}" title="Пароль должен быль больше 8 символов" type="password" placeholder="Пароль ещё раз" v-model="registerInfo.password_confirmation"
                                class="field" required/>
-                    <Button type="submit" label="Зарегистрироваться" class="consultation-button"/>
+                    <Button type="submit" label="Зарегистрироваться" class="consultation-button" :disabled="!isRegistrationValid"/>
                     <div class="user-agreement">
                         Продолжая регистрацию, вы соглашаетесь с нашим <router-link to="user_agreement" target="_blank"><span link class="forgot-password-link">пользовательским соглашением</span></router-link>
                         и <router-link to="privacy_policy" target="_blank"><span link class="forgot-password-link" type="button">политикой конфиденциальности</span></router-link>.
@@ -119,10 +119,13 @@ export default {
         },
         isLoginValid() {
             return this.loginInfo.fullName.split(' ').filter(Boolean).length >= 2 && this.loginInfo.phone.length === 17;
+        },
+        isRegistrationValid() {
+            return this.registerInfo.fullName.split(' ').filter(Boolean).length >= 2 && this.registerInfo.phone.length === 17;
         }
     },
     methods: {
-        ...mapActions('auth', ['verifyUser', 'register', 'Logout']),
+        ...mapActions('auth', ['verifyUser', 'Logout']),
 
         logout() {
             this.Logout();
@@ -130,6 +133,10 @@ export default {
         login() {
             this.loginInfo.phone = this.loginInfo.phone.replace(/[^\d]/g, '');
             this.$store.dispatch('auth/login');
+        },
+        register() {
+            this.registerInfo.phone = this.registerInfo.phone.replace(/[^\d]/g, '');
+            this.$store.dispatch('auth/register');
         },
         handleDialogClose(newValue) {
             if (!newValue && this.isAuthenticated) {

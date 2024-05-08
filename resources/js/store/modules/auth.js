@@ -135,7 +135,8 @@ export const auth = {
                     commit('SET_DIALOG_REGISTRATION_VISIBLE', true);
                 }
             } catch (error) {
-                commit('SET_DIALOG_REGISTRATION_MESSAGE', error.response.data.message);
+                commit('SET_DIALOG_REGISTRATION_MESSAGE', 'Ошибка при регистрации.');
+                console.log(error.response.data.message);
                 commit('SET_DIALOG_REGISTRATION_COLOR', 'red');
                 commit('SET_DIALOG_REGISTRATION_VISIBLE', true);
             }

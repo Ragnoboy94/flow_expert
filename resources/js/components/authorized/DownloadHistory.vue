@@ -13,7 +13,7 @@
                         <p class="m-0">
                             <DataTable :value="files" table-style="border-color: green">
                                 <Column field="filename" header="Имя файла"></Column>
-                                <Column field="created_at" header="Дата добавления">
+                                <Column field="created_at" header="Дата загрузки">
                                     <template #body="{ data }">
                                         {{ new Date(data.created_at).toLocaleDateString() }}
                                     </template>
@@ -21,6 +21,13 @@
                                 <Column field="filename" header="Скачать исходный">
                                     <template #body="{ data }">
                                         <a :href="`/uploads/${data.filename}`" download>
+                                            <i class="pi pi-file-export feature-icon"></i>
+                                        </a>
+                                    </template>
+                                </Column>
+                                <Column field="filename" header="Скачать обработанный">
+                                    <template #body="{ data }">
+                                        <a v-if="data.new_filename" :href="`/processed_files/${data.new_filename}`" download>
                                             <i class="pi pi-file-export feature-icon"></i>
                                         </a>
                                     </template>
