@@ -39,7 +39,7 @@
                                         <InputText placeholder="КПП" class="field" v-model="user.kpp"/>
                                     </div>
                                     <div class="p-field">
-                                        <InputText placeholder="Контактный телефон" required class="field" v-model="user.phone"/>
+                                        <InputText pattern=".{17,}" title="Номер телефона должен состоять из 11 цифр" v-mask="'# (###) ###-##-##'" placeholder="Контактный телефон" required class="field" v-model="user.phone"/>
                                     </div>
                                     <div class="p-field">
                                         <InputText pattern="[^ ]+@[^ ]+\.[a-z]{2,3}" title="Email должен быть настоящим" placeholder="E-mail" class="field" required v-model="user.email"/>
@@ -132,6 +132,7 @@ export default {
             this.$router.push(route);
         },
         saveChanges() {
+            this.user.phone = this.user.phone.replace(/[^\d]/g, '');
             this.$store.dispatch('profile/updateUserData');
         },
         handleDialogProfileVisibilityChange(newValue) {

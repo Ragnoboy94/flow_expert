@@ -35,7 +35,7 @@
                             <InputText placeholder="Имя" v-model="formData.name" required class="field"/>
                         </div>
                         <div class="p-field">
-                            <InputText placeholder="Телефон" v-model="formData.phone" required class="field"/>
+                            <InputText pattern=".{17,}" title="Номер телефона должен состоять из 11 цифр" v-mask="'# (###) ###-##-##'" placeholder="Телефон" v-model="formData.phone" required class="field"/>
                         </div>
                         <div class="p-field">
                             <InputText pattern="[^ ]+@[^ ]+\.[a-z]{2,3}" title="Email должен быть настоящим" placeholder="E-mail" v-model="formData.email" required class="field"/>

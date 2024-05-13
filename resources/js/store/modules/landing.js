@@ -39,6 +39,7 @@ export const landing = {
         },
         async submitForm({ commit, state }) {
             try {
+                state.formData.phone = state.formData.phone.replace(/[^\d]/g, '');
                 const response = await axios.post('/api/inquiries', state.formData);
                 console.log('Form submitted:', response.data);
                 commit('SET_DIALOG_MESSAGE', 'Ваши данные успешно отправлены! В ближайшее время мы с вами свяжемся!');

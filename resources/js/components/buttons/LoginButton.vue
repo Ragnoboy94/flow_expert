@@ -64,7 +64,7 @@
     <Dialog header="Забыли пароль?" v-model:visible="changePasswordDialogVisible" @update:visible="handleDialogVisibilityChange" :modal="true" :closable="true"
             :showHeader="true" :style="{ width: '450px' }">
         <form v-if="!dialogProfileMessage" @submit.prevent="submitPasswordChange">
-            <InputText placeholder="Телефон" v-model="changePassword.phone" class="field" required/>
+            <InputText pattern=".{17,}" title="Номер телефона должен состоять из 11 цифр" v-mask="'# (###) ###-##-##'" placeholder="Телефон" v-model="changePassword.phone" class="field" required/>
             <InputText placeholder="ФИО" v-model="changePassword.fullName" class="field" required/>
             <Button type="submit" label="Получить новый пароль" class="consultation-button"/>
         </form>
