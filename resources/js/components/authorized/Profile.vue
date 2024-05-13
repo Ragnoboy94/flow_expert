@@ -42,7 +42,7 @@
                                         <InputText placeholder="Контактный телефон" required class="field" v-model="user.phone"/>
                                     </div>
                                     <div class="p-field">
-                                        <InputText placeholder="E-mail" class="field" required v-model="user.email"/>
+                                        <InputText pattern="[^ ]+@[^ ]+\.[a-z]{2,3}" title="Email должен быть настоящим" placeholder="E-mail" class="field" required v-model="user.email"/>
                                     </div>
                                     <Button type="submit" label="Сохранить изменения" class="consultation-button"/>
                                 </form>

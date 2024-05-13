@@ -34,7 +34,7 @@
                 <form @submit.prevent="register" class="p-fluid form-layout">
                     <InputText placeholder="ФИО" v-model="registerInfo.fullName" class="field" required/>
                     <InputText pattern=".{17,}" title="Номер телефона должен состоять из 11 цифр" v-mask="'# (###) ###-##-##'" placeholder="Телефон" v-model="registerInfo.phone" class="field" required/>
-                    <InputText placeholder="E-mail" v-model="registerInfo.email" class="field" required/>
+                    <InputText pattern="[^ ]+@[^ ]+\.[a-z]{2,3}" title="Email должен быть настоящим" placeholder="E-mail" v-model="registerInfo.email" class="field" required/>
                     <div class="category-item">Хочу зарегистрироваться, как сотрудник</div>
                     <div v-for="category in categories" :key="category.key" class="flex align-items-center category-item">
                         <RadioButton v-model="registerInfo.category_id" :inputId="category.key" name="dynamic" :value="category.key"/>

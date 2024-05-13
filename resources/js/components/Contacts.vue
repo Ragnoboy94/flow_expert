@@ -39,7 +39,7 @@
                             <InputText placeholder="Телефон" v-model="formData.phone" required class="field"/>
                         </div>
                         <div class="p-field">
-                            <InputText placeholder="E-mail" v-model="formData.email" required class="field"/>
+                            <InputText pattern="[^ ]+@[^ ]+\.[a-z]{2,3}" title="Email должен быть настоящим" placeholder="E-mail" v-model="formData.email" required class="field"/>
                         </div>
                         <div class="p-field">
                             <Textarea placeholder="Комментарии" v-model="formData.comments" class="field text-area"
