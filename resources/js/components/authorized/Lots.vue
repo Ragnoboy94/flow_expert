@@ -15,7 +15,7 @@
                     <Column field="filename" header="Имя файла"></Column>
                     <Column field="status_name" header="Статус"></Column>
                     <Column field="count_row" header="Количество позиций"></Column>
-                    <Column field="id" header="Выберите закон-основания">
+                    <Column field="law" header="Выберите закон-основания">
                         <template #body="{ data }">
                             <div>
                                 <div class="flex align-items-center">
@@ -54,14 +54,14 @@
 <script>
 import Header from "./../Header.vue";
 import Footer from "./../Footer.vue";
-import {mapActions, mapState} from "vuex";
+import { mapActions, mapState } from "vuex";
 import DataTable from "primevue/datatable";
 import Column from "primevue/column";
 import RadioButton from "primevue/radiobutton";
 import Button from "primevue/button";
 
 export default {
-    components: {Header, Footer, DataTable, Column, RadioButton, Button},
+    components: { Header, Footer, DataTable, Column, RadioButton, Button },
     data() {
         return {
             selectedLaw: {}
@@ -80,9 +80,10 @@ export default {
                 };
             });
         },
-        splitLots(fileId) {
-            const selectedLaw = this.selectedLaw[fileId] || '44-ФЗ';
-            this.splitLotsAPI({ fileId, selectedLaw });
+        async splitLots(fileId) {
+            const selectedLaw = this.selectedLaw[fileId];
+            await this.splitLotsAPI({ fileId, selectedLaw });
+            this.fetchReadyFiles();
         }
     },
     watch: {

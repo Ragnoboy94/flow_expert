@@ -17,6 +17,7 @@ class LotController extends Controller
         if ($demandFile) {
             $demandFile->update([
                 'status_id' => 5,
+                'law' => $selectedLaw
             ]);
 
             return response()->json(['message' => 'Файл успешно разбит на лоты', 'fileId' => $fileId, 'selectedLaw' => $selectedLaw]);
