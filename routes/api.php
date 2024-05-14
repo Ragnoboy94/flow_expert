@@ -6,6 +6,7 @@ use App\Http\Controllers\InquiryController;
 use App\Http\Controllers\Profile\UserProfileController;
 use App\Http\Controllers\Auth\PasswordController;
 use App\Http\Controllers\UploadController;
+use App\Http\Controllers\LotController;
 
 //Auth
 Route::post('/login', [LoginController::class, 'login']);
@@ -23,4 +24,5 @@ Route::middleware('auth:api')->group(function () {
     Route::post('/upload', [UploadController::class, 'upload']);
     Route::get('/files', [UploadController::class, 'index']);
     Route::post('/files', [UploadController::class, 'index']);
+    Route::post('/split-lots', [LotController::class, 'splitLots']);
 });

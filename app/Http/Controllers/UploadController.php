@@ -42,7 +42,12 @@ class UploadController extends Controller
         }
 
         if ($request->status_id) {
-            $allFiles = DemandFile::where('user_id', Auth::id())->where('status_id', $request->status_id)->get();
+            $allFiles = DemandFile::where('user_id', Auth::id())
+                ->where(function ($query) use ($request) {
+                    $query->where('status_id', $request->status_id)
+                        ->orWhere('status_id', 5);
+                })
+                ->get();
         } else {
             $allFiles = DemandFile::where('user_id', Auth::id())->get();
         }

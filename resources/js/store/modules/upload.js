@@ -34,6 +34,14 @@ export const upload = {
         async fetchReadyFiles({ commit }) {
             const response = await axios.post('/api/files', {'status_id': 3});
             commit('SET_FILES', response.data);
+        },
+        async splitLotsAPI({ dispatch }, { fileId, selectedLaw }) {
+            try {
+                const response = await axios.post('/api/split-lots', { fileId, selectedLaw });
+                await dispatch('fetchReadyFiles');
+            } catch (error) {
+                console.error('Ошибка при разбиении на лоты:', error);
+            }
         }
     }
 }

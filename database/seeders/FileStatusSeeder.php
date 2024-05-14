@@ -18,6 +18,7 @@ class FileStatusSeeder extends Seeder
             ['name' => 'Обработка'],
             ['name' => 'Готов'],
             ['name' => 'Ошибка'],
+            ['name' => 'В процессе разбиения'],
         ]);
     }
 }
