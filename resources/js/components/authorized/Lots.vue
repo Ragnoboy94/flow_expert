@@ -83,7 +83,6 @@ export default {
         async splitLots(fileId) {
             const selectedLaw = this.selectedLaw[fileId];
             await this.splitLotsAPI({ fileId, selectedLaw });
-            this.fetchReadyFiles();
         }
     },
     watch: {
