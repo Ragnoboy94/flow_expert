@@ -25,4 +25,5 @@ Route::middleware('auth:api')->group(function () {
     Route::get('/files', [UploadController::class, 'index']);
     Route::post('/files', [UploadController::class, 'index']);
     Route::post('/split-lots', [LotController::class, 'splitLots']);
+    Route::get('/files/{fileId}/rows', [LotController::class, 'getExcelRows']);
 });

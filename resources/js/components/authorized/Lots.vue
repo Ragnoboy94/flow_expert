@@ -36,7 +36,7 @@
                     </Column>
                     <Column field="id">
                         <template #body="{ data }">
-                            <Button link class="text-green-500" label="ОТКРЫТЬ"/>
+                            <Button link class="text-green-500" label="ОТКРЫТЬ" :disabled="!data.split_into_lots" @click="toggleDetails(data.id)"/>
                         </template>
                     </Column>
                     <Column field="created_at" header="Дата загрузки">
@@ -45,6 +45,20 @@
                         </template>
                     </Column>
                 </DataTable>
+            </div>
+            <div v-for="file in files" :key="file.id">
+                <div v-if="file.showDetails" class="details-table mt-3">
+                    <DataTable :value="file.excelRows" table-style="border-color: green">
+                        <Column field="department" header="Отделение"></Column>
+                        <Column field="item_name" header="Наименование"></Column>
+                        <Column field="unit" header="Ед. изм."></Column>
+                        <Column field="quantity" header="Количество"></Column>
+                        <Column field="price" header="Цена"></Column>
+                        <Column field="sum" header="Сумма"></Column>
+                        <Column field="funding_source" header="Источник финансирования"></Column>
+                        <Column field="found" header="Найдено"></Column>
+                    </DataTable>
+                </div>
             </div>
         </div>
     </section>
@@ -71,7 +85,7 @@ export default {
         ...mapState('upload', ['files']),
     },
     methods: {
-        ...mapActions('upload', ['fetchReadyFiles', 'splitLotsAPI']),
+        ...mapActions('upload', ['fetchReadyFiles', 'splitLotsAPI', 'fetchExcelRows']),
         initializeSelectedLaw() {
             this.files.forEach(file => {
                 this.selectedLaw = {
@@ -83,6 +97,17 @@ export default {
         async splitLots(fileId) {
             const selectedLaw = this.selectedLaw[fileId];
             await this.splitLotsAPI({ fileId, selectedLaw });
+        },
+        toggleDetails(fileId) {
+            const file = this.files.find(f => f.id === fileId);
+            if (file) {
+                file.showDetails = !file.showDetails;
+                if (file.showDetails && !file.excelRows) {
+                    this.fetchExcelRows(fileId).then(rows => {
+                        file.excelRows = rows;
+                    });
+                }
+            }
         }
     },
     watch: {

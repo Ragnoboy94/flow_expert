@@ -2,8 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Jobs\ProcessExcelFile;
 use App\Models\DemandFile;
+use App\Models\ExcelRow;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class LotController extends Controller
 {
@@ -12,17 +15,24 @@ class LotController extends Controller
         $fileId = $request->input('fileId');
         $selectedLaw = $request->input('selectedLaw');
 
-        $demandFile = DemandFile::find($fileId);
+        $file = DemandFile::where('id', $fileId)
+            ->where('user_id', Auth::id())
+            ->firstOrFail();
 
-        if ($demandFile) {
-            $demandFile->update([
-                'status_id' => 5,
-                'law' => $selectedLaw
-            ]);
+        $file->update(['status_id' => 5, 'law' => $selectedLaw]);
 
-            return response()->json(['message' => 'Файл успешно разбит на лоты', 'fileId' => $fileId, 'selectedLaw' => $selectedLaw]);
-        }
+        ProcessExcelFile::dispatch($file);
 
-        return response()->json(['message' => 'Файл не найден'], 404);
+        return response()->json(['message' => 'Файл успешно разбит на лоты', 'fileId' => $fileId, 'selectedLaw' => $selectedLaw]);
+    }
+    public function getExcelRows($fileId)
+    {
+        $file = DemandFile::where('id', $fileId)
+            ->where('user_id', Auth::id())
+            ->firstOrFail();
+
+        $rows = ExcelRow::where('demand_file_id', $file->id)->get();
+
+        return response()->json($rows);
     }
 }

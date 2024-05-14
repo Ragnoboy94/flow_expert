@@ -10,6 +10,12 @@ export const upload = {
         },
         SET_FILES(state, files) {
             state.files = files;
+        },
+        SET_EXCEL_ROWS(state, { fileId, rows }) {
+            const file = state.files.find(f => f.id === fileId);
+            if (file) {
+                file.excelRows = rows;
+            }
         }
     },
     actions: {
@@ -34,6 +40,11 @@ export const upload = {
         async fetchReadyFiles({ commit }) {
             const response = await axios.post('/api/files', {'status_id': 3});
             commit('SET_FILES', response.data);
+        },
+        async fetchExcelRows({ commit }, fileId) {
+            const response = await axios.get(`/api/files/${fileId}/rows`);
+            commit('SET_EXCEL_ROWS', { fileId, rows: response.data });
+            return response.data;
         },
         async splitLotsAPI({ dispatch }, { fileId, selectedLaw }) {
             try {
