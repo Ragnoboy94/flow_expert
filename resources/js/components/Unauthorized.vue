@@ -25,9 +25,27 @@ import Header from "./Header.vue";
 import Footer from "./Footer.vue";
 import ConsultationModal from "./buttons/ConsultationButton.vue";
 import LoginButton from "./buttons/LoginButton.vue";
+import {mapActions, mapState} from "vuex";
 
 export default {
     components: {LoginButton, ConsultationModal, Header, Footer},
+    computed: {
+        ...mapState('auth', ['isAuthenticated'])
+    },
+    methods: {
+        ...mapActions('auth', ['checkAuthentication']),
+        redirectIfAuthenticated() {
+            if (this.isAuthenticated) {
+                const redirectUrl = this.$route.query.redirect || '/';
+                this.$router.push(redirectUrl);
+            }
+        }
+    },
+    created() {
+        this.checkAuthentication().then(() => {
+            this.redirectIfAuthenticated();
+        });
+    }
 }
 </script>
 
