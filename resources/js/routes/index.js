@@ -25,6 +25,7 @@ import getJustificationNmck from "../components/instructions/GetJustificationNmc
 import viewFiles from "../components/instructions/ViewFiles.vue";
 import AgreePersonal from "../components/AgreePersonal.vue";
 import Lots from "../components/authorized/Lots.vue";
+import Offers from "../components/authorized/Offers.vue";
 
 const routes = [
     {
@@ -89,6 +90,12 @@ const routes = [
         path: '/lots',
         name: 'Lots',
         component: Lots,
+        meta: { requiresAuth: true }
+    },
+    {
+        path: '/offers',
+        name: 'Offers',
+        component: Offers,
         meta: { requiresAuth: true }
     },
 

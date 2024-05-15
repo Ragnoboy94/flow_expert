@@ -23,7 +23,7 @@
             <span v-if="uploadStatus" style="color: green">{{ uploadStatus }}</span>
             <div v-if="files.length" class="files-table mt-3">
                 <h4>Загруженные файлы:</h4>
-                <DataTable :value="files" table-style="border-color: green">
+                <DataTable :value="files">
                     <Column field="filename" header="Имя файла"></Column>
                     <Column field="count_accept" header="Позиций связано"></Column>
                     <Column field="count_failed" header="Позиций не связано"></Column>

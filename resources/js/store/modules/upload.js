@@ -53,6 +53,18 @@ export const upload = {
             } catch (error) {
                 console.error('Ошибка при разбиении на лоты:', error);
             }
-        }
+        },
+        async uploadOfferFile({ commit }, formData) {
+            try {
+                const response = await axios.post('/api/uploadOfferFile', formData, {
+                    headers: {
+                        'Content-Type': 'multipart/form-data'
+                    }
+                });
+                commit('SET_UPLOAD_STATUS', 'Файл успешно добавлен!');
+            } catch (error) {
+                commit('SET_UPLOAD_STATUS', 'Ошибка в загрузке файла на сервер!');
+            }
+        },
     }
 }
