@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Jobs\ConvertPdfToExcel;
 use App\Models\Offer;
 use Illuminate\Http\Request;
 
@@ -28,6 +29,8 @@ class OfferController extends Controller
             $offer->positions = $request->input('positions');
             $offer->file_path = $filename;
             $offer->save();
+
+            ConvertPdfToExcel::dispatch($offer);
 
             return response()->json(['message' => 'Offer created successfully', 'offer' => $offer], 201);
         }
