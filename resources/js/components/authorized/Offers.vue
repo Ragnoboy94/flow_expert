@@ -4,9 +4,13 @@
         <div class="content-container" style="max-width: 100%;">
             <div class="title-section">
                 <h3>Формирование коммерческих предложений</h3>
-                <p>Укажите данные</p>
+                <p v-if="!offers.length || offers[0].file_status_id === 4"><small
+                    v-if="offers.length && offers[0].file_status_id === 4" class="text-red-500">Ошибка в обработке файла<br></small>Укажите
+                    данные</p>
+                <p v-else-if="offers.length && offers[0].file_status_id === 3">Сформированное коммерческое предложение</p>
+                <p v-else>Статус: {{ offers[0].file_status_name }}</p>
             </div>
-            <form @submit.prevent="submitOfferForm">
+            <form v-if="!offers.length || offers[0].file_status_id === 4" @submit.prevent="submitOfferForm">
                 <div class="flex flex-column lg:flex-row">
                     <div class="flex mt-3 lg:col-3">
                         <FloatLabel class="w-12">
@@ -37,18 +41,16 @@
                     </div>
                 </div>
             </form>
-            <span v-if="uploadStatus" style="color: green">{{ uploadStatus }}</span>
-            <div v-if="files.length" class="files-table mt-3">
-                <h4>Сформированное коммерческое предложение:</h4>
-                <DataTable :value="files">
-                    <Column field="filename" header="Международное не патентованное наименование"></Column>
-                    <Column field="count_accept" header="Торговое наименование"></Column>
-                    <Column field="count_failed" header="Форма выпуска"></Column>
-                    <Column field="status_name" header="Ед."></Column>
-                    <Column field="count_failed" header="Кол-во"></Column>
-                    <Column field="status_name" header="Цена (без ндс и оптовой надбавки)"></Column>
-                    <Column field="count_failed" header="Сумма (без ндс и оптовой надбавки)"></Column>
-                </DataTable>
+            <div v-if="offers.length && (offers[0].file_status_id === 1 || offers[0].file_status_id === 2)">
+                <Card class="flex-1 mt-3 lg:flex-row lg:col-6">
+                    <template #content>
+                        <span class="flex-1 lg:col-5 pi pi-file-pdf feature-icon"> {{ offers[0].sender }} </span>
+                        <a :href="'/offers/' + offers[0].file_path" class="w-12  text-white" download>
+                            <Button class="consultation-button flex-1 lg:col-5"
+                                    id="download_offer_file" label="Скачать"/>
+                        </a>
+                    </template>
+                </Card>
             </div>
         </div>
     </section>
@@ -64,9 +66,10 @@ import Column from "primevue/column";
 import Button from "primevue/button";
 import InputText from "primevue/inputtext";
 import FloatLabel from "primevue/floatlabel";
+import Card from "primevue/card";
 
 export default {
-    components: {Header, Footer, DataTable, Column, Button, InputText, FloatLabel},
+    components: {Header, Footer, DataTable, Column, Button, InputText, FloatLabel, Card},
     data() {
         return {
             formData: {
@@ -78,10 +81,10 @@ export default {
         };
     },
     computed: {
-        ...mapState('upload', ['uploadStatus', 'files']),
+        ...mapState('upload', ['uploadStatus', 'offers']),
     },
     methods: {
-        ...mapActions('upload', ['uploadOfferFile', 'fetchFiles']),
+        ...mapActions('upload', ['uploadOfferFile', 'fetchOffers']),
         handleFileUpload(event) {
             this.selectedFile = event.target.files[0];
             if (this.selectedFile) {
@@ -106,14 +109,15 @@ export default {
                 this.formData.positions = '';
                 this.selectedFile = null;
                 this.$refs.fileInput.value = '';
+                this.fetchOffers();
             } else {
                 alert('Пожалуйста, заполните все поля формы и выберите файл.');
             }
         }
     },
     created() {
-        this.fetchFiles();
-    }
+        this.fetchOffers();
+    },
 }
 </script>
 
@@ -133,8 +137,9 @@ export default {
     padding: 8px;
     text-align: left;
 }
+
 label {
     margin-left: 1.2rem;
-    margin-top: -0.8rem;
+    margin-top: -0.7rem;
 }
 </style>

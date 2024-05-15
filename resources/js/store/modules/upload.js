@@ -2,7 +2,8 @@ export const upload = {
     namespaced: true,
     state: {
         uploadStatus: '',
-        files: []
+        files: [],
+        offers: []
     },
     mutations: {
         SET_UPLOAD_STATUS(state, status) {
@@ -16,6 +17,9 @@ export const upload = {
             if (file) {
                 file.excelRows = rows;
             }
+        },
+        SET_OFFERS(state, offers) {
+            state.offers = offers;
         }
     },
     actions: {
@@ -64,6 +68,14 @@ export const upload = {
                 commit('SET_UPLOAD_STATUS', 'Файл успешно добавлен!');
             } catch (error) {
                 commit('SET_UPLOAD_STATUS', 'Ошибка в загрузке файла на сервер!');
+            }
+        },
+        async fetchOffers({ commit }) {
+            try {
+                const response = await axios.get('/api/offers');
+                commit('SET_OFFERS', response.data);
+            } catch (error) {
+                console.error('Ошибка при получении списка предложений:', error);
             }
         },
     }

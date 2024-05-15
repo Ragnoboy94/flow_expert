@@ -28,4 +28,5 @@ Route::middleware('auth:api')->group(function () {
     Route::post('/split-lots', [LotController::class, 'splitLots']);
     Route::get('/files/{fileId}/rows', [LotController::class, 'getExcelRows']);
     Route::post('/uploadOfferFile', [OfferController::class, 'store']);
+    Route::get('/offers', [OfferController::class, 'index']);
 });
