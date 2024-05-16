@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Jobs\ConvertPdfToExcel;
+use App\Jobs\ImportExcelData;
+use App\Models\MedicineRows;
 use App\Models\Offer;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -12,7 +14,16 @@ class OfferController extends Controller
 {
     public function index()
     {
-        $offers = Offer::where('user_id', Auth::id())->get();
+        $offers = Offer::where('user_id', Auth::id())->firstOrFail();
+
+        if ($offers->file_status_id == 3 && !empty($offers->excel_file_path)) {
+            $medicineRows = MedicineRows::where('offer_id', $offers->id)->get();
+
+            return response()->json([
+                'offer' => $offers,
+                'medicine_rows' => $medicineRows
+            ]);
+        }
         return response()->json($offers);
     }
 
@@ -49,6 +60,8 @@ class OfferController extends Controller
             $offer->file_path = $filename;
             $offer->file_status_id = 1;
             $offer->save();
+
+            MedicineRows::where('user_id', Auth::id())->delete();
 
             //ConvertPdfToExcel::dispatch($offer);
 

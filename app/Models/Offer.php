@@ -28,4 +28,8 @@ class Offer extends Model
     {
         return $this->fileStatus->name;
     }
+    public function medicineRows()
+    {
+        return $this->hasMany(MedicineRows::class);
+    }
 }

@@ -50,9 +50,9 @@ class ConvertPdfToExcel implements ShouldQueue
             $pathToSave = public_path('offers/' . $excelFilePath);
             file_put_contents($pathToSave, $response->body());
             $this->offer->update([
-                'file_status_id' => 3,
                 'excel_file_path' => $excelFilePath
             ]);
+            ImportExcelData::dispatch($this->offer);
         }
     }
 }
