@@ -26,6 +26,7 @@ import viewFiles from "../components/instructions/ViewFiles.vue";
 import AgreePersonal from "../components/AgreePersonal.vue";
 import Lots from "../components/authorized/Lots.vue";
 import Offers from "../components/authorized/Offers.vue";
+import NmckSettings from "../components/authorized/NmckSettings.vue";
 
 const routes = [
     {
@@ -96,6 +97,12 @@ const routes = [
         path: '/offers',
         name: 'Offers',
         component: Offers,
+        meta: { requiresAuth: true }
+    },
+    {
+        path: '/nmck-settings',
+        name: 'NmckSettings',
+        component: NmckSettings,
         meta: { requiresAuth: true }
     },
 

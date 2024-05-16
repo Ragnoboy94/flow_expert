@@ -5,13 +5,22 @@
             <div class="title-section">
                 <h3>Настройка параметров расчёта НМЦК</h3>
             </div>
-            <div class="block">
-                <label class="block-label">ЗАКАЗЧИК</label>
-                <div class="input-group">
-                    <InputText v-model="customer.name" readonly class="input-readonly"/>
-                    <Button label="Изменить заказчика" class="edit-button"/>
-                </div>
+            <div class="flex justify-content-between flex-wrap">
+                <span class="flex align-items-center justify-content-center">
+                    ЗАКАЗЧИК
+                </span>
+                <span class="flex align-items-center justify-content-center" @click="clickChangePassword">
+                    Изменить заказчика
+                </span>
             </div>
+            <Fieldset legend="ЗАКАЗЧИК">
+                <p class="m-0">
+                    {{ customer.name }}<br>
+                    {{ customer.inn }} / {{ customer.kpp }}
+                </p>
+            </Fieldset>
+
+            <Divider/>
 
             <div class="block">
                 <label class="block-label">РАСЧЁТ ОСУЩЕСТВЛЯЕТСЯ В СООТВЕТСТВИИ</label>
@@ -97,12 +106,14 @@ import Checkbox from 'primevue/checkbox';
 import ToggleButton from 'primevue/togglebutton';
 import Dropdown from 'primevue/dropdown';
 import InputNumber from 'primevue/inputnumber';
+import Divider from "primevue/divider";
+import Fieldset from "primevue/fieldset";
 
 export default {
-    components: {Header, Footer, InputText, Button, Checkbox, ToggleButton, Dropdown, InputNumber},
+    components: {Header, Footer, InputText, Button, Checkbox, ToggleButton, Dropdown, InputNumber, Divider, Fieldset},
     data() {
         return {
-            customer: {name: 'Осипов Пётр Иванович'},
+            customer: {name: 'Осипов Пётр Иванович', inn: 89644488, kpp: 213123213},
             calculationOptions: {
                 order567: false,
                 order450n: true
@@ -163,14 +174,9 @@ export default {
 .input-readonly {
     background-color: #e0f7fa;
     padding: 10px;
-    border-radius: 5px;
-    width: calc(100% - 150px);
+    border-radius: 1rem;
+    width: 100%;
     display: inline-block;
-    margin-right: 10px;
-}
-
-.edit-button {
-    vertical-align: top;
 }
 
 .next-button {

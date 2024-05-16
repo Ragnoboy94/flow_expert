@@ -127,6 +127,7 @@ export default {
 }
 
 .sidebar-button {
+    color: #00a950;
     width: 100%;
     margin-bottom: 0.5rem;
 }
