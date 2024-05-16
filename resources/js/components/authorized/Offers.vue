@@ -62,32 +62,32 @@
                         })
                     }
                 }">
-                    <Column field="mnn" header="МНН" editor="true" style="width: 15%">
+                    <Column field="mnn" header="Международное не патентованное наименование" editor="true" style="width: 15%">
                         <template #editor="{ data, field }">
                             <InputText v-model="data[field]" />
                         </template>
                     </Column>
-                    <Column field="name" header="Наименование" editor="true" style="width: 15%">
+                    <Column field="name" header="Торговое наименование" editor="true" style="width: 15%">
                         <template #editor="{ data, field }">
                             <InputText v-model="data[field]" />
                         </template>
                     </Column>
-                    <Column field="trade_name" header="Торговое наименование" editor="true" style="width: 30%">
+                    <Column field="trade_name" header="Форма выпуска" editor="true" style="width: 30%">
                         <template #editor="{ data, field }">
                             <Textarea autoResize v-model="data[field]" />
                         </template>
                     </Column>
-                    <Column field="quantity" header="Количество" editor="true" style="width: 10%">
+                    <Column field="quantity" header="Кол-во" editor="true" style="width: 10%">
                         <template #editor="{ data, field }">
                             <InputText class="w-12" v-model="data[field]" />
                         </template>
                     </Column>
-                    <Column field="price" header="Цена" editor="true" style="width: 10%">
+                    <Column field="price" header="Цена (без ндс и оптовой надбавки)" editor="true" style="width: 10%">
                         <template #editor="{ data, field }">
                             <InputText class="w-12" v-model="data[field]" />
                         </template>
                     </Column>
-                    <Column field="total" header="Итого" editor="true" style="width: 10%">
+                    <Column field="total" header="Цена (без ндс и оптовой надбавки)" editor="true" style="width: 10%">
                         <template #editor="{ data, field }">
                             <InputText class="w-12" v-model="data[field]" />
                         </template>
