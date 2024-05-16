@@ -7,7 +7,8 @@
                 <p v-if="!offers.length || offers[0].file_status_id === 4"><small
                     v-if="offers.length && offers[0].file_status_id === 4" class="text-red-500">Ошибка в обработке файла<br></small>Укажите
                     данные</p>
-                <p v-else-if="offers.length && offers[0].file_status_id === 3">Сформированное коммерческое предложение</p>
+                <p v-else-if="offers.length && offers[0].file_status_id === 3">Сформированное коммерческое
+                    предложение</p>
                 <p v-else>Статус: {{ offers[0].file_status_name }}</p>
             </div>
             <form v-if="!offers.length || offers[0].file_status_id === 4" @submit.prevent="submitOfferForm">
@@ -52,6 +53,48 @@
                     </template>
                 </Card>
             </div>
+            <div v-if="offers.length && offers[0].file_status_id === 3 && offerRows.length">
+                <DataTable v-model:editingRows="editingRows" :value="offerRows" editMode="row"
+                           class="editable-cells-table" @row-edit-save="onRowEditSave" :pt="{
+                    column: {
+                        bodycell: ({ state }) => ({
+                            style: state['d_editing'] && 'padding-top: 0.6rem; padding-bottom: 0.6rem'
+                        })
+                    }
+                }">
+                    <Column field="mnn" header="МНН" editor="true" style="width: 15%">
+                        <template #editor="{ data, field }">
+                            <InputText v-model="data[field]" />
+                        </template>
+                    </Column>
+                    <Column field="name" header="Наименование" editor="true" style="width: 15%">
+                        <template #editor="{ data, field }">
+                            <InputText v-model="data[field]" />
+                        </template>
+                    </Column>
+                    <Column field="trade_name" header="Торговое наименование" editor="true" style="width: 30%">
+                        <template #editor="{ data, field }">
+                            <Textarea autoResize v-model="data[field]" />
+                        </template>
+                    </Column>
+                    <Column field="quantity" header="Количество" editor="true" style="width: 10%">
+                        <template #editor="{ data, field }">
+                            <InputText class="w-12" v-model="data[field]" />
+                        </template>
+                    </Column>
+                    <Column field="price" header="Цена" editor="true" style="width: 10%">
+                        <template #editor="{ data, field }">
+                            <InputText class="w-12" v-model="data[field]" />
+                        </template>
+                    </Column>
+                    <Column field="total" header="Итого" editor="true" style="width: 10%">
+                        <template #editor="{ data, field }">
+                            <InputText class="w-12" v-model="data[field]" />
+                        </template>
+                    </Column>
+                    <Column :rowEditor="true" style="width: 10%; min-width: 8rem" bodyStyle="text-align:center"></Column>
+                </DataTable>
+            </div>
         </div>
     </section>
     <Footer></Footer>
@@ -67,9 +110,10 @@ import Button from "primevue/button";
 import InputText from "primevue/inputtext";
 import FloatLabel from "primevue/floatlabel";
 import Card from "primevue/card";
+import Textarea from 'primevue/textarea';
 
 export default {
-    components: {Header, Footer, DataTable, Column, Button, InputText, FloatLabel, Card},
+    components: {Header, Footer, DataTable, Column, Button, InputText, FloatLabel, Card, Textarea},
     data() {
         return {
             formData: {
@@ -77,14 +121,15 @@ export default {
                 date: ' ',
                 positions: ''
             },
-            selectedFile: null
+            selectedFile: null,
+            editingRows: []
         };
     },
     computed: {
-        ...mapState('upload', ['uploadStatus', 'offers']),
+        ...mapState('upload', ['offers', 'offerRows']),
     },
     methods: {
-        ...mapActions('upload', ['uploadOfferFile', 'fetchOffers']),
+        ...mapActions('upload', ['uploadOfferFile', 'fetchOffers', 'updateMedicineRow']),
         handleFileUpload(event) {
             this.selectedFile = event.target.files[0];
             if (this.selectedFile) {
@@ -113,7 +158,13 @@ export default {
             } else {
                 alert('Пожалуйста, заполните все поля формы и выберите файл.');
             }
-        }
+        },
+        onRowEditSave(event) {
+            let { newData, index } = event;
+
+            this.editingRows[index] = newData;
+            this.updateMedicineRow(newData);
+        },
     },
     created() {
         this.fetchOffers();

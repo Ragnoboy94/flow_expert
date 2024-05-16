@@ -29,4 +29,5 @@ Route::middleware('auth:api')->group(function () {
     Route::get('/files/{fileId}/rows', [LotController::class, 'getExcelRows']);
     Route::post('/uploadOfferFile', [OfferController::class, 'store']);
     Route::get('/offers', [OfferController::class, 'index']);
+    Route::put('/medicine-rows/{id}', [OfferController::class, 'update']);
 });

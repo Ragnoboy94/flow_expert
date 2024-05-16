@@ -3,7 +3,8 @@ export const upload = {
     state: {
         uploadStatus: '',
         files: [],
-        offers: []
+        offers: [],
+        offerRows: []
     },
     mutations: {
         SET_UPLOAD_STATUS(state, status) {
@@ -20,6 +21,15 @@ export const upload = {
         },
         SET_OFFERS(state, offers) {
             state.offers = offers;
+        },
+        SET_OFFER_ROWS(state, offerRows) {
+            state.offerRows = offerRows;
+        },
+        UPDATE_MEDICINE_ROW(state, updatedRow) {
+            const index = state.offerRows.findIndex(row => row.id === updatedRow.id);
+            if (index !== -1) {
+                state.offerRows.splice(index, 1, updatedRow);
+            }
         }
     },
     actions: {
@@ -73,10 +83,24 @@ export const upload = {
         async fetchOffers({ commit }) {
             try {
                 const response = await axios.get('/api/offers');
-                commit('SET_OFFERS', response.data);
+                const { offer, medicine_rows } = response.data;
+
+                if (offer) {
+                    commit('SET_OFFERS', [offer]);                 }
+                if (medicine_rows) {
+                    commit('SET_OFFER_ROWS', medicine_rows);
+                }
             } catch (error) {
                 console.error('Ошибка при получении списка предложений:', error);
             }
         },
+        async updateMedicineRow({ commit }, updatedRow) {
+            try {
+                const response = await axios.put(`/api/medicine-rows/${updatedRow.id}`, updatedRow);
+                commit('UPDATE_MEDICINE_ROW', response.data);
+            } catch (error) {
+                console.error('Ошибка при обновлении строки:', error);
+            }
+        }
     }
 }

@@ -70,4 +70,11 @@ class OfferController extends Controller
 
         return response()->json(['message' => 'File not uploaded'], 400);
     }
+    public function update(Request $request, $id)
+    {
+        $row = MedicineRows::findOrFail($id);
+        $row->update($request->all());
+        return response()->json($row);
+    }
+
 }
