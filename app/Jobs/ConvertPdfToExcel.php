@@ -40,14 +40,15 @@ class ConvertPdfToExcel implements ShouldQueue
         $this->offer->update(['file_status_id' => 2]);
 
         $response = Http::attach('file', file_get_contents($pdfFile), 'file.pdf')
-            ->post("https://pdftables.com/api?key={$this->apikey}&format=xlsx");
+            ->post("https://pdftables.com/api?key={$this->apikey}&format=xlsx-single");
 
         if ($response->failed()) {
             $this->offer->update(['file_status_id' => 4]);
             throw new \Exception('Error calling PDFTables: ' . $response->body());
         } else {
-            $excelFilePath = str_replace('.pdf', '.xlsx', $this->offer->pdfFilePath);
-            file_put_contents('offers/'.$excelFilePath,$response->body());
+            $excelFilePath = str_replace('.pdf', '.xlsx', $this->offer->file_path);
+            $pathToSave = public_path('offers/' . $excelFilePath);
+            file_put_contents($pathToSave, $response->body());
             $this->offer->update([
                 'file_status_id' => 3,
                 'excel_file_path' => $excelFilePath
