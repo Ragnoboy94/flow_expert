@@ -63,18 +63,21 @@
                 </div>
             </Fieldset>
             <Fieldset class="border-round-3xl" legend="СТАТУС ЗАКУПОК">
-                <div class="flex-1 lg:flex lg:flex-row">
-                    <div class="flex-1 lg:flex lg:col-6 col-12">
-                        <div class="flex col-6">
-                            <Checkbox v-model="purchaseStatus.completed" inputId="completed" :binary="true"/>
-                            <label for="completed" class="ml-2"> Исполнение завершено </label>
-                        </div>
-                        <div class="flex col-6">
-                            <Checkbox v-model="purchaseStatus.inProgress" inputId="inProgress" :binary="true"/>
-                            <label for="inProgress" class="ml-2"> Исполнение </label>
+                <div class="flex lg:flex-row flex-column">
+                    <div class="lg:flex flex-auto align-items-center justify-content-center lg:col-6 flex-wrap">
+                            <div class="flex col-6">
+                                <Checkbox v-model="purchaseStatus.completed" inputId="completed" :binary="true"/>
+                                <label for="completed" class="ml-2"> Исполнение завершено </label>
+                            </div>
+                            <div class="flex col-6">
+                                <Checkbox v-model="purchaseStatus.inProgress" inputId="inProgress" :binary="true"/>
+                                <label for="inProgress" class="ml-2"> Исполнение </label>
+                            </div>
+                        <div class="flex col-12">
+                            <p class="ml-2">ДАТА ОКОНЧАНИЯ ИСПОЛНЕНИЯ КОНТРАКТА</p>
                         </div>
                     </div>
-                    <div class="flex-1 lg:flex lg:col-6 col-12">
+                    <div class="lg:flex flex-auto align-items-center justify-content-center lg:col-6 flex-wrap">
                         <div class="flex col-6">
                             <Checkbox v-model="purchaseStatus.terminated" inputId="terminated" :binary="true"/>
                             <label for="terminated" class="ml-2"> Исполнение прекращено </label>
@@ -83,9 +86,11 @@
                             <Checkbox v-model="purchaseStatus.cancelled" inputId="cancelled" :binary="true"/>
                             <label for="cancelled" class="ml-2"> Аннулирован </label>
                         </div>
+                        <div class="flex col-12">
+                            <p class="ml-2">ДАТА подписания КОНТРАКТА (необязательно)</p>
+                        </div>
                     </div>
                 </div>
-
 
             </Fieldset>
 
@@ -216,7 +221,6 @@ export default {
 
 Fieldset {
     margin-bottom: 2%;
-    border: solid 1px lightgreen;
 }
 </style>
 
