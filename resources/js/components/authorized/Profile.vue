@@ -33,10 +33,10 @@
                                                    v-model="user.company"/>
                                     </div>
                                     <div class="p-field">
-                                        <InputText placeholder="ИНН" class="field" v-model="user.inn"/>
+                                        <InputText pattern=".{12,}" title="ИНН должен состоять из 12 цифр" v-mask="'############'" placeholder="ИНН" class="field" v-model="user.inn"/>
                                     </div>
                                     <div class="p-field">
-                                        <InputText placeholder="КПП" class="field" v-model="user.kpp"/>
+                                        <InputText pattern=".{9,}" title="КПП должен состоять из 9 цифр" v-mask="'#########'"placeholder="КПП" class="field" v-model="user.kpp"/>
                                     </div>
                                     <div class="p-field">
                                         <InputText pattern=".{17,}" title="Номер телефона должен состоять из 11 цифр" v-mask="'# (###) ###-##-##'" placeholder="Контактный телефон" required class="field" v-model="user.phone"/>

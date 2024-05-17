@@ -1,7 +1,7 @@
 <template>
     <section class="landing-block flex flex-column lg:flex-row">
         <div class="content-container">
-            <h1 class="title">Flow<br><span style="margin-left:5rem;">Expert</span></h1>
+            <h1 class="title ml-8">Flow<br><span style="margin-left:10%">Expert</span></h1>
             <p class="subtitle">
                     Интеллектуальная система управления заказами лекарственных препаратов и
                     расходных материалов для медицины
@@ -28,7 +28,7 @@ export default {
 <style scoped>
 
 .title {
-    font-size: 5.5rem;
+    font-size: 5.5vw;
 }
 
 .subtitle {
