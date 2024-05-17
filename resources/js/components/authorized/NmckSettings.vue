@@ -5,11 +5,8 @@
             <div class="title-section">
                 <h3>Настройка параметров расчёта НМЦК</h3>
             </div>
-            <div class="flex justify-content-between flex-wrap">
-                <span class="flex align-items-center justify-content-center">
-                    ЗАКАЗЧИК
-                </span>
-                <span class="flex align-items-center justify-content-center" @click="clickChangePassword">
+            <div class="flex justify-content-end flex-wrap">
+                <span class="flex justify-content-end" @click="clickChangePassword">
                     Изменить заказчика
                 </span>
             </div>
@@ -20,7 +17,6 @@
                 </p>
             </Fieldset>
 
-            <Divider/>
 
             <div class="block">
                 <label class="block-label">РАСЧЁТ ОСУЩЕСТВЛЯЕТСЯ В СООТВЕТСТВИИ</label>
@@ -106,11 +102,10 @@ import Checkbox from 'primevue/checkbox';
 import ToggleButton from 'primevue/togglebutton';
 import Dropdown from 'primevue/dropdown';
 import InputNumber from 'primevue/inputnumber';
-import Divider from "primevue/divider";
 import Fieldset from "primevue/fieldset";
 
 export default {
-    components: {Header, Footer, InputText, Button, Checkbox, ToggleButton, Dropdown, InputNumber, Divider, Fieldset},
+    components: {Header, Footer, InputText, Button, Checkbox, ToggleButton, Dropdown, InputNumber, Fieldset},
     data() {
         return {
             customer: {name: 'Осипов Пётр Иванович', inn: 89644488, kpp: 213123213},
