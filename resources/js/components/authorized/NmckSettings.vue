@@ -10,43 +10,89 @@
                     Изменить заказчика
                 </span>
             </div>
-            <Fieldset legend="ЗАКАЗЧИК">
+            <Fieldset class="bg-green-100 border-round-3xl" legend="ЗАКАЗЧИК">
                 <p class="m-0">
                     {{ customer.name }}<br>
                     {{ customer.inn }} / {{ customer.kpp }}
                 </p>
             </Fieldset>
 
+            <Fieldset class="border-round-3xl" legend="РАСЧЁТ ОСУЩЕСТВЛЯЕТСЯ В СООТВЕТСТВИИ">
+                <div class="flex-1 lg:flex lg:flex-row">
+                    <div class="flex col-6 ">
+                        <Checkbox v-model="calculationOptions.order567" inputId="order567" :binary="true"
+                                  @change="handleCheckboxChange('order567')"/>
+                        <label for="order567" class="ml-2"> Приказ 567 </label>
+                    </div>
+                    <div class="flex col-6">
+                        <Checkbox v-model="calculationOptions.order450n" inputId="order450n" :binary="true"
+                                  @change="handleCheckboxChange('order450n')"/>
+                        <label for="order450n" class="ml-2"> Приказ 450н </label>
+                    </div>
+                </div>
+            </Fieldset>
+            <Fieldset class="border-round-3xl" legend="В КАКИХ КОНТРАКТАХ ИСКАТЬ ЦЕНЫ?">
+                <div class="flex-1 lg:flex lg:flex-row">
+                    <div class="flex col-6 ">
+                        <Checkbox v-model="contractOptions.fz44" inputId="fz44" :binary="true"
+                                  @change="handleContractChange('fz44')"/>
+                        <label for="fz44" class="ml-2"> 44-ФЗ </label>
+                    </div>
+                    <div class="flex col-6">
+                        <Checkbox v-model="contractOptions.fz223" inputId="fz223" :binary="true"
+                                  @change="handleContractChange('fz223')"/>
+                        <label for="fz223" class="ml-2"> 223-ФЗ </label>
+                    </div>
+                </div>
 
-            <div class="block">
-                <label class="block-label">РАСЧЁТ ОСУЩЕСТВЛЯЕТСЯ В СООТВЕТСТВИИ</label>
-                <div class="checkbox-group">
-                    <Checkbox v-model="calculationOptions.order567" label="Приказ 567"/>
-                    <Checkbox v-model="calculationOptions.order450n" label="Приказ 450н"/>
+                <div v-if="contractOptions.fz44 || contractOptions.fz223"
+                     class="flex lg:flex-row border-round-2xl bg-green-100 my-2">
+                    <div class="flex col-12">
+                        <p class="ml-2">Способ определения исполнителя {{
+                                contractOptions.fz44 ? '44-ФЗ' : '223-ФЗ'
+                            }}</p>
+                    </div>
                 </div>
-            </div>
 
-            <div class="block">
-                <label class="block-label">В КАКИХ КОНТРАКТАХ ИСКАТЬ ЦЕНЫ?</label>
-                <div class="checkbox-group">
-                    <Checkbox v-model="contractOptions.fz44" label="44-ФЗ"/>
-                    <Checkbox v-model="contractOptions.fz223" label="223-ФЗ"/>
+                <div class="flex lg:flex-row">
+                    <div class="flex col-12">
+                        <Checkbox v-model="contractOptions.eaec" inputId="eaec"
+                                  :binary="true"/>
+                        <label for="eaec" class="ml-2"> Учитывать контракты с поставкой только из стран ЕАЭС </label>
+                    </div>
                 </div>
-                <div class="button-group">
-                    <Button label="Способ определения исполнителя 44-ФЗ"/>
-                    <Button label="Способ определения исполнителя 223-ФЗ"/>
+            </Fieldset>
+            <Fieldset class="border-round-3xl" legend="СТАТУС ЗАКУПОК">
+                <div class="flex-1 lg:flex lg:flex-row">
+                    <div class="flex-1 lg:flex lg:col-6 col-12">
+                        <div class="flex col-6">
+                            <Checkbox v-model="purchaseStatus.completed" inputId="completed" :binary="true"/>
+                            <label for="completed" class="ml-2"> Исполнение завершено </label>
+                        </div>
+                        <div class="flex col-6">
+                            <Checkbox v-model="purchaseStatus.inProgress" inputId="inProgress" :binary="true"/>
+                            <label for="inProgress" class="ml-2"> Исполнение </label>
+                        </div>
+                    </div>
+                    <div class="flex-1 lg:flex lg:col-6 col-12">
+                        <div class="flex col-6">
+                            <Checkbox v-model="purchaseStatus.terminated" inputId="terminated" :binary="true"/>
+                            <label for="terminated" class="ml-2"> Исполнение прекращено </label>
+                        </div>
+                        <div class="flex col-6">
+                            <Checkbox v-model="purchaseStatus.cancelled" inputId="cancelled" :binary="true"/>
+                            <label for="cancelled" class="ml-2"> Аннулирован </label>
+                        </div>
+                    </div>
                 </div>
-                <Checkbox v-model="contractOptions.eaec" label="Учитывать контракты с поставкой только из стран ЕАЭС"/>
-            </div>
+
+
+            </Fieldset>
+
 
             <div class="block">
                 <label class="block-label">СТАТУС ЗАКУПОК</label>
-                <div class="checkbox-group">
-                    <Checkbox v-model="purchaseStatus.completed" label="Исполнение завершено"/>
-                    <Checkbox v-model="purchaseStatus.inProgress" label="Исполнение"/>
-                    <Checkbox v-model="purchaseStatus.terminated" label="Исполнение прекращено"/>
-                    <Checkbox v-model="purchaseStatus.cancelled" label="Аннулирован"/>
-                </div>
+
                 <div class="date-group">
                     <label>ДАТА ОКОНЧАНИЯ ИСПОЛНЕНИЯ КОНТРАКТА</label>
                     <InputText v-model="dates.endDate" type="date"/>
@@ -115,7 +161,7 @@ export default {
             },
             contractOptions: {
                 fz44: true,
-                fz223: true,
+                fz223: false,
                 eaec: true
             },
             purchaseStatus: {
@@ -145,6 +191,22 @@ export default {
                 {label: 'Категория 2', value: 'cat2'}
             ]
         };
+    },
+    methods: {
+        handleCheckboxChange(checkbox) {
+            if (checkbox === 'order567') {
+                this.calculationOptions.order450n = false;
+            } else if (checkbox === 'order450n') {
+                this.calculationOptions.order567 = false;
+            }
+        },
+        handleContractChange(contractType) {
+            if (contractType === 'fz44') {
+                this.contractOptions.fz223 = false;
+            } else if (contractType === 'fz223') {
+                this.contractOptions.fz44 = false;
+            }
+        }
     }
 }
 </script>
@@ -152,32 +214,9 @@ export default {
 
 <style scoped>
 
-.block {
-    margin-bottom: 20px;
-}
-
-.block-label {
-    font-weight: bold;
-    margin-bottom: 10px;
-    display: block;
-}
-
-.input-group, .checkbox-group, .button-group, .date-group, .toggle-group {
-    margin-bottom: 10px;
-}
-
-.input-readonly {
-    background-color: #e0f7fa;
-    padding: 10px;
-    border-radius: 1rem;
-    width: 100%;
-    display: inline-block;
-}
-
-.next-button {
-    display: block;
-    margin: 20px auto;
-    padding: 10px 20px;
+Fieldset {
+    margin-bottom: 2%;
+    border: solid 1px lightgreen;
 }
 </style>
 
