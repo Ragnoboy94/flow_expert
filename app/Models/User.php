@@ -62,4 +62,8 @@ class User extends Authenticatable
     {
         return $this->where('phone', $username)->first();
     }
+    public function customer()
+    {
+        return $this->hasOne(Customer::class);
+    }
 }

@@ -6,14 +6,46 @@
                 <h3>Настройка параметров расчёта НМЦК</h3>
             </div>
             <div class="flex justify-content-end flex-wrap">
-                <span class="flex justify-content-end" @click="clickChangePassword">
+                <span class="flex justify-content-end" @click="showCustomerDialog = true">
                     Изменить заказчика
                 </span>
             </div>
+            <Dialog v-model:visible="showCustomerDialog" header="Изменить заказчика" :modal="true"
+                    :dismissableMask="true"
+                    :style="{ width: '450px' }">
+                <form @submit.prevent="updateCustomerDialog">
+                    <div class="p-fluid">
+                        <div class="p-field">
+                            <label for="name">ФИО</label>
+                            <InputText id="name" class="field" v-model="customerForm.name" required/>
+                        </div>
+                        <div class="p-field">
+                            <label for="inn">ИНН</label>
+                            <InputText pattern=".{12,}" title="ИНН должен состоять из 12 цифр" v-mask="'############'" id="inn" class="field" v-model="customerForm.inn" required/>
+                        </div>
+                        <div class="p-field">
+                            <label for="kpp">КПП</label>
+                            <InputText pattern=".{9,}" title="КПП должен состоять из 9 цифр" v-mask="'#########'" id="kpp" class="field" v-model="customerForm.kpp" required/>
+                        </div>
+                    </div>
+                    <Button type="submit" label="Изменить заказчика" class="consultation-button"/>
+                </form>
+            </Dialog>
             <Fieldset class="bg-green-100 border-round-3xl" legend="ЗАКАЗЧИК">
                 <p class="m-0">
                     {{ customer.name }}<br>
-                    {{ customer.inn }} / {{ customer.kpp }}
+                    <span v-if="customer.inn">
+                        {{ customer.inn }}
+                    </span>
+                    <span v-else>
+                        ИНН
+                    </span>
+                    / <span v-if="customer.kpp">
+                        {{ customer.kpp }}
+                    </span>
+                    <span v-else>
+                        КПП
+                    </span>
                 </p>
             </Fieldset>
 
@@ -106,7 +138,8 @@
                 <div class="flex lg:flex-row flex-column">
                     <div class="lg:flex flex-auto align-items-center justify-content-center lg:col-12 flex-wrap">
                         <div class="flex col-12">
-                            <Dropdown v-model="region" editable :options="cities" optionLabel="name" placeholder="Регион заказчика" class="w-12" />
+                            <Dropdown v-model="region" editable :options="cities" optionLabel="name"
+                                      placeholder="Регион заказчика" class="w-12"/>
                         </div>
                         <div class="flex col-12">
                             <Checkbox v-model="noPenalties" :binary="true" inputId="noPenalties"/>
@@ -128,13 +161,15 @@
                 <div class="flex lg:flex-row flex-column">
                     <div class="lg:flex flex-auto align-items-center justify-content-start lg:col-6 flex-wrap">
                         <div class="flex lg:col-6 col-12">
-                            <InputSwitch v-model="priceCalculationOptions.noPenalties" inputId="priceCalculationOptions.noPenalties"/>
+                            <InputSwitch v-model="priceCalculationOptions.noPenalties"
+                                         inputId="priceCalculationOptions.noPenalties"/>
                             <label for="priceCalculationOptions.noPenalties" class="ml-2"> Без штрафов и пеней </label>
                         </div>
                     </div>
                     <div class="lg:flex flex-auto align-items-center justify-content-start lg:col-6 flex-wrap">
                         <div class="flex lg:col-6 col-12">
-                            <Dropdown clear-icon="w-12" v-model="priceCalculationOptions.category" editable optionLabel="name" :options="categories"
+                            <Dropdown clear-icon="w-12" v-model="priceCalculationOptions.category" editable
+                                      optionLabel="name" :options="categories"
                                       placeholder="Категория товаров"/>
                         </div>
                     </div>
@@ -142,8 +177,10 @@
                 <div class="flex lg:flex-row flex-column">
                     <div class="lg:flex flex-auto align-items-center justify-content-start lg:col-12 flex-wrap">
                         <div class="flex col-12">
-                            <Checkbox v-model="priceCalculationOptions.noIndexation" :binary="true" inputId="priceCalculationOptions.noIndexation"/>
-                            <label for="priceCalculationOptions.noIndexation"> Не применять индексацию цен для контрактов заключённых ранее 6 месяцев назад</label>
+                            <Checkbox v-model="priceCalculationOptions.noIndexation" :binary="true"
+                                      inputId="priceCalculationOptions.noIndexation"/>
+                            <label for="priceCalculationOptions.noIndexation"> Не применять индексацию цен для
+                                контрактов заключённых ранее 6 месяцев назад</label>
                         </div>
                     </div>
                 </div>
@@ -161,7 +198,8 @@
                             <p class="ml-2">КОЛИЧЕСТВО ЗНАКОВ ПОСЛЕ ЗАПЯТОЙ</p>
                         </div>
                         <div class="flex lg:col-6 col-12">
-                            <InputNumber class="w-12" v-model="priceCalculationOptions.decimalPlaces" mode="decimal" showButtons :min="0" :max="15"/>
+                            <InputNumber class="w-12" v-model="priceCalculationOptions.decimalPlaces" mode="decimal"
+                                         showButtons :min="0" :max="15"/>
                         </div>
                     </div>
                 </div>
@@ -178,18 +216,19 @@
 import Header from "./../Header.vue";
 import Footer from "./../Footer.vue";
 import InputText from 'primevue/inputtext';
-import Button from 'primevue/button';
 import Checkbox from 'primevue/checkbox';
 import Dropdown from 'primevue/dropdown';
 import InputNumber from 'primevue/inputnumber';
 import Fieldset from "primevue/fieldset";
 import InputSwitch from "primevue/inputswitch";
+import {mapActions, mapState} from "vuex";
+import Dialog from "primevue/dialog";
 
 export default {
-    components: {Header, Footer, InputText, Button, Checkbox, Dropdown, InputNumber, Fieldset, InputSwitch},
+    components: {Header, Footer, InputText, Checkbox, Dropdown, InputNumber, Fieldset, InputSwitch, Dialog},
     data() {
         return {
-            customer: {name: 'Осипов Пётр Иванович', inn: 89644488, kpp: 213123213},
+            showCustomerDialog: false,
             calculationOptions: {
                 order567: false,
                 order450n: true
@@ -213,9 +252,9 @@ export default {
             },
             region: '',
             cities: [
-                { name: 'Иркутск', code: 'NY' },
-                { name: 'Якутск', code: 'RM' },
-                { name: 'Москва', code: 'LDN' },
+                {name: 'Иркутск', code: 'NY'},
+                {name: 'Якутск', code: 'RM'},
+                {name: 'Москва', code: 'LDN'},
             ],
             noPenalties: true,
             excludedContracts: '',
@@ -233,6 +272,7 @@ export default {
         };
     },
     methods: {
+        ...mapActions('nmck', ['fetchCustomer', 'updateCustomer']),
         handleCheckboxChange(checkbox) {
             if (checkbox === 'order567') {
                 this.calculationOptions.order450n = false;
@@ -246,8 +286,23 @@ export default {
             } else if (contractType === 'fz223') {
                 this.contractOptions.fz44 = false;
             }
+        },
+        async updateCustomerDialog() {
+            await this.updateCustomer(this.customerForm);
+            this.showCustomerDialog = false;
         }
-    }
+    },
+    computed: {
+        ...mapState('nmck', ['customer'])
+    },
+    created() {
+        this.fetchCustomer();
+    },
+    watch: {
+        customer(newCustomer) {
+            this.customerForm = {...newCustomer};
+        }
+    },
 }
 </script>
 
