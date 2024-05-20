@@ -65,80 +65,110 @@
             <Fieldset class="border-round-3xl" legend="СТАТУС ЗАКУПОК">
                 <div class="flex lg:flex-row flex-column">
                     <div class="lg:flex flex-auto align-items-center justify-content-center lg:col-6 flex-wrap">
-                            <div class="flex col-6">
-                                <Checkbox v-model="purchaseStatus.completed" inputId="completed" :binary="true"/>
-                                <label for="completed" class="ml-2"> Исполнение завершено </label>
-                            </div>
-                            <div class="flex col-6">
-                                <Checkbox v-model="purchaseStatus.inProgress" inputId="inProgress" :binary="true"/>
-                                <label for="inProgress" class="ml-2"> Исполнение </label>
-                            </div>
+                        <div class="flex lg:col-6 col-12">
+                            <Checkbox v-model="purchaseStatus.completed" inputId="completed" :binary="true"/>
+                            <label for="completed" class="ml-2"> Исполнение завершено </label>
+                        </div>
+                        <div class="flex lg:col-6 col-12">
+                            <Checkbox v-model="purchaseStatus.inProgress" inputId="inProgress" :binary="true"/>
+                            <label for="inProgress" class="ml-2"> Исполнение </label>
+                        </div>
                         <div class="flex col-12">
                             <p class="ml-2">ДАТА ОКОНЧАНИЯ ИСПОЛНЕНИЯ КОНТРАКТА</p>
                         </div>
+                        <div class="flex lg:col-6 col-12">
+                            <InputText class="w-12" v-model="dates.endDate" type="date"/>
+                        </div>
+                        <div class="flex lg:col-6 col-12">
+                            <InputText class="w-12" v-model="dates.endDate2" type="date"/>
+                        </div>
                     </div>
                     <div class="lg:flex flex-auto align-items-center justify-content-center lg:col-6 flex-wrap">
-                        <div class="flex col-6">
+                        <div class="flex lg:col-6 col-12">
                             <Checkbox v-model="purchaseStatus.terminated" inputId="terminated" :binary="true"/>
                             <label for="terminated" class="ml-2"> Исполнение прекращено </label>
                         </div>
-                        <div class="flex col-6">
+                        <div class="flex lg:col-6 col-12">
                             <Checkbox v-model="purchaseStatus.cancelled" inputId="cancelled" :binary="true"/>
                             <label for="cancelled" class="ml-2"> Аннулирован </label>
                         </div>
                         <div class="flex col-12">
                             <p class="ml-2">ДАТА подписания КОНТРАКТА (необязательно)</p>
                         </div>
+                        <div class="flex lg:col-6 col-12">
+                            <InputText class="w-12" v-model="dates.signDate" type="date"/>
+                        </div>
+                        <div class="flex lg:col-6 col-12">
+                            <InputText class="w-12" v-model="dates.signDate2" type="date"/>
+                        </div>
+                    </div>
+                </div>
+                <div class="flex lg:flex-row flex-column">
+                    <div class="lg:flex flex-auto align-items-center justify-content-center lg:col-12 flex-wrap">
+                        <div class="flex col-12">
+                            <Dropdown v-model="region" editable :options="cities" optionLabel="name" placeholder="Регион заказчика" class="w-12" />
+                        </div>
+                        <div class="flex col-12">
+                            <Checkbox v-model="noPenalties" :binary="true" inputId="noPenalties"/>
+                            <label for="noPenalties"> Без штрафов и пеней</label>
+                        </div>
+                        <div class="flex col-12">
+                            <label class="w-12">ИСКЛЮЧИТЬ КОНТРАКТЫ ВЫБРАННЫХ ОРГАНИЗАЦИЙ</label>
+                        </div>
+                        <div class="flex col-12">
+                            <InputText class="w-12" v-model="excludedContracts"
+                                       placeholder="Название / Реквизиты / Адрес / Генеральный директор"/>
+                        </div>
                     </div>
                 </div>
 
             </Fieldset>
 
-
-            <div class="block">
-                <label class="block-label">СТАТУС ЗАКУПОК</label>
-
-                <div class="date-group">
-                    <label>ДАТА ОКОНЧАНИЯ ИСПОЛНЕНИЯ КОНТРАКТА</label>
-                    <InputText v-model="dates.endDate" type="date"/>
-                    <InputText v-model="dates.endDate2" type="date"/>
+            <Fieldset class="border-round-3xl" legend="НАСТРОЙКА РАСЧЁТА ЦЕН">
+                <div class="flex lg:flex-row flex-column">
+                    <div class="lg:flex flex-auto align-items-center justify-content-start lg:col-6 flex-wrap">
+                        <div class="flex lg:col-6 col-12">
+                            <InputSwitch v-model="priceCalculationOptions.noPenalties" inputId="priceCalculationOptions.noPenalties"/>
+                            <label for="priceCalculationOptions.noPenalties" class="ml-2"> Без штрафов и пеней </label>
+                        </div>
+                    </div>
+                    <div class="lg:flex flex-auto align-items-center justify-content-start lg:col-6 flex-wrap">
+                        <div class="flex lg:col-6 col-12">
+                            <Dropdown clear-icon="w-12" v-model="priceCalculationOptions.category" editable optionLabel="name" :options="categories"
+                                      placeholder="Категория товаров"/>
+                        </div>
+                    </div>
                 </div>
-                <div class="date-group">
-                    <label>ДАТА ПОДПИСАНИЯ КОНТРАКТА (НЕОБЯЗАТЕЛЬНО)</label>
-                    <InputText v-model="dates.signDate" type="date"/>
-                    <InputText v-model="dates.signDate2" type="date"/>
+                <div class="flex lg:flex-row flex-column">
+                    <div class="lg:flex flex-auto align-items-center justify-content-start lg:col-12 flex-wrap">
+                        <div class="flex col-12">
+                            <Checkbox v-model="priceCalculationOptions.noIndexation" :binary="true" inputId="priceCalculationOptions.noIndexation"/>
+                            <label for="priceCalculationOptions.noIndexation"> Не применять индексацию цен для контрактов заключённых ранее 6 месяцев назад</label>
+                        </div>
+                    </div>
                 </div>
-                <InputText v-model="region" placeholder="Регион заказчика"/>
-                <Checkbox v-model="noPenalties" label="Без штрафов и пеней"/>
-            </div>
+                <div class="flex lg:flex-row flex-column">
+                    <div class="lg:flex flex-auto align-items-center justify-content-start lg:col-6 flex-wrap">
+                        <div class="flex col-12">
+                            <p class="ml-2">ПРЕДЕЛЬНОЕ ЗНАЧЕНИЕ КОЭФ. ВАРИАЦИИ</p>
+                        </div>
+                        <div class="flex lg:col-6 col-12">
+                            <InputNumber class="w-12" v-model="priceCalculationOptions.variationLimit" mode="decimal"/>
+                        </div>
+                    </div>
+                    <div class="lg:flex flex-auto align-items-center justify-content-start lg:col-6 flex-wrap">
+                        <div class="flex col-12">
+                            <p class="ml-2">КОЛИЧЕСТВО ЗНАКОВ ПОСЛЕ ЗАПЯТОЙ</p>
+                        </div>
+                        <div class="flex lg:col-6 col-12">
+                            <InputNumber class="w-12" v-model="priceCalculationOptions.decimalPlaces" mode="decimal" showButtons :min="0" :max="15"/>
+                        </div>
+                    </div>
+                </div>
+            </Fieldset>
 
-            <div class="block">
-                <label class="block-label">ИСКЛЮЧИТЬ КОНТРАКТЫ ВЫБРАННЫХ ОРГАНИЗАЦИЙ</label>
-                <InputText v-model="excludedContracts"
-                           placeholder="Название / Реквизиты / Адрес / Генеральный директор"/>
-            </div>
-
-            <div class="block">
-                <label class="block-label">НАСТРОЙКА РАСЧЁТА ЦЕН</label>
-                <div class="toggle-group">
-                    <ToggleButton v-model="priceCalculationOptions.noPenalties" onLabel="Без штрафов и пеней"
-                                  offLabel="Со штрафами и пенями"/>
-                    <Dropdown v-model="priceCalculationOptions.category" :options="categories"
-                              placeholder="Категория товаров"/>
-                </div>
-                <Checkbox v-model="priceCalculationOptions.noIndexation"
-                          label="Не применять индексацию цен для контрактов заключённых ранее 6 месяцев назад"/>
-                <div class="input-group">
-                    <label>ПРЕДЕЛЬНОЕ ЗНАЧЕНИЕ КОЭФ. ВАРИАЦИИ</label>
-                    <InputText v-model="priceCalculationOptions.variationLimit"/>
-                </div>
-                <div class="input-group">
-                    <label>КОЛИЧЕСТВО ЗНАКОВ ПОСЛЕ ЗАПЯТОЙ</label>
-                    <InputNumber v-model="priceCalculationOptions.decimalPlaces"/>
-                </div>
-            </div>
-
-            <Button label="ДАЛЕЕ" class="next-button"/>
+            <Button class="consultation-button h-3rem" label="ДАЛЕЕ" icon="pi pi-arrow-right"
+                    icon-pos="right"/>
         </div>
     </section>
     <Footer></Footer>
@@ -150,13 +180,13 @@ import Footer from "./../Footer.vue";
 import InputText from 'primevue/inputtext';
 import Button from 'primevue/button';
 import Checkbox from 'primevue/checkbox';
-import ToggleButton from 'primevue/togglebutton';
 import Dropdown from 'primevue/dropdown';
 import InputNumber from 'primevue/inputnumber';
 import Fieldset from "primevue/fieldset";
+import InputSwitch from "primevue/inputswitch";
 
 export default {
-    components: {Header, Footer, InputText, Button, Checkbox, ToggleButton, Dropdown, InputNumber, Fieldset},
+    components: {Header, Footer, InputText, Button, Checkbox, Dropdown, InputNumber, Fieldset, InputSwitch},
     data() {
         return {
             customer: {name: 'Осипов Пётр Иванович', inn: 89644488, kpp: 213123213},
@@ -182,18 +212,23 @@ export default {
                 signDate2: '2024-01-31'
             },
             region: '',
+            cities: [
+                { name: 'Иркутск', code: 'NY' },
+                { name: 'Якутск', code: 'RM' },
+                { name: 'Москва', code: 'LDN' },
+            ],
             noPenalties: true,
             excludedContracts: '',
             priceCalculationOptions: {
                 noPenalties: true,
-                category: null,
+                category: '',
                 noIndexation: true,
                 variationLimit: 33,
                 decimalPlaces: 2
             },
             categories: [
-                {label: 'Категория 1', value: 'cat1'},
-                {label: 'Категория 2', value: 'cat2'}
+                {name: 'Категория 1', code: 'cat1'},
+                {name: 'Категория 2', code: 'cat2'}
             ]
         };
     },
