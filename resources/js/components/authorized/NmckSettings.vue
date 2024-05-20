@@ -138,7 +138,7 @@
                 <div class="flex lg:flex-row flex-column">
                     <div class="lg:flex flex-auto align-items-center justify-content-center lg:col-12 flex-wrap">
                         <div class="flex col-12">
-                            <Dropdown v-model="region" editable :options="cities" optionLabel="name"
+                            <Dropdown v-model="region" editable :options="regions" optionLabel="name"
                                       placeholder="Регион заказчика" class="w-12"/>
                         </div>
                         <div class="flex col-12">
@@ -168,7 +168,7 @@
                     </div>
                     <div class="lg:flex flex-auto align-items-center justify-content-start lg:col-6 flex-wrap">
                         <div class="flex lg:col-6 col-12">
-                            <Dropdown clear-icon="w-12" v-model="priceCalculationOptions.category" editable
+                            <Dropdown class="w-12" v-model="priceCalculationOptions.category" editable
                                       optionLabel="name" :options="categories"
                                       placeholder="Категория товаров"/>
                         </div>
@@ -198,7 +198,7 @@
                             <p class="ml-2">КОЛИЧЕСТВО ЗНАКОВ ПОСЛЕ ЗАПЯТОЙ</p>
                         </div>
                         <div class="flex lg:col-6 col-12">
-                            <InputNumber class="w-12" v-model="priceCalculationOptions.decimalPlaces" mode="decimal"
+                            <InputNumber class="lg:w-auto w-12" v-model="priceCalculationOptions.decimalPlaces" mode="decimal"
                                          showButtons :min="0" :max="15"/>
                         </div>
                     </div>
@@ -251,11 +251,6 @@ export default {
                 signDate2: '2024-01-31'
             },
             region: '',
-            cities: [
-                {name: 'Иркутск', code: 'NY'},
-                {name: 'Якутск', code: 'RM'},
-                {name: 'Москва', code: 'LDN'},
-            ],
             noPenalties: true,
             excludedContracts: '',
             priceCalculationOptions: {
@@ -272,7 +267,7 @@ export default {
         };
     },
     methods: {
-        ...mapActions('nmck', ['fetchCustomer', 'updateCustomer']),
+        ...mapActions('nmck', ['fetchCustomer', 'updateCustomer', 'fetchRegions']),
         handleCheckboxChange(checkbox) {
             if (checkbox === 'order567') {
                 this.calculationOptions.order450n = false;
@@ -293,10 +288,11 @@ export default {
         }
     },
     computed: {
-        ...mapState('nmck', ['customer'])
+        ...mapState('nmck', ['customer','regions'])
     },
     created() {
         this.fetchCustomer();
+        this.fetchRegions();
     },
     watch: {
         customer(newCustomer) {

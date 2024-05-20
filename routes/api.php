@@ -33,4 +33,5 @@ Route::middleware('auth:api')->group(function () {
     Route::put('/medicine-rows/{id}', [OfferController::class, 'update']);
     Route::get('/customer', [CustomerController::class, 'getCustomer']);
     Route::post('/customer', [CustomerController::class, 'updateCustomer']);
+    Route::get('/regions', [CustomerController::class, 'getRegion']);
 });

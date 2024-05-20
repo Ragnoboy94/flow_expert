@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Customer;
+use App\Models\Region;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -21,8 +22,6 @@ class CustomerController extends Controller
                 'kpp' => $user->kpp
             ]);
         }
-
-        return response()->json(['message' => 'User not found'], 404);
     }
 
     public function updateCustomer(Request $request)
@@ -45,5 +44,11 @@ class CustomerController extends Controller
         }
 
         return response()->json($customer);
+    }
+
+    public function getRegion()
+    {
+        $regions = Region::all();
+        return response()->json($regions);
     }
 }

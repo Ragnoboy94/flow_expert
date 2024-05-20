@@ -5,11 +5,15 @@ export const nmck = {
             name: '',
             inn: '',
             kpp: ''
-        }
+        },
+        regions: []
     },
     mutations: {
         SET_CUSTOMER(state, customer) {
             state.customer = customer;
+        },
+        SET_REGIONS(state, regions) {
+            state.regions = regions;
         }
     },
     actions: {
@@ -28,9 +32,18 @@ export const nmck = {
             } catch (error) {
                 console.error('Ошибка при обновлении данных заказчика:', error);
             }
+        },
+        async fetchRegions({ commit }) {
+            try {
+                const response = await axios.get('/api/regions');
+                commit('SET_REGIONS', response.data);
+            } catch (error) {
+                console.error('Ошибка при получении данных регионов:', error);
+            }
         }
     },
     getters: {
-        customer: (state) => state.customer
+        customer: (state) => state.customer,
+        regions: (state) => state.regions
     }
 }
