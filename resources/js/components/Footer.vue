@@ -3,13 +3,13 @@
         <div class="content-container" style="max-width: 100%;">
             <div class="flex flex-column lg:flex-row">
                 <div
-                    class="flex lg:mt-0 mt-3 lg:align-content-start align-items-center lg:justify-content-start justify-content-center lg:col-6">
+                    class="flex lg:mt-0 mt-3 lg:align-content-start align-items-center lg:justify-content-start justify-content-center lg:col-8">
                     <router-link to="/" class="logo-container">
                         <img src="../../pics/logo.webp" alt="FlowExpert" class="header-logo">
                         <span class="logo-title">Flow Expert</span>
                     </router-link>
                 </div>
-                <div class="flex-1 lg:mt-0 mt-3 lg:col-6">
+                <div class="flex-1 lg:mt-0 mt-3 lg:col-4">
                     <div class="flex-row">
                         <i class="pi pi-map-marker feature-icon"></i>
                         <a :href="mapLink" target="_blank">г. Иркутск, ул. Академическая, д. 26, ТЦ «БУМ»</a>
