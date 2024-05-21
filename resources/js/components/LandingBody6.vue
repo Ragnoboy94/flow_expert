@@ -1,6 +1,6 @@
 <template>
     <section class="landing-block2 ">
-        <div class="content-container">
+        <div class="content-container mx-0">
             <div class="title-section">
                 <h3>Команда Flow Expert</h3>
             </div>

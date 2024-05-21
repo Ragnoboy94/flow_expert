@@ -28,7 +28,7 @@ export default {
 <style scoped>
 
 .title {
-    font-size: 5.5vw;
+    font-size: 7vmin;
 }
 
 .subtitle {
