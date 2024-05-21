@@ -24,7 +24,7 @@ class OfferController extends Controller
                 'medicine_rows' => $medicineRows
             ]);
         }
-        return response()->json($offers);
+        return response()->json(['offer' => $offers]);
     }
 
     public function store(Request $request)

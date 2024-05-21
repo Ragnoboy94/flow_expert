@@ -7,6 +7,8 @@
                 <h3>Инструкция</h3>
                 <p>Как мне получить обоснование НМЦК?</p>
             </div>
+            <Image src="../instructions/GetJustificationNmck1.png" alt="Image" width="70%" />
+            <p>Нажмите на клавишу “Скачать протокол” после прохождения всех этапов подготовки к расчету НМЦК. Кнопка подсветится ярким зеленым цветом.</p>
         </div>
     </section>
     <Footer></Footer>
@@ -16,9 +18,10 @@
 
 import Header from "./../Header.vue";
 import Footer from "./../Footer.vue";
+import Image from "primevue/image";
 
 export default {
-    components: {Header, Footer}
+    components: {Header, Footer, Image}
 }
 </script>
 <style scoped>

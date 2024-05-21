@@ -40,12 +40,21 @@
                         <Button class="consultation-button" label="Сформированный лот"></Button>
                     </template>
                     <p class="m-0">
-                        Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque
-                        laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto
-                        beatae vitae dicta sunt explicabo. Nemo enim
-                        ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni
-                        dolores eos qui ratione voluptatem sequi nesciunt. Consectetur, adipisci velit, sed quia non
-                        numquam eius modi.
+                        <DataTable :value="files" table-style="border-color: green">
+                            <Column field="filename" header="Имя файла"></Column>
+                            <Column field="created_at" header="Дата загрузки">
+                                <template #body="{ data }">
+                                    {{ new Date(data.created_at).toLocaleDateString() }}
+                                </template>
+                            </Column>
+                            <Column field="filename" header="Cкачать исходный файл ">
+                                <template #body="{ data }">
+                                    <a :href="`/uploads/${data.filename}`" download>
+                                        <i class="pi pi-file-export feature-icon"></i>
+                                    </a>
+                                </template>
+                            </Column>
+                        </DataTable>
                     </p>
                 </TabPanel>
                 <TabPanel>
@@ -53,12 +62,28 @@
                         <Button class="consultation-button" label="Коммерческое предложение"></Button>
                     </template>
                     <p class="m-0">
-                        At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum
-                        deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non
-                        provident, similique sunt in culpa qui
-                        officia deserunt mollitia animi, id est laborum et dolorum fuga. Et harum quidem rerum facilis
-                        est et expedita distinctio. Nam libero tempore, cum soluta nobis est eligendi optio cumque nihil
-                        impedit quo minus.
+                        <DataTable :value="offers" table-style="border-color: green">
+                            <Column field="filename" header="Имя файла">
+                                <template #body="{ data }">
+                                    КОММЕРЧЕСКОЕ ПРЕДЛОЖЕНИЕ
+                                </template>
+                            </Column>
+                            <Column field="created_at" header="Дата загрузки">
+                                <template #body="{ data }">
+                                    {{ new Date(data.created_at).toLocaleDateString() }}
+                                </template>
+                            </Column>
+                            <Column field="file_status_id" header="Скачать обработанный">
+                                <template #body="{ data }">
+                                    <a v-if="data.file_status_id === 3" :href="`/uploads/${data.filename}`" download>
+                                        <i class="pi pi-file-export feature-icon"></i>
+                                    </a>
+                                    <span v-else>
+                                        Файл находится в процессе обработки!
+                                    </span>
+                                </template>
+                            </Column>
+                        </DataTable>
                     </p>
                 </TabPanel>
             </TabView>
@@ -77,6 +102,7 @@ import TabView from "primevue/tabview";
 import TabPanel from 'primevue/tabpanel';
 import DataTable from "primevue/datatable";
 import Column from "primevue/column";
+import offers from "./Offers.vue";
 
 
 export default {
@@ -103,13 +129,13 @@ export default {
         };
     },
     methods: {
-        ...mapActions('upload', ['fetchFiles']),
+        ...mapActions('upload', ['fetchFiles', 'fetchOffers']),
         navigate(route) {
             this.$router.push(route);
         },
     },
     computed: {
-        ...mapState('upload', ['files']),
+        ...mapState('upload', ['files', 'offers']),
         activeIndex() {
             const activeItem = this.items.findIndex(item => this.$route.path === item.to);
             return activeItem !== -1 ? activeItem : null;
@@ -117,6 +143,7 @@ export default {
     },
     created() {
         this.fetchFiles();
+        this.fetchOffers();
     }
 
 }

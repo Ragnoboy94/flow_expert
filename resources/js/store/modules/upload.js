@@ -86,7 +86,8 @@ export const upload = {
                 const { offer, medicine_rows } = response.data;
 
                 if (offer) {
-                    commit('SET_OFFERS', [offer]);                 }
+                    commit('SET_OFFERS', [offer]);
+                }
                 if (medicine_rows) {
                     commit('SET_OFFER_ROWS', medicine_rows);
                 }
