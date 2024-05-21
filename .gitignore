@@ -19,3 +19,4 @@ yarn-error.log
 /public/uploads/*
 /public/processed_files/*
 /public/offers/*
+/public/offers_export/*

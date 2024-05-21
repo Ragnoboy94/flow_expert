@@ -17,6 +17,7 @@ class Offer extends Model
         'file_path',
         'excel_file_path',
         'file_status_id',
+        'exel_exported_at'
     ];
 
     public function fileStatus()

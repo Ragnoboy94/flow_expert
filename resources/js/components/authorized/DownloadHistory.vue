@@ -75,7 +75,7 @@
                             </Column>
                             <Column field="file_status_id" header="Скачать обработанный">
                                 <template #body="{ data }">
-                                    <a v-if="data.file_status_id === 3" :href="`/uploads/${data.filename}`" download>
+                                    <a v-if="data.file_status_id === 3" :href="`/offers_export/${data.excel_file_path}`" download>
                                         <i class="pi pi-file-export feature-icon"></i>
                                     </a>
                                     <span v-else>
