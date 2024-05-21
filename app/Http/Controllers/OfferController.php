@@ -7,7 +7,6 @@ use App\Models\MedicineRows;
 use App\Models\Offer;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 use Maatwebsite\Excel\Facades\Excel;
 
@@ -21,7 +20,7 @@ class OfferController extends Controller
         if ($offers->file_status_id == 3 && !empty($offers->excel_file_path)) {
             $medicineRows = MedicineRows::where('offer_id', $offers->id)->get();
             if ($offers->updated_at > $offers->exel_exported_at || is_null($offers->exel_exported_at)) {
-                Log::info('start');
+
                 $filePath = 'offers_export/' . $offers->excel_file_path;
                 Excel::store(new MedicinesRowsExport($offers), $filePath, 'public', \Maatwebsite\Excel\Excel::XLSX);
                 $offers->update(['exel_exported_at' => now()]);
