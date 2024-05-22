@@ -2,9 +2,7 @@
     <Header></Header>
     <section class="landing-block2 about-section">
         <div class="content-container">
-            <div>
-                <TabMenu :model="items" :activeIndex="activeIndex"/>
-            </div>
+            <ProfileTabMenu></ProfileTabMenu>
             <div class="flex lg:flex-row flex-column">
                 <Card class="card-landing2 flex flex-column mt-3 lg:col-9 flex-order-1 lg:flex-order-0">
                     <template #content>
@@ -97,28 +95,12 @@ import LoginButton from "../buttons/LoginButton.vue";
 import TabMenu from "primevue/tabmenu";
 import {mapState} from "vuex";
 import Dialog from "primevue/dialog";
+import ProfileTabMenu from "./ProfileTabMenu.vue";
 
 export default {
-    components: {LoginButton, Header, Footer, InputText, Card, TabMenu, Dialog},
+    components: {ProfileTabMenu, LoginButton, Header, Footer, InputText, Card, TabMenu, Dialog},
     data() {
         return {
-            items: [
-                {
-                    label: 'Профиль пользователя', to: '/profile', command: () => {
-                        this.navigate('/profile')
-                    }
-                },
-                {
-                    label: 'История загрузок', to: '/download_history', command: () => {
-                        this.navigate('/download_history')
-                    }
-                },
-                {
-                    label: 'Черновик по расчёту нмцк', to: '/nmck_history', command: () => {
-                        this.navigate('/nmck_history')
-                    }
-                },
-            ],
             changePassword: false,
             changePasswordData: {
                 old_password: '',
@@ -128,9 +110,6 @@ export default {
         };
     },
     methods: {
-        navigate(route) {
-            this.$router.push(route);
-        },
         saveChanges() {
             this.user.phone = this.user.phone.replace(/[^\d]/g, '');
             this.$store.dispatch('profile/updateUserData');
@@ -147,10 +126,6 @@ export default {
     },
     computed: {
         ...mapState('profile', ['dialogProfileVisible', 'dialogProfileMessage', 'dialogProfileColor']),
-        activeIndex() {
-            const activeItem = this.items.findIndex(item => this.$route.path === item.to);
-            return activeItem !== -1 ? activeItem : null;
-        },
         user() {
             return this.$store.getters['profile/userInfo'];
         },

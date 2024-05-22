@@ -2,9 +2,7 @@
     <Header></Header>
     <section class="landing-block2 about-section">
         <div class="content-container">
-            <div>
-                <TabMenu :model="items" :activeIndex="activeIndex"/>
-            </div>
+            <ProfileTabMenu></ProfileTabMenu>
             <TabView>
                 <TabPanel>
                     <template #header>
@@ -103,43 +101,16 @@ import TabPanel from 'primevue/tabpanel';
 import DataTable from "primevue/datatable";
 import Column from "primevue/column";
 import offers from "./Offers.vue";
+import ProfileTabMenu from "./ProfileTabMenu.vue";
 
 
 export default {
-    components: {LoginButton, Header, Footer, TabMenu, TabView, TabPanel, DataTable, Column},
-    data() {
-        return {
-            items: [
-                {
-                    label: 'Профиль пользователя', to: '/profile', command: () => {
-                        this.navigate('/profile')
-                    }
-                },
-                {
-                    label: 'История загрузок', to: '/download_history', command: () => {
-                        this.navigate('/download_history')
-                    }
-                },
-                {
-                    label: 'Черновик по расчёту нмцк', to: '/nmck_history', command: () => {
-                        this.navigate('/nmck_history')
-                    }
-                },
-            ],
-        };
-    },
+    components: {ProfileTabMenu, LoginButton, Header, Footer, TabMenu, TabView, TabPanel, DataTable, Column},
     methods: {
         ...mapActions('upload', ['fetchFiles', 'fetchOffers']),
-        navigate(route) {
-            this.$router.push(route);
-        },
     },
     computed: {
         ...mapState('upload', ['files', 'offers']),
-        activeIndex() {
-            const activeItem = this.items.findIndex(item => this.$route.path === item.to);
-            return activeItem !== -1 ? activeItem : null;
-        },
     },
     created() {
         this.fetchFiles();

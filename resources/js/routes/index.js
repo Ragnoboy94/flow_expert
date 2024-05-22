@@ -27,6 +27,7 @@ import AgreePersonal from "../components/AgreePersonal.vue";
 import Lots from "../components/authorized/Lots.vue";
 import Offers from "../components/authorized/Offers.vue";
 import NmckSettings from "../components/authorized/NmckSettings.vue";
+import NmckHistory from "../components/authorized/NmckHistory.vue";
 
 const routes = [
     {
@@ -100,9 +101,15 @@ const routes = [
         meta: { requiresAuth: true }
     },
     {
-        path: '/nmck-settings',
+        path: '/nmck_settings',
         name: 'NmckSettings',
         component: NmckSettings,
+        meta: { requiresAuth: true }
+    },
+    {
+        path: '/nmck_history',
+        name: 'NmckHistory',
+        component: NmckHistory,
         meta: { requiresAuth: true }
     },
 

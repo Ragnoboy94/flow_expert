@@ -19,10 +19,6 @@
                     <i class="pi pi-search-plus step-icon"></i>
                     <span>?</span>
                 </div>
-                <div class="flex mt-3 lg:col-6">
-                    <i class="pi pi-users step-icon"></i>
-                    <span>?</span>
-                </div>
             </div>
         </div>
     </section>

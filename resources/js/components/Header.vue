@@ -33,10 +33,10 @@
             <Button class="sidebar-button" text raised @click="toggleSubMenu"><i class="pi pi-calculator ml-0"></i>
                 <span class="ml-auto">Расчёт НМЦК</span> <i class="pi pi-chevron-down ml-auto"></i></Button>
             <template v-if="showSubMenu">
-                <router-link to="/nmck-settings">
+                <router-link to="/nmck_settings">
                     <Button label="Настройка параметров расчёта НМЦК" class="sidebar-button ml-4 w-11" text raised/>
                 </router-link>
-                <router-link to="/nmck-basis">
+                <router-link to="/nmck_basis">
                     <Button label="Обоснование НМЦК" class="sidebar-button ml-4 w-11" text raised/>
                 </router-link>
             </template>
