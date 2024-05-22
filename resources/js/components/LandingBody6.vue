@@ -1,7 +1,7 @@
 <template>
     <section class="landing-block2 ">
         <div class="content-container mx-0">
-            <div class="title-section">
+            <div class="title-section" style="margin-left: 10%">
                 <h3>Команда Flow Expert</h3>
             </div>
             <Carousel :value="employees" :numVisible="3" :numScroll="1" :responsiveOptions="responsiveOptions" circular :autoplayInterval="3000">
