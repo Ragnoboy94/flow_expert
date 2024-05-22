@@ -11,7 +11,7 @@
                             {{ new Date(data.created_at).toLocaleDateString() }}
                         </template>
                     </Column>
-                    <Column field="filename" header="СКАЧАТЬ ЧЕРНОВИК">
+                    <Column field="filename" header="Скачать черновик">
                         <template #body="{ data }">
                             <a :href="`/uploads/${data.filename}`" download>
                                 <i class="pi pi-file-export feature-icon"></i>
