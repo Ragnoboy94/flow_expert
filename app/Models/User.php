@@ -27,7 +27,8 @@ class User extends Authenticatable
         'company',
         'inn',
         'kpp',
-        'category_id'
+        'category_id',
+        'role_id'
     ];
     public function category()
     {
@@ -65,7 +66,8 @@ class User extends Authenticatable
     {
         return $this->hasOne(Customer::class);
     }
-    public function roles() {
-        return $this->hasOne(Role::class, 'user_id')->latest();
+    public function role()
+    {
+        return $this->belongsTo(Role::class);
     }
 }

@@ -43,7 +43,14 @@ class UserCrudController extends CrudController
         $this->crud->addColumn(['name' => 'email', 'type' => 'email', 'label' => 'Email']);
         $this->crud->addColumn(['name' => 'phone', 'type' => 'text', 'label' => 'Телефон']);
         $this->crud->addColumn(['name' => 'company', 'type' => 'text', 'label' => 'Компания']);
-        $this->crud->addColumn(['name' => 'role', 'type' => 'text', 'label' => 'Роль']);
+        $this->crud->addColumn([
+            'name' => 'role',
+            'type' => 'select',
+            'label' => 'Роль',
+            'entity' => 'role',
+            'attribute' => 'description',
+            'model' => "App\Models\Role",
+        ]);
     }
 
     /**
@@ -67,12 +74,12 @@ class UserCrudController extends CrudController
         ]);
         $this->crud->addField(['name' => 'kpp', 'type' => 'text', 'label' => 'КПП']);
         $this->crud->addField([
-            'label' => "Role",
+            'label' => "Роль",
             'type' => 'select',
-            'name' => 'user_id',
+            'name' => 'role_id',
             'entity' => 'role',
+            'attribute' => 'description',
             'model' => "App\Models\Role",
-            'attribute' => 'role',
         ]);
 
         $this->crud->addField([
@@ -97,6 +104,33 @@ class UserCrudController extends CrudController
      */
     protected function setupUpdateOperation()
     {
-        $this->setupCreateOperation();
+        $this->crud->addField(['name' => 'name', 'type' => 'text', 'label' => 'ФИО']);
+        $this->crud->addField(['name' => 'email', 'type' => 'email', 'label' => 'Email']);
+        $this->crud->addField(['name' => 'phone', 'type' => 'text', 'label' => 'Телефон']);
+        $this->crud->addField(['name' => 'company', 'type' => 'text', 'label' => 'Компания']);
+        $this->crud->addField(['name' => 'position', 'type' => 'text', 'label' => 'Должность']);
+        $this->crud->addField([
+            'name' => 'inn',
+            'type' => 'text',
+            'label' => 'ИНН'
+        ]);
+        $this->crud->addField(['name' => 'kpp', 'type' => 'text', 'label' => 'КПП']);
+        $this->crud->addField([
+            'label' => "Роль",
+            'type' => 'select',
+            'name' => 'role_id',
+            'entity' => 'role',
+            'attribute' => 'description',
+            'model' => "App\Models\Role",
+        ]);
+
+        $this->crud->addField([
+            'label' => "Category",
+            'type' => 'select',
+            'name' => 'category_id',
+            'entity' => 'category',
+            'model' => "App\Models\Category",
+            'attribute' => 'name',
+        ]);
     }
 }

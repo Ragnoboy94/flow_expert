@@ -27,7 +27,7 @@ class CheckIfAdmin
      */
     private function checkIfUserIsAdmin($user)
     {
-        if ($user->id === 1) {
+        if ($user->role_id === 1 || $user->role_id === 2) {
             return true;
         } else {
             return false;

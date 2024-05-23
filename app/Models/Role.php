@@ -10,20 +10,10 @@ class Role extends Model
 {
     use CrudTrait;
     use HasFactory;
+    protected $fillable = ['name', 'description'];
 
-    protected $table = 'roles';
-
-    public function user() {
-        return $this->belongsTo('App\User', 'user_id');
-    }
-
-    protected $fillable = [
-        'role',
-    ];
-
-
-    public function getPhoneNumberAttribute()
+    public function users()
     {
-        return $this->user->phone;
+        return $this->hasMany(User::class);
     }
 }
