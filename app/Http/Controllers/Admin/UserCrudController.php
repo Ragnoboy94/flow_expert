@@ -43,6 +43,7 @@ class UserCrudController extends CrudController
         $this->crud->addColumn(['name' => 'email', 'type' => 'email', 'label' => 'Email']);
         $this->crud->addColumn(['name' => 'phone', 'type' => 'text', 'label' => 'Телефон']);
         $this->crud->addColumn(['name' => 'company', 'type' => 'text', 'label' => 'Компания']);
+        $this->crud->addColumn(['name' => 'role', 'type' => 'text', 'label' => 'Роль']);
     }
 
     /**
@@ -65,6 +66,14 @@ class UserCrudController extends CrudController
             'label' => 'ИНН'
         ]);
         $this->crud->addField(['name' => 'kpp', 'type' => 'text', 'label' => 'КПП']);
+        $this->crud->addField([
+            'label' => "Role",
+            'type' => 'select',
+            'name' => 'user_id',
+            'entity' => 'role',
+            'model' => "App\Models\Role",
+            'attribute' => 'role',
+        ]);
 
         $this->crud->addField([
             'label' => "Category",
