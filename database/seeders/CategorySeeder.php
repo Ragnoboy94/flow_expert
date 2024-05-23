@@ -2,9 +2,8 @@
 
 namespace Database\Seeders;
 
-use App\Models\Category;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\DB;
 
 class CategorySeeder extends Seeder
 {
@@ -13,15 +12,11 @@ class CategorySeeder extends Seeder
      */
     public function run(): void
     {
-        $categories = [
-            ['name' => 'регионального министерства или комитета здравоохранения'],
-            ['name' => 'аптечной сети федерального или регионального уровня'],
-            ['name' => 'частной клиники'],
-            ['name' => 'государственного учреждения здравоохранения'],
-        ];
-
-        foreach ($categories as $category) {
-            Category::create($category);
-        }
+            DB::table('categories')->insert([
+                ['name' => 'регионального министерства или комитета здравоохранения'],
+                ['name' => 'аптечной сети федерального или регионального уровня'],
+                ['name' => 'частной клиники'],
+                ['name' => 'государственного учреждения здравоохранения'],
+            ]);
     }
 }
