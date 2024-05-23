@@ -1,0 +1,57 @@
+
+#crudTable_wrapper #crudTable .crud_bulk_actions_checkbox input.form-check-input,
+#crudTable_wrapper table.dataTable .crud_bulk_actions_checkbox input.form-check-input {
+    position: relative;
+    margin: 0 auto;
+}
+
+#crudTable {
+    background-color: #FFFFFF !important;
+}
+
+h1[bp-section=page-heading] {
+    font-size: 2rem;
+    line-height: 2.1rem;
+}
+
+
+.container-repeatable-elements .controls button {
+    background-color: #e8ebf0 !important;
+    height: 24px !important;
+    width: 24px !important;
+    margin-left: 4px!important;
+}
+
+.container-repeatable-elements .controls {
+    left: -16px !important;
+}
+
+.sidebar.sidebar-pills .nav-link > span {
+    pointer-events: none;
+}
+
+.sidebar.sidebar-pills .nav-dropdown .nav-link:not(.nav-dropdown-toggle),
+.sidebar.sidebar-pills .nav-dropdown .nav-title {
+    padding-left: 1.5rem;
+}
+
+.alert > ul {
+    margin-bottom: 0;
+}
+
+#datatable_search_stack .input-icon-addon {
+    display: none;
+}
+
+#livewire-publish-modal .btn-close {
+    box-sizing: content-box;
+    width: 0.1em;
+    height: 0.1em;
+    padding: 0.25em 0.25em;
+    margin-right: -0.2em;
+    margin-top: -0.2em;
+    background: transparent url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='rgba%2844, 56, 74, 0.95%29'%3e%3cpath d='M.293.293a1 1 0 0 1 1.414 0L8 6.586 14.293.293a1 1 0 1 1 1.414 1.414L9.414 8l6.293 6.293a1 1 0 0 1-1.414 1.414L8 9.414l-6.293 6.293a1 1 0 0 1-1.414-1.414L6.586 8 .293 1.707a1 1 0 0 1 0-1.414z'/%3e%3c/svg%3e") center/1em auto no-repeat;
+    border: 0;
+    border-radius: 0.375rem;
+    opacity: .5;
+}
