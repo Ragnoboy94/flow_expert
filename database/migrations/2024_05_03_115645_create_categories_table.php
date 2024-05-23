@@ -16,8 +16,6 @@ return new class extends Migration
             $table->string('name');
             $table->timestamps();
         });
-        $seeder = new \Database\Seeders\CategorySeeder();
-        $seeder->run();
     }
 
     /**
