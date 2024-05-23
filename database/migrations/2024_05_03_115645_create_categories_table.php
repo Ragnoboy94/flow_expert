@@ -16,9 +16,8 @@ return new class extends Migration
             $table->string('name');
             $table->timestamps();
         });
-        Artisan::call('db:seed', [
-            '--class' => 'CategorySeeder'
-        ]);
+        $seeder = new \Database\Seeders\CategorySeeder();
+        $seeder->run();
     }
 
     /**

@@ -83,8 +83,14 @@ services:
 networks:
     web:
         external: true
+#        driver: bridge
+#        driver_opts:
+#            com.docker.network.driver.mtu: 1450
     internal:
         external: false
+#        driver_opts:
+#            com.docker.network.driver.mtu: 1450
+
 
 #Volumes
 volumes:
