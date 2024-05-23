@@ -36,6 +36,20 @@ docker-compose exec app bash
 composer install
 php artisan key:generate
 ```
+>Если есть проблемы с композером, то меняем на это в докер композере
+```
+#Docker Networks
+networks:
+    web:
+        external: true
+        driver: bridge
+        driver_opts:
+            com.docker.network.driver.mtu: 1450
+    internal:
+        external: false
+        driver_opts:
+            com.docker.network.driver.mtu: 1450
+```
 >Если есть проблемы с бд, то делаем
 ```
 docker-compose exec pgsql bash
