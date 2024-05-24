@@ -129,6 +129,10 @@ export default {
 
         logout() {
             this.Logout();
+            (!this.isAuthenticated)
+            {
+                this.$router.push('/');
+            }
         },
         login() {
             this.loginInfo.phone = this.loginInfo.phone.replace(/[^\d]/g, '');
