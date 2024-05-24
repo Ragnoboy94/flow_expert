@@ -4,16 +4,39 @@ export const nmck = {
         customer: {
             name: '',
             inn: '',
-            kpp: ''
+            kpp: '',
+            order567: false,
+            order450n: true,
+            fz44: false,
+            fz223: true,
+            eaec: false,
+            completed: false,
+            inProgress: false,
+            terminated: false,
+            cancelled: false,
+            endDate: null,
+            endDate2: null,
+            signDate: null,
+            signDate2: null,
+            region: '',
+            noPenalties1: false,
+            noPenalties2: false,
+            excludedContracts: '',
+            noIndexation: false,
+            variationLimit: 2,
+            decimalPlaces: 2
         },
         regions: []
     },
     mutations: {
         SET_CUSTOMER(state, customer) {
-            state.customer = customer;
+            Object.assign(state.customer, customer);
         },
         SET_REGIONS(state, regions) {
             state.regions = regions;
+        },
+        SET_ADDITIONAL_DATA(state, additionalData) {
+            Object.assign(state.customer, additionalData);
         }
     },
     actions: {
@@ -39,6 +62,14 @@ export const nmck = {
                 commit('SET_REGIONS', response.data);
             } catch (error) {
                 console.error('Ошибка при получении данных регионов:', error);
+            }
+        },
+        async saveAdditionalData({ state, commit }) {
+            try {
+                const response = await axios.post('/api/customer/additional', state.customer);
+                commit('SET_CUSTOMER', response.data);
+            } catch (error) {
+                console.error('Ошибка при сохранении дополнительных данных заказчика:', error);
             }
         }
     },

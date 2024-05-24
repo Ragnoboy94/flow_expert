@@ -37,8 +37,7 @@ class LoginController extends Controller
             'fullName' => 'required',
             'phone' => 'required|min:11',
         ]);
-
-        $user = User::where('name', $request->fullName)
+        $user = User::where('name', $request->fullName)->orWhere('name', mb_strtolower($request->fullName))
             ->where('phone', $request->phone)
             ->first();
 

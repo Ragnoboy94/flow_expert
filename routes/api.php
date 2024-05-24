@@ -34,4 +34,5 @@ Route::middleware('auth:api')->group(function () {
     Route::get('/customer', [CustomerController::class, 'getCustomer']);
     Route::post('/customer', [CustomerController::class, 'updateCustomer']);
     Route::get('/regions', [CustomerController::class, 'getRegion']);
+    Route::post('/customer/additional', [CustomerController::class, 'updateAdditionalData']);
 });
