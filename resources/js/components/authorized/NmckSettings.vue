@@ -1,7 +1,7 @@
 <template>
     <Header></Header>
     <section class="landing-block2">
-        <div class="content-container">
+        <div class="content-container p-fluid">
             <div class="title-section">
                 <h3>Настройка параметров расчёта НМЦК</h3>
             </div>
@@ -21,11 +21,13 @@
                         </div>
                         <div class="p-field">
                             <label for="inn">ИНН</label>
-                            <InputText pattern=".{12,}" title="ИНН должен состоять из 12 цифр" v-mask="'############'" id="inn" class="field" v-model="customerForm.inn" required/>
+                            <InputText pattern=".{12,}" title="ИНН должен состоять из 12 цифр" v-mask="'############'"
+                                       id="inn" class="field" v-model="customerForm.inn" required/>
                         </div>
                         <div class="p-field">
                             <label for="kpp">КПП</label>
-                            <InputText pattern=".{9,}" title="КПП должен состоять из 9 цифр" v-mask="'#########'" id="kpp" class="field" v-model="customerForm.kpp" required/>
+                            <InputText pattern=".{9,}" title="КПП должен состоять из 9 цифр" v-mask="'#########'"
+                                       id="kpp" class="field" v-model="customerForm.kpp" required/>
                         </div>
                     </div>
                     <Button type="submit" label="Изменить заказчика" class="consultation-button"/>
@@ -198,7 +200,8 @@
                             <p class="ml-2">КОЛИЧЕСТВО ЗНАКОВ ПОСЛЕ ЗАПЯТОЙ</p>
                         </div>
                         <div class="flex lg:col-6 col-12">
-                            <InputNumber class="lg:w-auto w-12" v-model="priceCalculationOptions.decimalPlaces" mode="decimal"
+                            <InputNumber class="lg:w-auto w-12" v-model="priceCalculationOptions.decimalPlaces"
+                                         mode="decimal"
                                          showButtons :min="0" :max="15"/>
                         </div>
                     </div>
@@ -288,7 +291,7 @@ export default {
         }
     },
     computed: {
-        ...mapState('nmck', ['customer','regions'])
+        ...mapState('nmck', ['customer', 'regions'])
     },
     created() {
         this.fetchCustomer();
