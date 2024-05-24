@@ -48,7 +48,8 @@ class CustomerController extends Controller
 
     public function updateAdditionalData(Request $request)
     {
-        $request['region_id'] = $request['region']['id'];
+        $request['region_id'] = !empty($request['region_id']) ? $request['region_id']['id'] : null;
+        unset($request['name'],$request['inn'],$request['kpp']);
         $request->validate([
             'order567' => 'boolean',
             'order450n' => 'boolean',
@@ -63,10 +64,10 @@ class CustomerController extends Controller
             'endDate2' => 'date',
             'signDate' => 'date|nullable',
             'signDate2' => 'date|nullable',
-            'region' => 'string|max:255',
+            'region_id' => 'int|nullable',
             'noPenalties1' => 'boolean',
             'noPenalties2' => 'boolean',
-            'excludedContracts' => 'string|max:255',
+            'excludedContracts' => 'string|max:255|nullable',
             'noIndexation' => 'boolean',
             'variationLimit' => 'numeric',
             'decimalPlaces' => 'integer|min:0|max:15'

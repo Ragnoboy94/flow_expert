@@ -112,10 +112,10 @@
                             <p class="ml-2">ДАТА ОКОНЧАНИЯ ИСПОЛНЕНИЯ КОНТРАКТА</p>
                         </div>
                         <div class="flex lg:col-6 col-12">
-                            <InputText class="w-12" v-model="customer.endDate" type="date"/>
+                            <InputText required class="w-12" v-model="customer.endDate" type="date"/>
                         </div>
                         <div class="flex lg:col-6 col-12">
-                            <InputText class="w-12" v-model="customer.endDate2" type="date"/>
+                            <InputText required class="w-12" v-model="customer.endDate2" type="date"/>
                         </div>
                     </div>
                     <div class="lg:flex flex-auto align-items-center justify-content-center lg:col-6 flex-wrap">
@@ -141,7 +141,7 @@
                 <div class="flex lg:flex-row flex-column">
                     <div class="lg:flex flex-auto align-items-center justify-content-center lg:col-12 flex-wrap">
                         <div class="flex col-12">
-                            <Dropdown v-model="customer.region" editable :options="regions" optionLabel="name"
+                            <Dropdown v-model="customer.region_id" editable :options="regions" optionLabel="name"
                                       placeholder="Регион заказчика" class="w-12"/>
                         </div>
                         <div class="flex col-12">
