@@ -17,6 +17,9 @@ return new class extends Migration
             $table->string('description');
             $table->timestamps();
         });
+        Artisan::call('db:seed', [
+            '--class' => 'RoleSeeder'
+        ]);
     }
 
     /**
