@@ -102,6 +102,15 @@ export const upload = {
             } catch (error) {
                 console.error('Ошибка при обновлении строки:', error);
             }
+        },
+        async prepareNMCKFile({ }, requestData) {
+            try {
+                const response = await axios.post('/api/prepare-nmck-file', requestData);
+                console.log('Ответ сервера:', response.data);
+            } catch (error) {
+                console.error('Ошибка при подготовке файла НМЦК:', error);
+                throw error;
+            }
         }
     }
 }
