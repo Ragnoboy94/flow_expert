@@ -211,6 +211,10 @@
 
             <Button type="submit" label="ДАЛЕЕ" icon="pi pi-arrow-right" icon-pos="right"/>
             </form>
+            <Dialog v-model:visible="showSuccessDialog" header="Данные успешно сохранены!" :modal="true" :dismissableMask="true"
+                    :style="{ width: '450px' }" @hide="onSuccessDialogHide">
+                <p>Нажмите закрыть, чтобы перейти дальше.</p>
+            </Dialog>
         </div>
     </section>
     <Footer></Footer>
@@ -234,6 +238,7 @@ export default {
         return {
             customerForm: { ...this.customer },
             showCustomerDialog: false,
+            showSuccessDialog: false,
             priceCalculationOptions: {
                 category: '',
             },
@@ -265,6 +270,9 @@ export default {
         },
         async saveAdditionalData() {
             await this.$store.dispatch('nmck/saveAdditionalData');
+            this.showSuccessDialog = true;
+        },
+        onSuccessDialogHide() {
             this.$router.push('nmck_basis');
         }
     },
