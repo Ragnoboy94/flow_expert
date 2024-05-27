@@ -19,6 +19,7 @@ export const nmck = {
             signDate: null,
             signDate2: null,
             region_id: '',
+            region_name: '',
             noPenalties1: false,
             noPenalties2: false,
             excludedContracts: '',

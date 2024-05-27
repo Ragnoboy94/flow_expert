@@ -48,7 +48,7 @@ class CustomerController extends Controller
 
     public function updateAdditionalData(Request $request)
     {
-        $request['region_id'] = !empty($request['region_id']) ? $request['region_id']['id'] : null;
+        $request['region_id'] = !empty($request['region_name']) ? $request['region_name']['id'] : null;
         unset($request['name'],$request['inn'],$request['kpp']);
         $request->validate([
             'order567' => 'boolean',
