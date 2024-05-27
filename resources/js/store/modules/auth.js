@@ -48,7 +48,7 @@ export const auth = {
             state.registerInfo[key] = value;
         },
         RESET_REGISTER_INFO(state) {
-            state.registerInfo = {fullName: '', email: '', password: '', confirmPassword: ''};
+            state.registerInfo = {fullName: '', phone: '', email: '', password: '', confirmPassword: ''};
         },
         SET_AUTHENTICATED(state, value) {
             state.isAuthenticated = value;
@@ -129,10 +129,22 @@ export const auth = {
             try {
                 const response = await axios.post('/api/register', state.registerInfo);
                 if (response.data.success) {
-                    commit('RESET_REGISTER_INFO');
-                    commit('SET_DIALOG_REGISTRATION_MESSAGE', 'Вы успешно зарегистрировались! Авторизуйтесь под своими данными!');
+                    commit('SET_DIALOG_REGISTRATION_MESSAGE', 'Вы успешно зарегистрировались!');
                     commit('SET_DIALOG_REGISTRATION_COLOR', 'green');
                     commit('SET_DIALOG_REGISTRATION_VISIBLE', true);
+                    const response = await axios.post('/api/login', {
+                        phone: state.registerInfo.phone.replace(/[^\d]/g, ''),
+                        password: state.registerInfo.password
+                    });
+                    Cookies.remove('access_token');
+                    axios.defaults.headers.common['Authorization'] = '';
+                    commit('RESET_REGISTER_INFO');
+                    commit('RESET_LOGIN_INFO');
+                    let access_token = 'Bearer ' + response.data.access_token;
+                    Cookies.set('access_token', access_token, {expires: 1});
+                    axios.defaults.headers.common['Authorization'] = access_token;
+                    commit('SET_AUTHENTICATED', true);
+                    this.showLoginDialog = false;
                 }
             } catch (error) {
                 commit('SET_DIALOG_REGISTRATION_MESSAGE', 'Ошибка при регистрации.');

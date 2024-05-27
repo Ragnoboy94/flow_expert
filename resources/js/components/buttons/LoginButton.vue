@@ -159,6 +159,10 @@ export default {
         },
         handleDialogRegistrationVisibilityChange(newValue) {
             this.$store.commit('auth/SET_DIALOG_REGISTRATION_VISIBLE', newValue);
+            if (!newValue && this.isAuthenticated) {
+                const redirectUrl = this.$route.query.redirect || '/';
+                this.$router.push(redirectUrl);
+            }
         },
     }
 }

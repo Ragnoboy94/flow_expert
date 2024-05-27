@@ -13,7 +13,7 @@ class RegisterController extends Controller
     {
         $validated = $request->validate([
             'fullName' => 'required|string|max:255',
-            'phone' => 'required|int|min:11',
+            'phone' => 'required|int|min:11|unique:users',
             'email' => 'required|string|email|max:255|unique:users',
             'password' => 'required|string|min:8|confirmed',
             'category_id' => 'required|exists:categories,id'
