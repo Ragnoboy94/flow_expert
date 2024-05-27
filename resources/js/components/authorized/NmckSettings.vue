@@ -152,7 +152,7 @@
                             <label class="w-12">ИСКЛЮЧИТЬ КОНТРАКТЫ ВЫБРАННЫХ ОРГАНИЗАЦИЙ</label>
                         </div>
                         <div class="flex col-12">
-                            <InputText class="w-12" v-model="excludedContracts"
+                            <InputText class="w-12" v-model="customer.excludedContracts"
                                        placeholder="Название / Реквизиты / Адрес / Генеральный директор"/>
                         </div>
                     </div>
