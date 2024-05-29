@@ -5,8 +5,7 @@
                 <div
                     class="flex lg:mt-0 mt-3 lg:align-content-start align-items-center lg:justify-content-start justify-content-center lg:col-8">
                     <router-link to="/" class="logo-container">
-                        <img src="../../pics/logo.webp" alt="FlowExpert" class="header-logo">
-                        <span class="logo-title">Flow Expert</span>
+                        <img src="../../pics/logo1.webp" alt="FlowExpert" class="header-logo">
                     </router-link>
                 </div>
                 <div class="flex-1 lg:mt-0 mt-3 lg:col-4">

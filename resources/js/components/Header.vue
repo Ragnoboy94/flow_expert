@@ -1,8 +1,7 @@
 <template>
     <header class="header">
         <router-link to="/" class="logo-container">
-            <img src="../../pics/logo.webp" alt="FlowExpert" class="header-logo">
-            <span class="logo-title">Flow Expert</span>
+            <img src="../../pics/logo1.webp" alt="FlowExpert" class="header-logo">
         </router-link>
 
         <nav class="header-nav">
