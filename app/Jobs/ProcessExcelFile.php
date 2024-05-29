@@ -36,5 +36,10 @@ class ProcessExcelFile implements ShouldQueue
             'status_id' => 3,
             'split_into_lots' => true
         ]);
+        $excelRows = ExcelRow::where('demand_file_id', $this->demandFile->id)->get();
+
+        foreach ($excelRows as $excelRow) {
+            CheckItemNameInXmlData::dispatch($excelRow)->onQueue('low');
+        }
     }
 }

@@ -62,7 +62,9 @@ createdb laravel
 php artisan migrate
 php artisan storage:link
 php artisan db:seed
-php artisan queue:restart
+php artisan queue:restart 
+или 
+php artisan queue:work --queue=high,default,medium,low
 php artisan passport:install
 php artisan config:clear
 ```
