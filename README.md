@@ -62,6 +62,9 @@ createdb laravel
 php artisan migrate
 php artisan storage:link
 php artisan db:seed
+```
+Также нужно скачать с сайта https://esklp.egisz.rosminzdrav.ru/for_developers актуальный справочник и положить его в проект в папке public с  именем esklp.xml
+```
 php artisan queue:restart 
 или 
 php artisan queue:work --queue=high,default,medium,low
