@@ -46,7 +46,7 @@ class CheckItemNameInXmlData implements ShouldQueue
 
     private function processXmlAndSaveData($itemName)
     {
-        $filePath = public_path('esklp_20240527_active_21.5_00002_0001.xml');
+        $filePath = public_path('esklp.xml');
         $reader = new \XMLReader();
         $reader->open($filePath);
         $foundMatch = false;
