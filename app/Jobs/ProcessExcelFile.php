@@ -15,7 +15,9 @@ use Maatwebsite\Excel\Facades\Excel;
 class ProcessExcelFile implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
+
     protected $demandFile;
+
     /**
      * Create a new job instance.
      */
@@ -36,10 +38,6 @@ class ProcessExcelFile implements ShouldQueue
             'status_id' => 3,
             'split_into_lots' => true
         ]);
-        $excelRows = ExcelRow::where('demand_file_id', $this->demandFile->id)->get();
-
-        foreach ($excelRows as $excelRow) {
-            CheckItemNameInXmlData::dispatch($excelRow)->onQueue('low');
-        }
+        CheckItemNameInXmlData::dispatch($this->demandFile->id);
     }
 }

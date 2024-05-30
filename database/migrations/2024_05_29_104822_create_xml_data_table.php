@@ -4,8 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration
-{
+return new class extends Migration {
     /**
      * Run the migrations.
      */
@@ -13,15 +12,15 @@ return new class extends Migration
     {
         Schema::create('xml_data', function (Blueprint $table) {
             $table->id();
-            $table->string('search_name');
+            $table->string('search_name', 500);
             $table->string('code')->nullable();
-            $table->string('mnn_norm_name')->nullable();
+            $table->string('mnn_norm_name', 500)->nullable();
             $table->string('dosage_norm_name')->nullable();
             $table->string('lf_norm_name')->nullable();
             $table->boolean('is_dosed')->nullable();
             $table->boolean('is_znvlp')->nullable();
             $table->boolean('is_narcotic')->nullable();
-            $table->string('trade_name')->nullable();
+            $table->string('trade_name', 500)->nullable();
             $table->string('pack_1_num')->nullable();
             $table->string('pack_1_name')->nullable();
             $table->string('pack_2_num')->nullable();
