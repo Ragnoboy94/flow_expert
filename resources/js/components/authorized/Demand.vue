@@ -27,7 +27,14 @@
                     <Column field="filename" header="Имя файла"></Column>
                     <Column field="count_accept" header="Позиций связано"></Column>
                     <Column field="count_failed" header="Позиций не связано"></Column>
-                    <Column field="status_name" header="Статус"></Column>
+                    <Column field="status_name" header="Статус">
+                        <template class="text-center" #body="{ data }">
+                            {{data.status_name}}
+                            <div v-if="data.status_name === 'Обработка'">
+                                <ProgressBar :value="progressValues[data.id]" :showValue="true"></ProgressBar>
+                            </div>
+                        </template>
+                    </Column>
                     <Column field="filename" header="Скачать исходный">
                         <template #body="{ data }">
                             <a :href="`/uploads/${data.filename}`" download>
@@ -55,15 +62,26 @@
     <Footer></Footer>
 </template>
 
+
 <script>
 import Header from "./../Header.vue";
 import Footer from "./../Footer.vue";
-import {mapActions, mapState} from "vuex";
+import { mapActions, mapState } from "vuex";
 import DataTable from "primevue/datatable";
 import Column from "primevue/column";
+import ProgressBar from "primevue/progressbar";
 
 export default {
-    components: {Header, Footer, DataTable, Column},
+    components: { Header, Footer, DataTable, Column, ProgressBar },
+    data() {
+        return {
+            selectedFile: null,
+            openSource: false,
+            intervalId: null,
+            progressIntervalId: null,
+            progressValues: {}
+        };
+    },
     computed: {
         ...mapState('upload', ['uploadStatus', 'files']),
     },
@@ -74,19 +92,55 @@ export default {
             if (file) {
                 this.uploadFile(file).then(() => {
                     this.fetchFiles();
+                    setTimeout(() => {
+                        this.fetchFiles();
+                    }, 5000);
                 });
                 this.$refs.fileInput.value = '';
             }
         },
         triggerFileInput() {
             this.$refs.fileInput.click();
+        },
+        refreshData() {
+            this.fetchFiles();
+        },
+        calculateProgress(createdAt) {
+            const createdTime = new Date(createdAt).getTime();
+            const currentTime = new Date().getTime();
+            const elapsedTime = (currentTime - createdTime) / 1000;
+            const totalDuration = 10 * 60;
+            const progress = (elapsedTime / totalDuration) * 100;
+            return Math.min(progress, 100).toFixed(1);
+        },
+        updateProgressValues() {
+            this.files.forEach(file => {
+                if (file.status_name === 'Обработка') {
+                    const progress = this.calculateProgress(file.created_at);
+                    this.progressValues = {
+                        ...this.progressValues,
+                        [file.id]: this.calculateProgress(file.created_at)
+                    };
+                }
+            });
         }
     },
     created() {
         this.fetchFiles();
+        this.intervalId = setInterval(() => {
+            this.refreshData();
+        }, 60000);
+        this.progressIntervalId = setInterval(() => {
+            this.updateProgressValues();
+        }, 1000);
+    },
+    beforeUnmount() {
+        clearInterval(this.intervalId);
+        clearInterval(this.progressIntervalId);
     }
 }
 </script>
+
 
 <style scoped>
 
