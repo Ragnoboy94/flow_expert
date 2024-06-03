@@ -4,14 +4,8 @@
         <div class="content-container" style="max-width: 100%;">
             <div class="title-section">
                 <h3>Формирование коммерческих предложений</h3>
-                <p v-if="!offers.length || offers[0].file_status_id === 4"><small
-                    v-if="offers.length && offers[0].file_status_id === 4" class="text-red-500">Ошибка в обработке файла<br></small>Укажите
-                    данные</p>
-                <p v-else-if="offers.length && offers[0].file_status_id === 3">Сформированное коммерческое
-                    предложение</p>
-                <p v-else>Статус: {{ offers[0].file_status_name }}</p>
             </div>
-            <form v-if="!offers.length || offers[0].file_status_id === 4" @submit.prevent="submitOfferForm">
+            <form @submit.prevent="submitOfferForm">
                 <div class="flex flex-column lg:flex-row">
                     <div class="flex mt-3 lg:col-3">
                         <FloatLabel class="w-12">
@@ -24,12 +18,10 @@
                             <InputText type="date" class="field" v-model="formData.date" required/>
                             <label for="formData.date">Дата</label>
                         </FloatLabel>
-
                     </div>
                     <div class="flex mt-3 lg:col-3">
                         <FloatLabel class="w-12">
-                            <InputText v-mask="'#########'" class="field" v-model="formData.positions"
-                                       required/>
+                            <InputText v-mask="'#########'" class="field" v-model="formData.positions" required/>
                             <label class="mb-1" for="formData.positions">Сколько позиций</label>
                         </FloatLabel>
                     </div>
@@ -42,59 +34,49 @@
                     </div>
                 </div>
             </form>
-            <div v-if="offers.length && (offers[0].file_status_id === 1 || offers[0].file_status_id === 2)">
-                <Card class="flex-1 mt-3 lg:flex-row lg:col-6">
-                    <template #content>
-                        <span class="flex-1 lg:col-5 pi pi-file-pdf feature-icon"> {{ offers[0].sender }} </span>
-                        <a :href="'/offers/' + offers[0].file_path" class="w-12  text-white" download>
-                            <Button class="consultation-button flex-1 lg:col-5"
-                                    id="download_offer_file" label="Скачать"/>
-                        </a>
-                    </template>
-                </Card>
-            </div>
-            <div v-if="offers.length && offers[0].file_status_id === 3 && offerRows.length">
-                <DataTable v-model:editingRows="editingRows" :value="offerRows" editMode="row"
-                           class="editable-cells-table" @row-edit-save="onRowEditSave" :pt="{
-                    column: {
-                        bodycell: ({ state }) => ({
-                            style: state['d_editing'] && 'padding-top: 0.6rem; padding-bottom: 0.6rem'
-                        })
-                    }
-                }">
-                    <Column field="mnn" header="Международное не патентованное наименование" editor="true" style="width: 15%">
-                        <template #editor="{ data, field }">
-                            <InputText v-model="data[field]" />
-                        </template>
-                    </Column>
-                    <Column field="name" header="Торговое наименование" editor="true" style="width: 15%">
-                        <template #editor="{ data, field }">
-                            <InputText v-model="data[field]" />
-                        </template>
-                    </Column>
-                    <Column field="trade_name" header="Форма выпуска" editor="true" style="width: 30%">
-                        <template #editor="{ data, field }">
-                            <Textarea autoResize v-model="data[field]" />
-                        </template>
-                    </Column>
-                    <Column field="quantity" header="Кол-во" editor="true" style="width: 10%">
-                        <template #editor="{ data, field }">
-                            <InputText class="w-12" v-model="data[field]" />
-                        </template>
-                    </Column>
-                    <Column field="price" header="Цена (без ндс и оптовой надбавки)" editor="true" style="width: 10%">
-                        <template #editor="{ data, field }">
-                            <InputText class="w-12" v-model="data[field]" />
-                        </template>
-                    </Column>
-                    <Column field="total" header="Цена (без ндс и оптовой надбавки)" editor="true" style="width: 10%">
-                        <template #editor="{ data, field }">
-                            <InputText class="w-12" v-model="data[field]" />
-                        </template>
-                    </Column>
-                    <Column :rowEditor="true" style="width: 10%; min-width: 8rem" bodyStyle="text-align:center"></Column>
-                </DataTable>
-            </div>
+            <Accordion v-if="offers.length">
+                <AccordionTab v-for="offer in offers" :header="'Предложение от ' + offer.sender" :key="offer.id">
+                    <div v-if="offer.file_status_id === 3 && offerRows[offer.id]?.length">
+                        <DataTable v-model:editingRows="editingRows[offer.id]" :value="offerRows[offer.id]" editMode="row"
+                                   class="editable-cells-table" @row-edit-save="onRowEditSave">
+                            <Column field="mnn" header="Международное не патентованное наименование" editor="true" style="width: 15%">
+                                <template #editor="{ data, field }">
+                                    <InputText v-model="data[field]" />
+                                </template>
+                            </Column>
+                            <Column field="name" header="Торговое наименование" editor="true" style="width: 15%">
+                                <template #editor="{ data, field }">
+                                    <InputText v-model="data[field]" />
+                                </template>
+                            </Column>
+                            <Column field="trade_name" header="Форма выпуска" editor="true" style="width: 30%">
+                                <template #editor="{ data, field }">
+                                    <Textarea autoResize v-model="data[field]" />
+                                </template>
+                            </Column>
+                            <Column field="quantity" header="Кол-во" editor="true" style="width: 10%">
+                                <template #editor="{ data, field }">
+                                    <InputText class="w-12" v-model="data[field]" />
+                                </template>
+                            </Column>
+                            <Column field="price" header="Цена (без ндс и оптовой надбавки)" editor="true" style="width: 10%">
+                                <template #editor="{ data, field }">
+                                    <InputText class="w-12" v-model="data[field]" />
+                                </template>
+                            </Column>
+                            <Column field="total" header="Цена (без ндс и оптовой надбавки)" editor="true" style="width: 10%">
+                                <template #editor="{ data, field }">
+                                    <InputText class="w-12" v-model="data[field]" />
+                                </template>
+                            </Column>
+                            <Column :rowEditor="true" style="width: 10%; min-width: 8rem" bodyStyle="text-align:center"></Column>
+                        </DataTable>
+                    </div>
+                    <div v-else>
+                        Коммерческое предложение обрабатывается...
+                    </div>
+                </AccordionTab>
+            </Accordion>
         </div>
     </section>
     <Footer></Footer>
@@ -103,17 +85,17 @@
 <script>
 import Header from "./../Header.vue";
 import Footer from "./../Footer.vue";
-import {mapActions, mapState} from "vuex";
+import { mapActions, mapState } from "vuex";
 import DataTable from "primevue/datatable";
 import Column from "primevue/column";
-import Button from "primevue/button";
 import InputText from "primevue/inputtext";
 import FloatLabel from "primevue/floatlabel";
-import Card from "primevue/card";
 import Textarea from 'primevue/textarea';
+import Accordion from 'primevue/accordion';
+import AccordionTab from 'primevue/accordiontab';
 
 export default {
-    components: {Header, Footer, DataTable, Column, Button, InputText, FloatLabel, Card, Textarea},
+    components: { Header, Footer, DataTable, Column, InputText, FloatLabel, Textarea, Accordion, AccordionTab },
     data() {
         return {
             formData: {
@@ -122,7 +104,7 @@ export default {
                 positions: ''
             },
             selectedFile: null,
-            editingRows: []
+            editingRows: {}
         };
     },
     computed: {
@@ -160,9 +142,7 @@ export default {
             }
         },
         onRowEditSave(event) {
-            let { newData, index } = event;
-
-            this.editingRows[index] = newData;
+            let { newData } = event;
             this.updateMedicineRow(newData);
         },
     },
@@ -171,6 +151,7 @@ export default {
     },
 }
 </script>
+
 
 <style scoped>
 .title-section p {

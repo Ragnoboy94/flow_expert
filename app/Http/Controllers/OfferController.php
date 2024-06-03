@@ -15,23 +15,29 @@ class OfferController extends Controller
 {
     public function index()
     {
-        $offers = Offer::where('user_id', Auth::id())->firstOrFail();
+        $offers = Offer::where('user_id', Auth::id())->get();
 
-        if ($offers->file_status_id == 3 && !empty($offers->excel_file_path)) {
-            $medicineRows = MedicineRows::where('offer_id', $offers->id)->get();
-            if ($offers->updated_at > $offers->exel_exported_at || is_null($offers->exel_exported_at)) {
-
-                $filePath = 'offers_export/' . $offers->excel_file_path;
-                Excel::store(new MedicinesRowsExport($offers), $filePath, 'public', \Maatwebsite\Excel\Excel::XLSX);
-                $offers->update(['exel_exported_at' => now()]);
+        $response = [];
+        foreach ($offers as $offer) {
+            if ($offer->file_status_id == 3 && !empty($offer->excel_file_path)) {
+                $medicineRows = MedicineRows::where('offer_id', $offer->id)->get();
+                if ($offer->updated_at > $offer->exel_exported_at || is_null($offer->exel_exported_at)) {
+                    $filePath = 'offers_export/' . $offer->excel_file_path;
+                    Excel::store(new MedicinesRowsExport($offer), $filePath, 'public', \Maatwebsite\Excel\Excel::XLSX);
+                    $offer->update(['exel_exported_at' => now()]);
+                }
+                $response[] = [
+                    'offer' => $offer,
+                    'medicine_rows' => $medicineRows
+                ];
+            } else {
+                $response[] = [
+                    'offer' => $offer
+                ];
             }
-
-            return response()->json([
-                'offer' => $offers,
-                'medicine_rows' => $medicineRows
-            ]);
         }
-        return response()->json(['offer' => $offers]);
+
+        return response()->json($response);
     }
 
     public function store(Request $request)
@@ -44,16 +50,6 @@ class OfferController extends Controller
         ]);
 
         if ($request->hasFile('file')) {
-            $offer = Offer::where('user_id', Auth::id())->get()->first();
-            if ($offer) {
-                if (Storage::disk('public')->exists('/offers/' . $offer->file_path)) {
-                    Storage::disk('public')->delete('/offers/' . $offer->file_path);
-                }
-                if ($offer->excel_file_path && Storage::disk('public')->exists('/offers' . $offer->excel_file_path)) {
-                    Storage::disk('public')->delete('/offers/' . $offer->excel_file_path);
-                }
-                $offer->delete();
-            }
             $file = $request->file('file');
             $filename = time() . '_' . $file->getClientOriginalName();
             $destinationPath = public_path('/offers');

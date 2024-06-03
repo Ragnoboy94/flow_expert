@@ -26,9 +26,11 @@ export const upload = {
             state.offerRows = offerRows;
         },
         UPDATE_MEDICINE_ROW(state, updatedRow) {
-            const index = state.offerRows.findIndex(row => row.id === updatedRow.id);
+            const offerId = updatedRow.offer_id;
+            const rows = state.offerRows[offerId] || [];
+            const index = rows.findIndex(row => row.id === updatedRow.id);
             if (index !== -1) {
-                state.offerRows.splice(index, 1, updatedRow);
+                state.offerRows[offerId].splice(index, 1, updatedRow);
             }
         }
     },
@@ -83,14 +85,13 @@ export const upload = {
         async fetchOffers({ commit }) {
             try {
                 const response = await axios.get('/api/offers');
-                const { offer, medicine_rows } = response.data;
-
-                if (offer) {
-                    commit('SET_OFFERS', [offer]);
-                }
-                if (medicine_rows) {
-                    commit('SET_OFFER_ROWS', medicine_rows);
-                }
+                const offers = response.data.map(data => data.offer);
+                const offerRows = response.data.reduce((acc, data) => {
+                    acc[data.offer.id] = data.medicine_rows;
+                    return acc;
+                }, {});
+                commit('SET_OFFERS', offers);
+                commit('SET_OFFER_ROWS', offerRows);
             } catch (error) {
                 console.error('Ошибка при получении списка предложений:', error);
             }
@@ -105,7 +106,7 @@ export const upload = {
         },
         async prepareNMCKFile({ }, requestData) {
             try {
-                const response = await axios.post('/api/prepare-nmck-file', requestData);
+                const response = await axios.get('/api/drug-price', requestData);
                 console.log('Ответ сервера:', response.data);
             } catch (error) {
                 console.error('Ошибка при подготовке файла НМЦК:', error);
