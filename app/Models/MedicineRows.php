@@ -16,7 +16,8 @@ class MedicineRows extends Model
         'form',
         'quantity',
         'price',
-        'total'
+        'total',
+        'online_price'
     ];
     public function offer()
     {
