@@ -55,7 +55,20 @@
                         </template>
                     </Column>
                     <Column field="error_description" header="Ошибки"></Column>
+                    <Column field="id">
+                        <template #body="{ data }">
+                            <Button v-if="data.status_name === 'Готов'  || data.status_name === 'Ошибка'" link icon-pos="right" icon="pi pi-trash" @click="deleteData = data; deleteDialogVisible = true"/>
+                        </template>
+                    </Column>
                 </DataTable>
+                <Dialog header="Удалить?" v-if="deleteData" v-model:visible="deleteDialogVisible" @update:visible="handleDialogDeleteVisibilityChange" :modal="true" :closable="true"
+                        :showHeader="true" :style="{ width: '450px' }">
+                    <span class="p-text-secondary block mb-5">Запись {{ deleteData.filename}} и файлы будут удалены! Уверены?</span>
+
+                    <div class="flex justify-content-end gap-2">
+                        <Button class="consultation-button" type="button" label="Удалить" @click="deleteDialogVisible = false; deleteDemand(deleteData.id) ; deleteData = null"></Button>
+                    </div>
+                </Dialog>
             </div>
         </div>
     </section>
@@ -70,23 +83,26 @@ import { mapActions, mapState } from "vuex";
 import DataTable from "primevue/datatable";
 import Column from "primevue/column";
 import ProgressBar from "primevue/progressbar";
+import Dialog from "primevue/dialog";
 
 export default {
-    components: { Header, Footer, DataTable, Column, ProgressBar },
+    components: { Header, Footer, DataTable, Column, ProgressBar, Dialog },
     data() {
         return {
             selectedFile: null,
             openSource: false,
             intervalId: null,
             progressIntervalId: null,
-            progressValues: {}
+            progressValues: {},
+            deleteDialogVisible: false,
+            deleteData: null
         };
     },
     computed: {
         ...mapState('upload', ['uploadStatus', 'files']),
     },
     methods: {
-        ...mapActions('upload', ['uploadFile', 'fetchFiles']),
+        ...mapActions('upload', ['uploadFile', 'fetchFiles', 'deleteDemand']),
         handleFileUpload(event) {
             const file = event.target.files[0];
             if (file) {
@@ -123,6 +139,9 @@ export default {
                     };
                 }
             });
+        },
+        handleDialogDeleteVisibilityChange () {
+            this.deleteData = null;
         }
     },
     created() {

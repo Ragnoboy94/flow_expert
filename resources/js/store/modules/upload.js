@@ -112,6 +112,14 @@ export const upload = {
                 console.error('Ошибка при подготовке файла НМЦК:', error);
                 throw error;
             }
-        }
+        },
+        async deleteDemand({ dispatch }, fileId) {
+            try {
+                const response = await axios.delete('/api/delete-demand/' + fileId);
+                await dispatch('fetchFiles');
+            } catch (error) {
+                console.error('Ошибка при разбиении на лоты:', error);
+            }
+        },
     }
 }

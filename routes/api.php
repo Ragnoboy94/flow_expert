@@ -9,6 +9,7 @@ use App\Http\Controllers\UploadController;
 use App\Http\Controllers\LotController;
 use App\Http\Controllers\OfferController;
 use App\Http\Controllers\CustomerController;
+use App\Http\Controllers\DeleteController;
 
 //Auth
 Route::post('/login', [LoginController::class, 'login']);
@@ -35,4 +36,5 @@ Route::middleware('auth:api')->group(function () {
     Route::post('/customer', [CustomerController::class, 'updateCustomer']);
     Route::get('/regions', [CustomerController::class, 'getRegion']);
     Route::post('/customer/additional', [CustomerController::class, 'updateAdditionalData']);
+    Route::delete('delete-demand/{fileId}', [DeleteController::class, 'deleteDemand']);
 });

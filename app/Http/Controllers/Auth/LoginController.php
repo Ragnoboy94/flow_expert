@@ -37,9 +37,9 @@ class LoginController extends Controller
             'fullName' => 'required',
             'phone' => 'required|min:11',
         ]);
-        $user = User::where('name', $request->fullName)->orWhere('name', mb_strtolower($request->fullName))
-            ->where('phone', $request->phone)
-            ->first();
+        $user = User::where(function ($query) use ($request) {
+            $query->where('name', $request->fullName)->orWhere('name', mb_strtolower($request->fullName));
+        })->where('phone', $request->phone)->first();
 
         if ($user) {
             return response()->json(['message' => 'User verified', 'verified' => true]);
