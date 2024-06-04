@@ -35,7 +35,16 @@
                 </div>
             </form>
             <Accordion v-if="offers.length">
-                <AccordionTab v-for="offer in offers" :header="'Предложение от ' + offer.sender" :key="offer.id">
+                <AccordionTab v-for="offer in offers" :key="offer.id">
+                    <template #header>
+                    <span class="flex align-items-center gap-2 w-full">
+                        <span class="font-bold">Предложение от {{offer.sender}}</span>
+                        <Button value="Удалить" link icon-pos="right" icon="pi pi-trash" @click="deleteData = offer; deleteDialogVisible = true"/>
+                        <a class="ml-auto mr-5 bg-green-400 border-round-2xl p-1" v-if="offer.file_status_id === 3" :href="`/offers_export/${offer.excel_file_path}`" download>
+                                        Скачать файл <i class="pi pi-file-export"></i>
+                                    </a>
+                    </span>
+                    </template>
                     <div v-if="offer.file_status_id === 3 && offerRows[offer.id]?.length">
                         <DataTable v-model:editingRows="editingRows[offer.id]" :value="offerRows[offer.id]" editMode="row"
                                    class="editable-cells-table" @row-edit-save="onRowEditSave">
@@ -77,6 +86,14 @@
                     </div>
                 </AccordionTab>
             </Accordion>
+            <Dialog header="Удалить?" v-if="deleteData" v-model:visible="deleteDialogVisible" @update:visible="handleDialogDeleteVisibilityChange" :modal="true" :closable="true"
+                    :showHeader="true" :style="{ width: '450px' }">
+                <span class="p-text-secondary block mb-5">Запись о {{ deleteData.sender}} и файлы будут удалены! Уверены?</span>
+
+                <div class="flex justify-content-end gap-2">
+                    <Button class="consultation-button" type="button" label="Удалить" @click="deleteDialogVisible = false; deleteOffer(deleteData.id) ; deleteData = null"></Button>
+                </div>
+            </Dialog>
         </div>
     </section>
     <Footer></Footer>
@@ -93,9 +110,10 @@ import FloatLabel from "primevue/floatlabel";
 import Textarea from 'primevue/textarea';
 import Accordion from 'primevue/accordion';
 import AccordionTab from 'primevue/accordiontab';
+import Dialog from "primevue/dialog";
 
 export default {
-    components: { Header, Footer, DataTable, Column, InputText, FloatLabel, Textarea, Accordion, AccordionTab },
+    components: { Header, Footer, DataTable, Column, InputText, FloatLabel, Textarea, Accordion, AccordionTab, Dialog },
     data() {
         return {
             formData: {
@@ -104,14 +122,16 @@ export default {
                 positions: ''
             },
             selectedFile: null,
-            editingRows: {}
+            editingRows: {},
+            deleteDialogVisible: false,
+            deleteData: null
         };
     },
     computed: {
         ...mapState('upload', ['offers', 'offerRows']),
     },
     methods: {
-        ...mapActions('upload', ['uploadOfferFile', 'fetchOffers', 'updateMedicineRow']),
+        ...mapActions('upload', ['uploadOfferFile', 'fetchOffers', 'updateMedicineRow', 'deleteOffer']),
         handleFileUpload(event) {
             this.selectedFile = event.target.files[0];
             if (this.selectedFile) {
@@ -136,15 +156,20 @@ export default {
                 this.formData.positions = '';
                 this.selectedFile = null;
                 this.$refs.fileInput.value = '';
-                this.fetchOffers();
+                await this.fetchOffers();
             } else {
                 alert('Пожалуйста, заполните все поля формы и выберите файл.');
             }
         },
         onRowEditSave(event) {
             let { newData } = event;
-            this.updateMedicineRow(newData);
+            this.updateMedicineRow(newData).then(() => {
+                this.fetchOffers();
+            });
         },
+        handleDialogDeleteVisibilityChange () {
+            this.deleteData = null;
+        }
     },
     created() {
         this.fetchOffers();

@@ -121,5 +121,13 @@ export const upload = {
                 console.error('Ошибка при разбиении на лоты:', error);
             }
         },
+        async deleteOffer({ dispatch }, fileId) {
+            try {
+                const response = await axios.delete('/api/delete-offer/' + fileId);
+                await dispatch('fetchOffers');
+            } catch (error) {
+                console.error('Ошибка при разбиении на лоты:', error);
+            }
+        },
     }
 }

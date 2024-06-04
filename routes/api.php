@@ -36,5 +36,6 @@ Route::middleware('auth:api')->group(function () {
     Route::post('/customer', [CustomerController::class, 'updateCustomer']);
     Route::get('/regions', [CustomerController::class, 'getRegion']);
     Route::post('/customer/additional', [CustomerController::class, 'updateAdditionalData']);
-    Route::delete('delete-demand/{fileId}', [DeleteController::class, 'deleteDemand']);
+    Route::delete('/delete-demand/{fileId}', [DeleteController::class, 'deleteDemand']);
+    Route::delete('/delete-offer/{fileId}', [DeleteController::class, 'deleteOffer']);
 });

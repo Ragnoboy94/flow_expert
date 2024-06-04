@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\DemandFile;
+use App\Models\Offer;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 
@@ -19,6 +20,20 @@ class DeleteController extends Controller
                 Storage::disk('public')->delete('/processed_files/' . $demandFile->new_filename);
             }
             $demandFile->delete();
+        }
+    }
+
+    public function deleteOffer(int $fileId): void
+    {
+        $offer = Offer::where('user_id', Auth::id())->where('id', $fileId)->get()->first();
+        if ($offer) {
+            if (Storage::disk('public')->exists('/offers/' . $offer->file_path)) {
+                Storage::disk('public')->delete('/offers/' . $offer->file_path);
+            }
+            if ($offer->excel_file_path && Storage::disk('public')->exists('/offers/' . $offer->excel_file_path)) {
+                Storage::disk('public')->delete('/offers/' . $offer->excel_file_path);
+            }
+            $offer->delete();
         }
     }
 }
