@@ -15,13 +15,13 @@
                                 @click="openDialog(index)"/>
                     </template>
                 </Card>
-                <Dialog v-model:visible="dialogVisible[index]" :style="{ width: '50vw' }" :modal="true"
+                <Dialog v-model:visible="dialogVisible[index]" class="xl:w-8 lg:w-9 md:w-10 sm:w-11" :modal="true"
                         :dismissableMask="true">
                     <template #header>
                         <h3>{{ sphere.title }}</h3>
                     </template>
-                    <div class="dialog-container">
-                        <Card class="specialized-card">
+                    <div class="dialog-container flex flex-column lg:flex-row lg:flex-wrap">
+                        <Card class="specialized-card flex">
                             <template #title>
                                 <h4 style="color:green">Специализированные решения</h4>
                             </template>
@@ -34,7 +34,7 @@
                                 </ul>
                             </template>
                         </Card>
-                        <Card class="advantages-card no-border">
+                        <Card class="advantages-card no-border flex">
                             <template #title>
                                 <h4 style="color:green">Преимущества для заказчика</h4>
                             </template>
@@ -231,7 +231,6 @@ export default {
 
 .specialized-card {
     flex: 1;
-    margin-right: 2rem;
     border: 2px solid #00A950;
     box-shadow: 0 4px 8px rgba(0, 169, 80, 0.2);
     border-radius: 16px;

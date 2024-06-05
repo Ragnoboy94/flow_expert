@@ -43,7 +43,7 @@ export default {
 .image-container img {
     width: auto;
     height: auto;
-    max-width: 110%;
+    max-width: 100%;
     max-height: 100%;
 }
 </style>
