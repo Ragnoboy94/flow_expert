@@ -4,7 +4,27 @@ export const upload = {
         uploadStatus: '',
         files: [],
         offers: [],
-        offerRows: []
+        offerRows: [],
+        monthlyData: [
+            { month: 'Январь', price: 0, quantity: 0, month_id: 1 },
+            { month: 'Февраль', price: 0, quantity: 0, month_id: 2 },
+            { month: 'Март', price: 0, quantity: 0, month_id: 3 },
+            { month: 'Апрель', price: 0, quantity: 0, month_id: 4 },
+            { month: 'Май', price: 0, quantity: 0, month_id: 5 },
+            { month: 'Июнь', price: 0, quantity: 0, month_id: 6 },
+            { month: 'Июль', price: 0, quantity: 0, month_id: 7 },
+            { month: 'Август', price: 0, quantity: 0, month_id: 8 },
+            { month: 'Сентябрь', price: 0, quantity: 0, month_id: 9 },
+            { month: 'Октябрь', price: 0, quantity: 0, month_id: 10 },
+            { month: 'Ноябрь', price: 0, quantity: 0, month_id: 11 },
+            { month: 'Декабрь', price: 0, quantity: 0, month_id: 12 },
+        ],
+        periodicData: [
+            { period: `01.01.${new Date().getFullYear()}`, quantity: 0, period_id: 1 },
+            { period: `01.04.${new Date().getFullYear()}`, quantity: 0, period_id: 2 },
+            { period: `01.07.${new Date().getFullYear()}`, quantity: 0, period_id: 3 },
+            { period: `01.10.${new Date().getFullYear()}`, quantity: 0, period_id: 4 }
+        ]
     },
     mutations: {
         SET_UPLOAD_STATUS(state, status) {
@@ -32,6 +52,24 @@ export const upload = {
             if (index !== -1) {
                 state.offerRows[offerId].splice(index, 1, updatedRow);
             }
+        },
+        SET_MONTHLY_DATA(state, monthlyData) {
+            state.monthlyData = state.monthlyData.map((item) => {
+                const data = monthlyData.find((data) => data.month_id === item.month_id);
+                if (data) {
+                    return { ...item, price: data.price, quantity: data.quantity };
+                }
+                return item;
+            });
+        },
+        SET_PERIODIC_DATA(state, periodicData) {
+            state.periodicData = state.periodicData.map((item) => {
+                const data = periodicData.find((data) => data.period_id === item.period_id);
+                if (data) {
+                    return { ...item, quantity: data.quantity };
+                }
+                return item;
+            });
         }
     },
     actions: {
@@ -54,7 +92,7 @@ export const upload = {
             commit('SET_FILES', response.data);
         },
         async fetchReadyFiles({ commit }) {
-            const response = await axios.post('/api/files', {'status_id': 3});
+            const response = await axios.post('/api/files', { 'status_id': 3 });
             commit('SET_FILES', response.data);
         },
         async fetchExcelRows({ commit }, fileId) {
@@ -104,13 +142,33 @@ export const upload = {
                 console.error('Ошибка при обновлении строки:', error);
             }
         },
-        async prepareNMCKFile({ }, requestData) {
+        async prepareNMCKFile({ state, commit }, requestData) {
             try {
-                const response = await axios.get('/api/drug-price', requestData);
-                console.log('Ответ сервера:', response.data);
+                await axios.post('/api/save-data', {
+                    requestData,
+                    monthlyData: state.monthlyData.map(item => ({
+                        month_id: item.month_id,
+                        price: item.price,
+                        quantity: item.quantity
+                    })),
+                    periodicData: state.periodicData.map(item => ({
+                        period_id: item.period_id,
+                        quantity: item.quantity
+                    }))
+                });
+                commit('SET_UPLOAD_STATUS', 'Данные успешно сохранены.');
             } catch (error) {
                 console.error('Ошибка при подготовке файла НМЦК:', error);
                 throw error;
+            }
+        },
+        async fetchData({ commit }) {
+            try {
+                const response = await axios.get('/api/get-data');
+                commit('SET_MONTHLY_DATA', response.data.monthlyData);
+                commit('SET_PERIODIC_DATA', response.data.periodicData);
+            } catch (error) {
+                console.error('Ошибка при получении данных:', error);
             }
         },
         async deleteDemand({ dispatch }, fileId) {
@@ -118,7 +176,7 @@ export const upload = {
                 const response = await axios.delete('/api/delete-demand/' + fileId);
                 await dispatch('fetchFiles');
             } catch (error) {
-                console.error('Ошибка при разбиении на лоты:', error);
+                console.error('Ошибка при удалении потребности:', error);
             }
         },
         async deleteOffer({ dispatch }, fileId) {
@@ -126,7 +184,7 @@ export const upload = {
                 const response = await axios.delete('/api/delete-offer/' + fileId);
                 await dispatch('fetchOffers');
             } catch (error) {
-                console.error('Ошибка при разбиении на лоты:', error);
+                console.error('Ошибка при удалении предложения:', error);
             }
         },
     }

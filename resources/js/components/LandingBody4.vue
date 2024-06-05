@@ -16,11 +16,11 @@
             </div>
             <div class="flex align-items-stretch flex-column lg:flex-row">
                 <div class="flex mt-3 lg:col-6">
-                    <i class="pi pi-search-plus step-icon"></i>
+                    <i class="pi pi-cog step-icon"></i>
                     <span>Пилотное использование системы</span>
                 </div>
                 <div class="flex mt-3 lg:col-6">
-                    <i class="pi pi-search-plus step-icon"></i>
+                    <i class="pi pi-file step-icon"></i>
                     <span>Лицензионное соглашение</span>
                 </div>
             </div>

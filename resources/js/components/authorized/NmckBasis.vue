@@ -21,22 +21,22 @@
                 </Column>
             </DataTable>
             <div class="flex mt-3 col-12">
-                <Checkbox v-model="openSource" :binary="true"
-                          inputId="openSource"/>
+                <Checkbox v-model="openSource" :binary="true" inputId="openSource"/>
                 <label for="openSource"> Использовать цены из открытых источников</label>
             </div>
             <div class="flex flex-column lg:flex-row lg:flex-wrap mt-3">
-                <Fieldset class="border-round-3xl  lg:col-8 col-12" legend="Метод средневзвешенной цены">
+                <Fieldset class="border-round-3xl lg:col-8 col-12" legend="Метод средневзвешенной цены">
                     <p class="m-0">
                         <div class="flex-1 lg:mr-2 mb-3">
-                            <DataTable stripedRows :value="monthlyData" editMode="cell" @cell-edit-complete="onCellEditComplete">
+                            <DataTable stripedRows :value="monthlyData" editMode="cell"
+                                       @cell-edit-complete="onCellEditComplete">
                                 <Column field="month" header="Месяц" :editable="false"></Column>
-                                <Column field="price" header="Цена"  style="width: 33%">
+                                <Column field="price" header="Цена" style="width: 33%">
                                     <template #editor="{ data, field }">
-                                        <InputNumber v-model="data[field]"/>
+                                        <InputNumber mode="currency" currency="RUB" locale="ru-RU" v-model="data[field]"/>
                                     </template>
                                 </Column>
-                                <Column field="quantity" header="Количество"  style="width: 33%">
+                                <Column field="quantity" header="Количество" style="width: 33%">
                                     <template #editor="{ data, field }">
                                         <InputNumber v-model="data[field]"/>
                                     </template>
@@ -45,10 +45,11 @@
                         </div>
                     </p>
                 </Fieldset>
-                <Fieldset class="border-round-3xl  lg:col-4 col-12" legend="Метод референтных цен">
+                <Fieldset class="border-round-3xl lg:col-4 col-12" legend="Метод референтных цен">
                     <p class="m-0">
                         <div class="flex-1 lg:ml-2 mb-3">
-                            <DataTable stripedRows :value="periodicData" editMode="cell" @cell-edit-complete="onCellEditComplete">
+                            <DataTable stripedRows :value="periodicData" editMode="cell"
+                                       @cell-edit-complete="onCellEditComplete">
                                 <Column field="period" header="Период" :editable="false" style="width: 50%"></Column>
                                 <Column field="quantity" header="Количество" style="width: 50%">
                                     <template #editor="{ data, field }">
@@ -62,12 +63,10 @@
             </div>
             <Button label="Подготовить файл для скачивания" class="consultation-button" @click="prepareFile"
                     :disabled="!selectedFile"/>
-
         </div>
     </section>
     <Footer></Footer>
 </template>
-
 
 <script>
 import Header from "./../Header.vue";
@@ -76,40 +75,19 @@ import DataTable from "primevue/datatable";
 import Checkbox from 'primevue/checkbox';
 import Column from 'primevue/column';
 import InputNumber from "primevue/inputnumber";
-import {mapActions, mapState} from "vuex";
+import { mapActions, mapState } from "vuex";
 import Fieldset from "primevue/fieldset";
 
 export default {
-    components: {Header, Footer, DataTable, Checkbox, Column, InputNumber, Fieldset},
+    components: { Header, Footer, DataTable, Checkbox, Column, InputNumber, Fieldset },
     data() {
-        const currentYear = new Date().getFullYear();
         return {
             selectedFile: null,
             openSource: false,
-            monthlyData: [
-                {month: 'Январь', price: 0, quantity: 0},
-                {month: 'Февраль', price: 0, quantity: 0},
-                {month: 'Март', price: 0, quantity: 0},
-                {month: 'Апрель', price: 0, quantity: 0},
-                {month: 'Май', price: 0, quantity: 0},
-                {month: 'Июнь', price: 0, quantity: 0},
-                {month: 'Июль', price: 0, quantity: 0},
-                {month: 'Август', price: 0, quantity: 0},
-                {month: 'Сентябрь', price: 0, quantity: 0},
-                {month: 'Октябрь', price: 0, quantity: 0},
-                {month: 'Ноябрь', price: 0, quantity: 0},
-                {month: 'Декабрь', price: 0, quantity: 0}
-            ],
-            periodicData: [
-                { period: `01.01.${currentYear}`, quantity: 0 },
-                { period: `01.04.${currentYear}`, quantity: 0 },
-                { period: `01.07.${currentYear}`, quantity: 0 },
-                { period: `01.10.${currentYear}`, quantity: 0 }
-            ]
         };
     },
     methods: {
-        ...mapActions('upload', ['fetchFiles', 'prepareNMCKFile']),
+        ...mapActions('upload', ['fetchFiles', 'prepareNMCKFile', 'fetchData']),
         onRowSelect(event) {
             this.selectedFile = event.data;
         },
@@ -135,24 +113,22 @@ export default {
             }
         },
         onCellEditComplete(event) {
-            let { data, newValue, field } = event;
+            let {data, newValue, field} = event;
             data[field] = newValue;
         }
     },
     computed: {
-        ...mapState('upload', ['files']),
+        ...mapState('upload', ['files', 'monthlyData', 'periodicData']),
     },
     created() {
         this.fetchFiles();
+        this.fetchData();
     }
 }
 </script>
 
-
 <style scoped>
-
 Fieldset {
     margin-bottom: 2%;
 }
 </style>
-

@@ -10,6 +10,7 @@ use App\Http\Controllers\LotController;
 use App\Http\Controllers\OfferController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\DeleteController;
+use App\Http\Controllers\NMCKController;
 
 //Auth
 Route::post('/login', [LoginController::class, 'login']);
@@ -38,4 +39,6 @@ Route::middleware('auth:api')->group(function () {
     Route::post('/customer/additional', [CustomerController::class, 'updateAdditionalData']);
     Route::delete('/delete-demand/{fileId}', [DeleteController::class, 'deleteDemand']);
     Route::delete('/delete-offer/{fileId}', [DeleteController::class, 'deleteOffer']);
+    Route::post('/save-data', [NMCKController::class, 'storeData']);
+    Route::get('/get-data', [NMCKController::class, 'getData']);
 });
