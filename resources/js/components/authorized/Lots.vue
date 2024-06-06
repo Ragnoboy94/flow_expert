@@ -49,24 +49,28 @@
                     </Column>
                     <template #expansion="{ data }">
                         <div class="p-3">
-                            <h5>Детали файла: {{ data.filename }}</h5>
                             <template v-if="loadingRows[data.id]">
                                 <Skeleton width="100%" height="2rem" class="mb-2" borderRadius="16px" />
                                 <Skeleton width="100%" height="2rem" class="mb-2" borderRadius="16px" />
                                 <Skeleton width="100%" height="2rem" class="mb-2" borderRadius="16px" />
                             </template>
                             <template v-else>
-                                <DataTable :value="data.excelRows">
-                                    <Column field="department" header="Отделение"></Column>
-                                    <Column field="item_name" header="Наименование"></Column>
-                                    <Column field="unit" header="Ед. изм."></Column>
-                                    <Column field="quantity" header="Количество"></Column>
-                                    <Column field="price" header="Цена"></Column>
-                                    <Column field="sum" header="Сумма"></Column>
-                                    <Column field="funding_source" header="Источник финансирования"></Column>
-                                    <Column field="found" header="Найдено"></Column>
-                                </DataTable>
-                                <div v-if="!data.excelRows.length">Лот еще не разбит</div>
+                                <div v-for="(rows, category) in data.excelRows" :key="category" class="border-1 border-green-400 mb-4">
+                                    <DataTable :value="rows">
+                                        <Column field="item_name">
+                                            <template #header class="flex-none">
+                                                <div class="flex justify-content-between align-items-center xl:w-12 lg:w-8 md:w-5 sm:w-3">
+                                                    <InlineMessage class="w-full" severity="success">{{ category }}</InlineMessage>
+                                                    <div class="flex">
+                                                        <Button icon="pi pi-pencil" class="p-button-text p-button-success" @click="editCategory(rows)" />
+                                                        <Button icon="pi pi-download" class="p-button-text p-button-success" @click="downloadCategory(rows)" />
+                                                    </div>
+                                                </div>
+                                            </template>
+                                        </Column>
+                                    </DataTable>
+                                </div>
+                                <div v-if="!Object.keys(data.excelRows).length">Лот еще не разбит</div>
                             </template>
                         </div>
                     </template>
@@ -86,9 +90,10 @@ import Column from "primevue/column";
 import RadioButton from "primevue/radiobutton";
 import Button from "primevue/button";
 import Skeleton from "primevue/skeleton";
+import InlineMessage from "primevue/inlinemessage";
 
 export default {
-    components: { Header, Footer, DataTable, Column, RadioButton, Button, Skeleton },
+    components: { Header, Footer, DataTable, Column, RadioButton, Button, Skeleton, InlineMessage },
     data() {
         return {
             selectedLaw: {},
@@ -122,7 +127,6 @@ export default {
                 this.loadingRows = { ...this.loadingRows, [file.id]: true };
                 this.expandedRows = { ...this.expandedRows, [file.id]: true };
 
-                // Always fetch rows when expanding
                 const rows = await this.fetchExcelRows(file.id);
                 file.excelRows = rows;
 
@@ -131,6 +135,12 @@ export default {
         },
         isRowExpanded(file) {
             return !!this.expandedRows[file.id];
+        },
+        downloadCategory(rows) {
+            // Logic for downloading the category
+        },
+        editCategory(rows) {
+            // Logic for editing the category
         }
     },
     watch: {

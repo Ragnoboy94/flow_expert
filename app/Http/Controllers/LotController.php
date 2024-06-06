@@ -31,7 +31,7 @@ class LotController extends Controller
             ->where('user_id', Auth::id())
             ->firstOrFail();
 
-        $rows = ExcelRow::where('demand_file_id', $file->id)->get();
+        $rows = ExcelRow::where('demand_file_id', $file->id)->with('drugCategory')->get();
 
         return response()->json($rows);
     }

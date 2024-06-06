@@ -97,8 +97,19 @@ export const upload = {
         },
         async fetchExcelRows({ commit }, fileId) {
             const response = await axios.get(`/api/files/${fileId}/rows`);
-            commit('SET_EXCEL_ROWS', { fileId, rows: response.data });
-            return response.data;
+            const rows = response.data;
+
+            const groupedRows = rows.reduce((acc, row) => {
+                const category = row.drug_category ? row.drug_category.name : 'Без категории';
+                if (!acc[category]) {
+                    acc[category] = [];
+                }
+                acc[category].push(row);
+                return acc;
+            }, {});
+
+            commit('SET_EXCEL_ROWS', { fileId, rows: groupedRows });
+            return groupedRows;
         },
         async splitLotsAPI({ dispatch }, { fileId, selectedLaw }) {
             try {
