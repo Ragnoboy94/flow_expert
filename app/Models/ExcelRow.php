@@ -20,10 +20,16 @@ class ExcelRow extends Model
         'funding_source',
         'found',
         'xml_data_id',
+        'release_form',
+        'drug_category_id',
     ];
 
     public function xmlData()
     {
         return $this->belongsTo(XmlData::class);
+    }
+    public function drugCategory()
+    {
+        return $this->belongsTo(DrugCategory::class);
     }
 }

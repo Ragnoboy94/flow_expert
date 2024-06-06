@@ -2,6 +2,7 @@
 
 namespace App\Imports;
 
+use App\Models\DrugCategory;
 use App\Models\ExcelRow;
 use Maatwebsite\Excel\Concerns\ToModel;
 use Maatwebsite\Excel\Concerns\WithHeadingRow;
@@ -22,7 +23,13 @@ class ExcelRowsImport implements ToModel, WithHeadingRow
      */
     public function model(array $row)
     {
-        if ((int)$row[0] > 0 && isset($row[8])) {
+        if ((int)$row[0] > 0 && isset($row[10])) {
+            $category_id = null;
+            if (!empty($row[9])){
+                $category = DrugCategory::firstOrCreate(['name' => $row[9]]);
+                $category_id = $category->id;
+            }
+
             return new ExcelRow([
                 'demand_file_id' => $this->demandFileId,
                 'department' => $row[1],
@@ -32,7 +39,9 @@ class ExcelRowsImport implements ToModel, WithHeadingRow
                 'price' => $row[5],
                 'sum' => $row[6],
                 'funding_source' => $row[7],
-                'found' => $row[8],
+                'release_form' => $row[8],
+                'drug_category_id' => $category_id,
+                'found' => $row[10],
             ]);
         }
     }
