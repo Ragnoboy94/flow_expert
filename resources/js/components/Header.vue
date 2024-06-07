@@ -1,18 +1,18 @@
 <template>
-    <header class="header">
+    <header class="header xl:px-8 lg:px-8 md:px-8">
         <router-link to="/" class="logo-container">
             <img src="../../pics/logo1.webp" alt="FlowExpert" class="header-logo">
         </router-link>
 
-        <nav class="header-nav">
-            <router-link to="/about" class="header-link">О нас</router-link>
-            <router-link to="/contacts" class="header-link">Контакты</router-link>
-        </nav>
-        <div class="header-icons">
+        <div class="header-icons ">
+            <nav class="header-nav">
+                <router-link to="/about" class="header-link px-4 font-light">О нас</router-link>
+                <router-link to="/contacts" class="header-link px-4 font-light">Контакты</router-link>
+            </nav>
             <router-link to="/profile">
-                <i class="pi pi-user"></i>
+                <i class="pi pi-user pi-custom xl:px-5 lg:px-5 md:px-5"></i>
             </router-link>
-            <i class="pi pi-bars" @click="visible = true"></i>
+            <i class="pi pi-bars pi-custom xl:px-5 lg:px-5 md:px-5 px-3" @click="visible = true"></i>
         </div>
         <Sidebar v-model:visible="visible" position="right" class="header-sidebar">
             <router-link to="/demand">
@@ -77,15 +77,8 @@ export default {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 1rem 2rem;
     background-color: #fff;
     border-radius: 1vw;
-}
-
-.logo-title {
-    font-size: 0.5rem;
-    color: #333;
-    text-align: center;
 }
 
 @media screen and (max-width: 767px) {
@@ -108,6 +101,10 @@ export default {
 
 .header-icons {
     display: flex;
+}
+
+.pi-custom {
+    margin-top: -2px;
 }
 
 .pi {
