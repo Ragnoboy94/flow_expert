@@ -18,7 +18,9 @@
                 <Dialog v-model:visible="dialogVisible[index]" class="xl:w-8 lg:w-9 md:w-10 sm:w-11" :modal="true"
                         :dismissableMask="true">
                     <template #header>
-                        <h3>{{ sphere.title }}</h3>
+                        <div class="text-center w-full">
+                            <h3>{{ sphere.title }}</h3>
+                        </div>
                     </template>
                     <div class="dialog-container flex flex-column lg:flex-row lg:flex-wrap">
                         <Card class="specialized-card flex">
