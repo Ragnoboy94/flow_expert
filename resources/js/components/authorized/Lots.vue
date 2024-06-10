@@ -62,7 +62,7 @@
                                                 <div class="flex justify-content-between align-items-center xl:w-12 lg:w-8 md:w-5 sm:w-3">
                                                     <InlineMessage class="w-full" severity="success">{{ category }}</InlineMessage>
                                                     <div class="flex">
-                                                        <Button icon="pi pi-pencil" class="p-button-text p-button-success" @click="editCategory(rows)" />
+                                                        <Button icon="pi pi-pencil" class="p-button-text p-button-success" @click="editCategory(category, data.id)" />
                                                         <Button icon="pi pi-download" class="p-button-text p-button-success" @click="downloadCategory(rows)" />
                                                     </div>
                                                 </div>
@@ -75,6 +75,55 @@
                         </div>
                     </template>
                 </DataTable>
+                <Dialog v-model:visible="editDialogVisible" class="xl:w-8 lg:w-9 md:w-10 sm:w-11 w-12" :modal="true"
+                        :dismissableMask="true" header="Редактировать строки категории">
+                    <template #header>
+                        <div class="text-center">
+                            <span class="font-bold text-header">Редактировать строки категории</span>
+                        </div>
+                    </template>
+                    <DataTable :value="editCategoryRows" editMode="cell" @cell-edit-complete="saveEdit">
+                        <Column field="department" header="Отделение" style="width: 20%">
+                            <template #body ="{ data }">
+                                <InputText class="w-12" v-model="data.department" />
+                            </template>
+                        </Column>
+                        <Column field="item_name" header="Наименование" style="width: 30%">
+                            <template #body="{ data }">
+                                <InputText class="w-12" v-model="data.item_name" />
+                            </template>
+                        </Column>
+                        <Column field="release_form" header="Форма выпуска" style="width: 10%">
+                            <template #body="{ data }">
+                                <InputText class="w-12" v-model="data.release_form" />
+                            </template>
+                        </Column>
+                        <Column field="unit" header="Ед. изм." style="width: 10%">
+                            <template #body="{ data }">
+                                <InputText class="w-12" v-model="data.unit" />
+                            </template>
+                        </Column>
+                        <Column field="quantity" header="Количество" style="width: 10%">
+                            <template #body="{ data }">
+                                <InputText class="w-12" v-model="data.quantity" />
+                            </template>
+                        </Column>
+                        <Column field="price" header="Цена" style="width: 10%">
+                            <template #body="{ data }">
+                                <InputText class="w-12" v-model="data.price" />
+                            </template>
+                        </Column>
+                        <Column field="sum" header="Сумма" style="width: 10%">
+                            <template #body="{ data }">
+                                <InputText class="w-12" v-model="data.sum" />
+                            </template>
+                        </Column>
+                    </DataTable>
+                    <div class="p-dialog-footer">
+                        <Button label="Отмена" icon="pi pi-times" @click="editDialogVisible = false" class="p-button-text" />
+                        <Button label="Сохранить" icon="pi pi-check" @click="saveEdit" class="p-button-text" />
+                    </div>
+                </Dialog>
             </div>
         </div>
     </section>
@@ -88,24 +137,30 @@ import { mapActions, mapState } from "vuex";
 import DataTable from "primevue/datatable";
 import Column from "primevue/column";
 import RadioButton from "primevue/radiobutton";
-import Button from "primevue/button";
 import Skeleton from "primevue/skeleton";
 import InlineMessage from "primevue/inlinemessage";
+import Dialog from "primevue/dialog";
+import InputText from "primevue/inputtext";
 
 export default {
-    components: { Header, Footer, DataTable, Column, RadioButton, Button, Skeleton, InlineMessage },
+    components: { Header, Footer, DataTable, Column, RadioButton, Skeleton, InlineMessage, Dialog, InputText },
     data() {
         return {
             selectedLaw: {},
             expandedRows: {},
-            loadingRows: {}
+            loadingRows: {},
+            editingRows: {},
+            editDialogVisible: false,
+            editCategoryRows: [],
+            editCategory: null,
+            currentFileId: null
         };
     },
     computed: {
         ...mapState('upload', ['files']),
     },
     methods: {
-        ...mapActions('upload', ['fetchReadyFiles', 'splitLotsAPI', 'fetchExcelRows']),
+        ...mapActions('upload', ['fetchReadyFiles', 'splitLotsAPI', 'fetchExcelRows', 'updateExcelRows']),
         initializeSelectedLaw() {
             this.files.forEach(file => {
                 this.selectedLaw = {
@@ -136,11 +191,29 @@ export default {
         isRowExpanded(file) {
             return !!this.expandedRows[file.id];
         },
-        downloadCategory(rows) {
-            // Logic for downloading the category
+        editCategory(category, fileId) {
+            this.currentFileId = fileId;
+            const file = this.files.find(f => f.id === fileId);
+            if (file && file.excelRows && file.excelRows[category]) {
+                this.editCategoryRows = JSON.parse(JSON.stringify(file.excelRows[category]));
+            }
+            this.editCategory = category;
+            this.editDialogVisible = true;
         },
-        editCategory(rows) {
-            // Logic for editing the category
+        async saveEdit() {
+            const fileIndex = this.files.findIndex(file => file.excelRows && file.excelRows[this.editCategory]);
+            if (fileIndex !== -1) {
+                const cleanedRows = this.editCategoryRows.map(row => {
+                    const { drug_category, ...cleanedRow } = row;
+                    return cleanedRow;
+                });
+                this.files[fileIndex].excelRows[this.editCategory] = this.editCategoryRows;
+                await this.updateExcelRows({ fileId: this.files[fileIndex].id, rows: cleanedRows });
+            }
+            this.editDialogVisible = false;
+        },
+        downloadCategory(rows) {
+            // Логика для скачивания категории
         }
     },
     watch: {
@@ -155,6 +228,8 @@ export default {
     }
 }
 </script>
+
+
 
 <style scoped>
 .title-section p {
@@ -171,5 +246,9 @@ export default {
     border: 1px solid #ccc;
     padding: 8px;
     text-align: left;
+}
+.text-header {
+    color: #00a950;
+    text-align: center;
 }
 </style>

@@ -35,4 +35,19 @@ class LotController extends Controller
 
         return response()->json($rows);
     }
+    public function updateExcelRows(Request $request, $fileId)
+    {
+        $file = DemandFile::where('id', $fileId)
+            ->where('user_id', Auth::id())
+            ->firstOrFail();
+
+        $rows = $request->all();
+        foreach ($rows as $row) {
+            ExcelRow::where('id', $row['id'])
+                ->where('demand_file_id', $file->id)
+                ->update($row);
+        }
+
+        return response()->json(['message' => 'Строки успешно обновлены']);
+    }
 }

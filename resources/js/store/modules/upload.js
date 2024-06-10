@@ -198,5 +198,13 @@ export const upload = {
                 console.error('Ошибка при удалении предложения:', error);
             }
         },
+        async updateExcelRows({ commit, dispatch }, { fileId, rows }) {
+            try {
+                await axios.put(`/api/files/${fileId}/rows`, rows);
+                await dispatch('fetchExcelRows', fileId);
+            } catch (error) {
+                console.error('Ошибка при обновлении строк:', error);
+            }
+        }
     }
 }
