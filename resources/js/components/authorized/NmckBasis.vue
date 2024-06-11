@@ -10,22 +10,50 @@
                 </p>
                 <p v-if="!selectedFile" class="text-green-600">Выберите предложение</p>
             </div>
-            <DataTable v-model:selection="selectedFile" :value="files" selectionMode="single" dataKey="id"
-                       :metaKeySelection="false" @rowSelect="onRowSelect" @rowUnselect="onRowUnselect"
-                       table-style="border-color: green">
-                <Column field="filename" header="Имя файла"></Column>
-                <Column field="created_at" header="Дата загрузки">
-                    <template #body="{ data }">
-                        {{ new Date(data.created_at).toLocaleDateString() }}
-                    </template>
-                </Column>
-            </DataTable>
+            <div class="flex flex-column lg:flex-row lg:flex-wrap mt-3">
+                <div class="lg:col-8">
+                    <div class="flex-1 lg:mr-2 mb-3">
+                        <Fieldset class="border-round-3xl border-1 border-green-400" legend="Загруженная потребность">
+                            <p class="m-0">
+                                <DataTable v-model:selection="selectedFile" :value="files" selectionMode="single"
+                                           dataKey="id"
+                                           :metaKeySelection="false" @rowSelect="onRowSelect"
+                                           @rowUnselect="onRowUnselect"
+                                           table-style="border-color: green">
+                                    <Column field="filename" header="Имя файла"></Column>
+                                    <Column field="created_at" header="Дата загрузки">
+                                        <template #body="{ data }">
+                                            {{ new Date(data.created_at).toLocaleDateString() }}
+                                        </template>
+                                    </Column>
+                                </DataTable>
+                            </p>
+                        </Fieldset>
+                    </div>
+                </div>
+                <div class="flex-1 col-12 lg:mr-2 mb-3">
+                    <Fieldset class="border-round-3xl border-1 border-green-400" legend="Коммерческое предложение">
+                        <p class="m-0">
+                            <DataTable v-model:selection="selectedOffers" :value="offers" selectionMode="multiple"
+                                       dataKey="id"
+                                       :metaKeySelection="false">
+                                <Column field="sender" header="Имя файла"></Column>
+                                <Column field="created_at" header="Дата загрузки">
+                                    <template #body="{ data }">
+                                        {{ new Date(data.created_at).toLocaleDateString() }}
+                                    </template>
+                                </Column>
+                            </DataTable>
+                        </p>
+                    </Fieldset>
+                </div>
+            </div>
             <div class="flex mt-3 col-12">
                 <Checkbox v-model="openSource" :binary="true" inputId="openSource"/>
                 <label for="openSource"> Использовать цены из открытых источников</label>
             </div>
             <div class="flex flex-column lg:flex-row lg:flex-wrap mt-3">
-                <Fieldset class="border-round-3xl lg:col-8 col-12" legend="Метод средневзвешенной цены">
+                <Fieldset class="border-round-3xl lg:col-8 col-12 border-1 border-green-400" legend="Метод средневзвешенной цены">
                     <p class="m-0">
                         <div class="flex-1 lg:mr-2 mb-3">
                             <DataTable stripedRows :value="monthlyData" editMode="cell"
@@ -33,7 +61,8 @@
                                 <Column field="month" header="Месяц" :editable="false"></Column>
                                 <Column field="price" header="Цена" style="width: 33%">
                                     <template #editor="{ data, field }">
-                                        <InputNumber mode="currency" currency="RUB" locale="ru-RU" v-model="data[field]"/>
+                                        <InputNumber mode="currency" currency="RUB" locale="ru-RU"
+                                                     v-model="data[field]"/>
                                     </template>
                                 </Column>
                                 <Column field="quantity" header="Количество" style="width: 33%">
@@ -45,7 +74,7 @@
                         </div>
                     </p>
                 </Fieldset>
-                <Fieldset class="border-round-3xl lg:col-4 col-12" legend="Метод референтных цен">
+                <Fieldset class="border-round-3xl lg:col-4 col-12 border-1 border-green-400" legend="Метод референтных цен">
                     <p class="m-0">
                         <div class="flex-1 lg:ml-2 mb-3">
                             <DataTable stripedRows :value="periodicData" editMode="cell"
@@ -75,19 +104,20 @@ import DataTable from "primevue/datatable";
 import Checkbox from 'primevue/checkbox';
 import Column from 'primevue/column';
 import InputNumber from "primevue/inputnumber";
-import { mapActions, mapState } from "vuex";
+import {mapActions, mapState} from "vuex";
 import Fieldset from "primevue/fieldset";
 
 export default {
-    components: { Header, Footer, DataTable, Checkbox, Column, InputNumber, Fieldset },
+    components: {Header, Footer, DataTable, Checkbox, Column, InputNumber, Fieldset},
     data() {
         return {
             selectedFile: null,
             openSource: false,
+            selectedOffers: [],
         };
     },
     methods: {
-        ...mapActions('upload', ['fetchFiles', 'prepareNMCKFile', 'fetchData']),
+        ...mapActions('upload', ['fetchFiles', 'prepareNMCKFile', 'fetchData', 'fetchOffers']),
         onRowSelect(event) {
             this.selectedFile = event.data;
         },
@@ -102,6 +132,7 @@ export default {
 
             const requestData = {
                 fileId: this.selectedFile.id,
+                offerIds: this.selectedOffers.map(offer => offer.id),
                 openSource: this.openSource
             };
 
@@ -118,11 +149,12 @@ export default {
         }
     },
     computed: {
-        ...mapState('upload', ['files', 'monthlyData', 'periodicData']),
+        ...mapState('upload', ['files', 'monthlyData', 'periodicData', 'offers']),
     },
     created() {
         this.fetchFiles();
         this.fetchData();
+        this.fetchOffers();
     }
 }
 </script>
