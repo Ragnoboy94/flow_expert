@@ -20,3 +20,4 @@ yarn-error.log
 /public/processed_files/*
 /public/offers/*
 /public/offers_export/*
+/public/generated_files/*

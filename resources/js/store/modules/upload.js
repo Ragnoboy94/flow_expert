@@ -217,6 +217,15 @@ export const upload = {
             } catch (error) {
                 console.error('Ошибка при загрузке категорий:', error);
             }
+        },
+        async downloadCategoryFile({ commit }, { fileId, categoryId }) {
+            try {
+                const response = await axios.get(`/api/files/${fileId}/category/${categoryId}/download`);
+                return response.data.fileUrl;
+            } catch (error) {
+                console.error('Ошибка при скачивании файла:', error);
+                throw error;
+            }
         }
     }
 }

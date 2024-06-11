@@ -63,7 +63,7 @@
                                                     <InlineMessage class="w-full" severity="success">{{ category }}</InlineMessage>
                                                     <div class="flex">
                                                         <Button icon="pi pi-pencil" class="p-button-text p-button-success" @click="editCategory(category, data.id)" />
-                                                        <Button icon="pi pi-download" class="p-button-text p-button-success" @click="downloadCategory(rows)" />
+                                                        <Button icon="pi pi-download" class="p-button-text p-button-success" @click="downloadCategory(rows, data.id)" />
                                                     </div>
                                                 </div>
                                             </template>
@@ -166,7 +166,7 @@ export default {
         ...mapState('upload', ['files', 'categories']),
     },
     methods: {
-        ...mapActions('upload', ['fetchReadyFiles', 'splitLotsAPI', 'fetchExcelRows', 'updateExcelRows', 'fetchCategories']),
+        ...mapActions('upload', ['fetchReadyFiles', 'splitLotsAPI', 'fetchExcelRows', 'updateExcelRows', 'fetchCategories', 'downloadCategoryFile']),
         initializeSelectedLaw() {
             this.files.forEach(file => {
                 this.selectedLaw = {
@@ -223,8 +223,17 @@ export default {
             }
             this.editDialogVisible = false;
         },
-        downloadCategory(rows) {
-            // Логика для скачивания категории
+        async downloadCategory(rows, fileId) {
+            const category = rows[0].drug_category;
+            const categoryId = category ? category.id : 'no-category';
+
+            try {
+                const fileUrl = await this.downloadCategoryFile({ fileId, categoryId });
+
+                window.open(fileUrl, '_blank');
+            } catch (error) {
+                console.error('Ошибка при скачивании файла:', error);
+            }
         }
     },
     watch: {

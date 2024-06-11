@@ -11,6 +11,7 @@ use App\Http\Controllers\OfferController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\DeleteController;
 use App\Http\Controllers\NMCKController;
+use App\Http\Controllers\FileGenerationController;
 
 //Auth
 Route::post('/login', [LoginController::class, 'login']);
@@ -43,4 +44,5 @@ Route::middleware('auth:api')->group(function () {
     Route::get('/get-data', [NMCKController::class, 'getData']);
     Route::put('/files/{fileId}/rows', [LotController::class, 'updateExcelRows']);
     Route::get('/drug-categories', [LotController::class, 'categoryList']);
+    Route::get('/files/{fileId}/category/{categoryId}/download', [FileGenerationController::class, 'download']);
 });
