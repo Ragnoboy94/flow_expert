@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Jobs\ProcessExcelFile;
 use App\Models\DemandFile;
+use App\Models\DrugCategory;
 use App\Models\ExcelRow;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -49,5 +50,11 @@ class LotController extends Controller
         }
 
         return response()->json(['message' => 'Строки успешно обновлены']);
+    }
+
+    public function categoryList()
+    {
+        $categories = DrugCategory::all();
+        return response()->json($categories);
     }
 }

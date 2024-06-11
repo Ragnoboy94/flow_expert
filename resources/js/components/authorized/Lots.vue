@@ -83,7 +83,7 @@
                         </div>
                     </template>
                     <DataTable :value="editCategoryRows" editMode="cell" @cell-edit-complete="saveEdit">
-                        <Column field="department" header="Отделение" style="width: 20%">
+                        <Column field="department" header="Отделение" style="width: 10%">
                             <template #body ="{ data }">
                                 <InputText class="w-12" v-model="data.department" />
                             </template>
@@ -118,6 +118,11 @@
                                 <InputText class="w-12" v-model="data.sum" />
                             </template>
                         </Column>
+                        <Column field="drug_category" header="Категория" style="width: 10%">
+                            <template #body="{ data }">
+                                <Dropdown :options="categories" optionLabel="name" v-model="data.drug_category"  class="w-full" />
+                            </template>
+                        </Column>
                     </DataTable>
                     <div class="p-dialog-footer">
                         <Button label="Отмена" icon="pi pi-times" @click="editDialogVisible = false" class="p-button-text" />
@@ -141,9 +146,10 @@ import Skeleton from "primevue/skeleton";
 import InlineMessage from "primevue/inlinemessage";
 import Dialog from "primevue/dialog";
 import InputText from "primevue/inputtext";
+import Dropdown from "primevue/dropdown";
 
 export default {
-    components: { Header, Footer, DataTable, Column, RadioButton, Skeleton, InlineMessage, Dialog, InputText },
+    components: { Header, Footer, DataTable, Column, RadioButton, Skeleton, InlineMessage, Dialog, InputText, Dropdown },
     data() {
         return {
             selectedLaw: {},
@@ -157,10 +163,10 @@ export default {
         };
     },
     computed: {
-        ...mapState('upload', ['files']),
+        ...mapState('upload', ['files', 'categories']),
     },
     methods: {
-        ...mapActions('upload', ['fetchReadyFiles', 'splitLotsAPI', 'fetchExcelRows', 'updateExcelRows']),
+        ...mapActions('upload', ['fetchReadyFiles', 'splitLotsAPI', 'fetchExcelRows', 'updateExcelRows', 'fetchCategories']),
         initializeSelectedLaw() {
             this.files.forEach(file => {
                 this.selectedLaw = {
@@ -205,6 +211,11 @@ export default {
             if (fileIndex !== -1) {
                 const cleanedRows = this.editCategoryRows.map(row => {
                     const { drug_category, ...cleanedRow } = row;
+                    if (drug_category && typeof drug_category === 'object') {
+                        cleanedRow.drug_category_id = drug_category.id;
+                    } else {
+                        cleanedRow.drug_category_id = null;
+                    }
                     return cleanedRow;
                 });
                 this.files[fileIndex].excelRows[this.editCategory] = this.editCategoryRows;
@@ -225,6 +236,7 @@ export default {
     },
     created() {
         this.fetchReadyFiles();
+        this.fetchCategories();
     }
 }
 </script>

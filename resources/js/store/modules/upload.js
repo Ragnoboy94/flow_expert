@@ -24,7 +24,8 @@ export const upload = {
             { period: `01.04.${new Date().getFullYear()}`, quantity: 0, period_id: 2 },
             { period: `01.07.${new Date().getFullYear()}`, quantity: 0, period_id: 3 },
             { period: `01.10.${new Date().getFullYear()}`, quantity: 0, period_id: 4 }
-        ]
+        ],
+        categories: [],
     },
     mutations: {
         SET_UPLOAD_STATUS(state, status) {
@@ -70,7 +71,10 @@ export const upload = {
                 }
                 return item;
             });
-        }
+        },
+        SET_CATEGORIES(state, categories) {
+            state.categories = categories;
+        },
     },
     actions: {
         async uploadFile({ commit }, file) {
@@ -204,6 +208,14 @@ export const upload = {
                 await dispatch('fetchExcelRows', fileId);
             } catch (error) {
                 console.error('Ошибка при обновлении строк:', error);
+            }
+        },
+        async fetchCategories({ commit }) {
+            try {
+                const response = await axios.get('/api/drug-categories');
+                commit('SET_CATEGORIES', response.data);
+            } catch (error) {
+                console.error('Ошибка при загрузке категорий:', error);
             }
         }
     }

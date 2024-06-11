@@ -42,4 +42,5 @@ Route::middleware('auth:api')->group(function () {
     Route::post('/save-data', [NMCKController::class, 'storeData']);
     Route::get('/get-data', [NMCKController::class, 'getData']);
     Route::put('/files/{fileId}/rows', [LotController::class, 'updateExcelRows']);
+    Route::get('/drug-categories', [LotController::class, 'categoryList']);
 });
