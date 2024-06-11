@@ -3,6 +3,7 @@ export const upload = {
     state: {
         uploadStatus: '',
         files: [],
+        files_ready: [],
         offers: [],
         offerRows: [],
         monthlyData: [
@@ -33,6 +34,9 @@ export const upload = {
         },
         SET_FILES(state, files) {
             state.files = files;
+        },
+        SET_FILES_READY(state, files) {
+            state.files_ready = files;
         },
         SET_EXCEL_ROWS(state, { fileId, rows }) {
             const file = state.files.find(f => f.id === fileId);
@@ -91,13 +95,13 @@ export const upload = {
                 commit('SET_UPLOAD_STATUS', 'Ошибка в загрузке файла на сервер!');
             }
         },
-        async fetchFiles({ commit }) {
+        async fetchFiles({ commit, dispatch }) {
             const response = await axios.get('/api/files');
             commit('SET_FILES', response.data);
         },
         async fetchReadyFiles({ commit }) {
             const response = await axios.post('/api/files', { 'status_id': 3 });
-            commit('SET_FILES', response.data);
+            commit('SET_FILES_READY', response.data);
         },
         async fetchExcelRows({ commit }, fileId) {
             const response = await axios.get(`/api/files/${fileId}/rows`);

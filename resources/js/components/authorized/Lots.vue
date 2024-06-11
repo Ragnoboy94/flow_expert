@@ -11,7 +11,7 @@
                 </router-link>
             </div>
             <div class="files-table mt-3">
-                <DataTable v-model:expandedRows="expandedRows" :value="files" dataKey="id"
+                <DataTable v-model:expandedRows="expandedRows" :value="files_ready" dataKey="id"
                            tableStyle="border-color: green">
                     <Column field="filename" header="Имя файла"></Column>
                     <Column field="status_name" header="Статус"></Column>
@@ -163,7 +163,7 @@ export default {
         };
     },
     computed: {
-        ...mapState('upload', ['files', 'categories']),
+        ...mapState('upload', ['files_ready', 'categories']),
     },
     methods: {
         ...mapActions('upload', ['fetchReadyFiles', 'splitLotsAPI', 'fetchExcelRows', 'updateExcelRows', 'fetchCategories', 'downloadCategoryFile']),
@@ -237,7 +237,7 @@ export default {
         }
     },
     watch: {
-        files: {
+        files_ready: {
             handler: 'initializeSelectedLaw',
             immediate: true,
             deep: true
