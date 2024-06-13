@@ -21,3 +21,4 @@ yarn-error.log
 /public/offers/*
 /public/offers_export/*
 /public/generated_files/*
+/public/nmck_files/*

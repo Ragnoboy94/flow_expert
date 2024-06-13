@@ -2,10 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\NmckExport;
 use App\Models\MonthlyData;
+use App\Models\NmckFile;
 use App\Models\PeriodicData;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Maatwebsite\Excel\Facades\Excel;
 
 class NmckController extends Controller
 {
@@ -13,6 +16,10 @@ class NmckController extends Controller
     {
         $user = Auth::user();
         $data = $request->validate([
+            'requestData.fileId' => 'required|integer|exists:demand_files,id',
+            'requestData.offerIds' => 'required|array',
+            'requestData.offerIds.*' => 'integer|exists:offers,id',
+            'requestData.openSource' => 'required|boolean',
             'monthlyData' => 'required|array',
             'monthlyData.*.month_id' => 'required|integer|min:1|max:12',
             'monthlyData.*.price' => 'required|numeric',
@@ -35,6 +42,17 @@ class NmckController extends Controller
                 ['quantity' => $periodic['quantity']]
             );
         }
+
+        $filename = 'nmck_' . now()->timestamp . '.xlsx';
+
+        $filePath = 'nmck_files/' . $filename;
+        Excel::store(new NmckExport($data['requestData']['fileId'], $data['requestData']['offerIds'], $data['monthlyData'], $data['periodicData'], $data['requestData']['openSource']), $filePath, 'public');
+
+        // Сохранение информации о файле
+        NmckFile::create([
+            'user_id' => $user->id,
+            'filename' => $filePath,
+        ]);
 
         return response()->json(['message' => 'Data saved successfully!']);
     }
