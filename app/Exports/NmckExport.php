@@ -6,32 +6,67 @@ use App\Models\ExcelRow;
 use App\Models\Offer;
 use Illuminate\Support\Collection;
 use Maatwebsite\Excel\Concerns\FromCollection;
-use Maatwebsite\Excel\Concerns\WithCustomStartCell;
-use Maatwebsite\Excel\Concerns\WithEvents;
-use Maatwebsite\Excel\Concerns\WithStyles;
-use Maatwebsite\Excel\Events\AfterSheet;
-use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
+use Maatwebsite\Excel\Concerns\WithHeadings;
+use Maatwebsite\Excel\Concerns\WithMapping;
 
-class NmckExport implements FromCollection, WithCustomStartCell, WithStyles, WithEvents
+
+class NmckExport implements FromCollection, WithHeadings, WithMapping
 {
     protected $fileId;
     protected $offerIds;
+    protected $monthlyData;
+    protected $periodicData;
+    protected $openSource;
 
-    public function __construct($fileId, $offerIds)
+    public function __construct($fileId, $offerIds, $monthlyData, $periodicData, $openSource)
     {
         $this->fileId = $fileId;
         $this->offerIds = $offerIds;
+        $this->monthlyData = $monthlyData;
+        $this->periodicData = $periodicData;
+        $this->openSource = $openSource;
     }
 
     public function collection()
     {
-        // Получаем данные для файла и предложений
         $rows = ExcelRow::where('demand_file_id', $this->fileId)->get();
         $offers = Offer::whereIn('id', $this->offerIds)->get();
 
-        // Заголовки
-        $headings = [
-            'Наименование объекта закупки',
+        $collection = new Collection();
+
+        foreach ($rows as $row) {
+            $averagePriceOpenSources = $this->calculateAveragePriceFromOpenSources($row);
+            $averagePriceCommercialOffers = $this->calculateAveragePriceFromCommercialOffers($offers);
+            $weightedAveragePrice = $this->calculateWeightedAveragePrice($averagePriceOpenSources, $averagePriceCommercialOffers);
+            $referencePrice = $this->calculateReferencePrice($row);
+            $minimumPrice = min($averagePriceOpenSources, $averagePriceCommercialOffers, $weightedAveragePrice, $referencePrice);
+            $priceWithMarkup = $this->calculatePriceWithMarkup($minimumPrice);
+            $totalCost = $this->calculateTotalCost($row, $priceWithMarkup);
+
+            $collection->push([
+                'object_name' => $row->item_name,
+                'unit' => $row->unit,
+                'release_form' => $row->release_form,
+                'dosage' => $row->dosage,
+                'is_in_vzn' => $row->is_in_vzn  ? 'Да' : 'Нет',
+                'average_price_open_sources' => $averagePriceOpenSources,
+                'average_price_commercial_offers' => $averagePriceCommercialOffers,
+                'weighted_average_price' => $weightedAveragePrice,
+                'reference_price' => $referencePrice,
+                'minimum_price' => $minimumPrice,
+                'price_with_markup' => $priceWithMarkup,
+                'quantity' => $row->quantity,
+                'total_cost' => $totalCost,
+            ]);
+        }
+
+        return $collection;
+    }
+
+    public function headings(): array
+    {
+        return [
+            'Наименование ЛС',
             'Единицы измерения',
             'Лекарственная форма',
             'Дозировка',
@@ -45,91 +80,62 @@ class NmckExport implements FromCollection, WithCustomStartCell, WithStyles, Wit
             'Количество',
             'НМЦК (количество ЛС * цена из пункта 12)',
         ];
-
-        // Формируем данные для экспорта
-        $data = [];
-        foreach ($headings as $heading) {
-            $data[] = [$heading];
-        }
-
-        // Заполняем строки данными из ExcelRow
-        foreach ($rows as $row) {
-            $data[0][] = $row->item_name;
-            $data[1][] = $row->unit;
-            $data[2][] = $row->release_form;
-            $data[3][] = $row->dosage;
-            $data[4][] = $row->jnvlp ? 'Да' : 'Нет';
-            $data[5][] = $row->average_price_open_sources;
-            $data[6][] = $row->average_price_offers;
-            $data[7][] = $row->weighted_average_price;
-            $data[8][] = $row->max_price_registry;
-            $data[9][] = min($row->average_price_open_sources, $row->average_price_offers, $row->weighted_average_price, $row->max_price_registry);
-            $data[10][] = $row->price_with_markup_vat;
-            $data[11][] = $row->quantity;
-            $data[12][] = $row->nmck;
-        }
-
-        // Заполняем строки данными из Offers (если применимо)
-        foreach ($offers as $offer) {
-            $data[0][] = $offer->item_name;
-            $data[1][] = $offer->unit;
-            $data[2][] = $offer->release_form;
-            $data[3][] = $offer->dosage;
-            $data[4][] = $offer->jnvlp ? 'Да' : 'Нет';
-            $data[5][] = $offer->average_price_open_sources;
-            $data[6][] = $offer->average_price_offers;
-            $data[7][] = $offer->weighted_average_price;
-            $data[8][] = $offer->max_price_registry;
-            $data[9][] = min($offer->average_price_open_sources, $offer->average_price_offers, $offer->weighted_average_price, $offer->max_price_registry);
-            $data[10][] = $offer->price_with_markup_vat;
-            $data[11][] = $offer->quantity;
-            $data[12][] = $offer->nmck;
-        }
-
-        // Возвращаем коллекцию для экспорта
-        return new Collection($data);
     }
 
-    public function registerEvents(): array
+    public function map($row): array
     {
         return [
-            AfterSheet::class => function (AfterSheet $event) {
-                $sheet = $event->sheet->getDelegate();
-
-                // Автоширина для всех столбцов от A до ZZ
-                $columns = range('A', 'Z');
-                foreach ($columns as $column) {
-                    $sheet->getColumnDimension($column)->setAutoSize(true);
-                }
-
-                $prefix = '';
-                foreach ($columns as $column1) {
-                    foreach ($columns as $column2) {
-                        $sheet->getColumnDimension($column1 . $column2)->setAutoSize(true);
-                    }
-                }
-            },
+            $row['object_name'],
+            $row['unit'],
+            $row['release_form'],
+            $row['dosage'],
+            $row['is_in_vzn'],
+            $row['average_price_open_sources'],
+            $row['average_price_commercial_offers'],
+            $row['weighted_average_price'],
+            $row['reference_price'],
+            $row['minimum_price'],
+            $row['price_with_markup'],
+            $row['quantity'],
+            $row['total_cost'],
         ];
     }
 
-    public function startCell(): string
+    protected function calculateAveragePriceFromOpenSources($row)
     {
-        return 'A1';
+        // Логика для расчета средней цены из открытых источников
+        return 100; // Примерное значение, нужно заменить на реальную логику
     }
 
-    public function styles(Worksheet $sheet)
+    protected function calculateAveragePriceFromCommercialOffers($offers)
     {
-        return [
-            'A1:A15' => [
-                'font' => ['bold' => true],
-            ],
-        ];
+        // Логика для расчета средней цены из коммерческих предложений
+        return 150;
+
     }
 
-    public function sheets(): array
+    protected function calculateWeightedAveragePrice($averagePriceOpenSources, $averagePriceCommercialOffers)
     {
-        return [
-            'NMCK' => $this,
-        ];
+        // Логика для расчета средневзвешенной цены
+        return ($averagePriceOpenSources + $averagePriceCommercialOffers) / 2; // Примерное значение, нужно заменить на реальную логику
+    }
+
+    protected function calculateReferencePrice($row)
+    {
+        // Логика для расчета референтной цены
+        return 120; // Примерное значение, нужно заменить на реальную логику
+    }
+
+    protected function calculatePriceWithMarkup($minimumPrice)
+    {
+        // Логика для расчета цены с оптовой надбавкой и НДС
+        $priceWithMarkup = $minimumPrice * 1.15 * 1.1; // Примерное значение, нужно заменить на реальную логику
+        return $priceWithMarkup;
+    }
+
+    protected function calculateTotalCost($row, $priceWithMarkup)
+    {
+        // Логика для расчета общей стоимости
+        return $row->quantity * $priceWithMarkup; // Примерное значение, нужно заменить на реальную логику
     }
 }
