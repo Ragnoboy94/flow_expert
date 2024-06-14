@@ -6,6 +6,7 @@ use App\Models\ExcelRow;
 use App\Models\MedicineRows;
 use App\Models\Offer;
 use App\Models\OnlineDrugPrice;
+use App\Models\XmlData;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Http;
@@ -41,8 +42,9 @@ class NmckExport implements FromCollection, WithHeadings, WithMapping
         foreach ($rows as $row) {
             $averagePriceOpenSources = $this->calculateAveragePriceFromOpenSources($row);
             $averagePriceCommercialOffers = $this->calculateAveragePriceFromCommercialOffers($row->item_name);
-            $weightedAveragePrice = $this->calculateWeightedAveragePrice($averagePriceOpenSources, $averagePriceCommercialOffers);
+            $average_price_both_sources = $this->calculateWeightedAveragePrice($averagePriceOpenSources, $averagePriceCommercialOffers);
             $referencePrice = $this->calculateReferencePrice($row);
+            $weightedAveragePrice = $this->calculateWeightedAveragePrice($averagePriceOpenSources, $averagePriceCommercialOffers);
             $minimumPrice = min($averagePriceOpenSources, $averagePriceCommercialOffers, $weightedAveragePrice, $referencePrice);
             $priceWithMarkup = $this->calculatePriceWithMarkup($minimumPrice);
             $totalCost = $this->calculateTotalCost($row, $priceWithMarkup);
@@ -55,8 +57,10 @@ class NmckExport implements FromCollection, WithHeadings, WithMapping
                 'is_in_vzn' => $row->is_in_vzn ? 'Да' : 'Нет',
                 'average_price_open_sources' => $averagePriceOpenSources != 0 ? $averagePriceOpenSources : "Нет",
                 'average_price_commercial_offers' => $averagePriceCommercialOffers != 0 ? $averagePriceCommercialOffers : "Нет",
-                'weighted_average_price' => $weightedAveragePrice,
+                'average_price_both_sources' => $average_price_both_sources,
                 'reference_price' => $referencePrice,
+                'weighted_average_price' => $weightedAveragePrice,
+                'reference_price_new' => $referencePrice,
                 'minimum_price' => $minimumPrice,
                 'price_with_markup' => $priceWithMarkup,
                 'quantity' => $row->quantity,
@@ -74,15 +78,17 @@ class NmckExport implements FromCollection, WithHeadings, WithMapping
             'Единицы измерения',
             'Лекарственная форма',
             'Дозировка',
-            'Наличие в Перечне ЖНВЛП',
+            'Наличие лекарственного препарата в Перечне ЖНВЛП',
             'Средняя цена из открытых источников',
             'Средняя цена из коммерческих предложений',
-            'Средневзвешенная цена',
+            'Средняя цена из открытых источников и коммерческих предложений',
             'Предельная цена из госреестра',
-            'Минимальная цена (пунктов 6, 7, 8, 9)',
-            'Цена с оптовой надбавкой и НДС',
+            'Средневзвешенная цена',
+            'Референтная цена',
+            'Минимальная цена',
+            'Цена единицы препарата с оптовой надбавкой и НДС',
             'Количество',
-            'НМЦК (количество ЛС * цена из пункта 12)',
+            'НМЦК',
         ];
     }
 
@@ -96,8 +102,10 @@ class NmckExport implements FromCollection, WithHeadings, WithMapping
             $row['is_in_vzn'],
             $row['average_price_open_sources'],
             $row['average_price_commercial_offers'],
-            $row['weighted_average_price'],
+            $row['average_price_both_sources'],
             $row['reference_price'],
+            $row['weighted_average_price'],
+            $row['reference_price_new'],
             $row['minimum_price'],
             $row['price_with_markup'],
             $row['quantity'],
@@ -130,8 +138,13 @@ class NmckExport implements FromCollection, WithHeadings, WithMapping
 
     protected function calculateReferencePrice($row)
     {
-        // Логика для расчета референтной цены
-        return 120; // Примерное значение, нужно заменить на реальную логику
+        $prices = XmlData::where('id', $row->xml_data_id)->first();
+
+        if (!isset($prices['price_value'])) {
+            return 0;
+        }
+
+        return $prices->price_value;
     }
 
     protected function calculatePriceWithMarkup($minimumPrice)
