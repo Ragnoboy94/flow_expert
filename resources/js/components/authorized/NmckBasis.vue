@@ -99,8 +99,8 @@ export default {
             };
 
             try {
-                await this.prepareNMCKFile(requestData);
-                alert('Запрос на подготовку файла отправлен успешно.');
+                const fileUrl = await this.prepareNMCKFile(requestData);
+                window.open(fileUrl, '_blank');
             } catch (error) {
                 console.error('Ошибка при подготовке файла:', error);
             }

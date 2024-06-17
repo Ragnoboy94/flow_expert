@@ -26,7 +26,7 @@ class NmckController extends Controller
         $filename = 'nmck_' . now()->timestamp . '.xlsx';
 
         $filePath = 'nmck_files/' . $filename;
-        Excel::store(new NmckExport($data['requestData']['fileId'], $data['requestData']['offerIds'], $data['monthlyData'], $data['periodicData'], $data['requestData']['openSource']), $filePath, 'public');
+        Excel::store(new NmckExport($data['requestData']['fileId'], $data['requestData']['offerIds'], $data['requestData']['openSource']), $filePath, 'public');
 
         // Сохранение информации о файле
         NmckFile::create([
@@ -34,7 +34,7 @@ class NmckController extends Controller
             'filename' => $filePath,
         ]);
 
-        return response()->json(['message' => 'Data saved successfully!']);
+        return response()->json(['message' => 'Data saved successfully!', 'fileUrl' => asset($filePath)]);
     }
 
     public function getData(Request $request)

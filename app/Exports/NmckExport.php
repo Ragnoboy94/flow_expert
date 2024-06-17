@@ -4,8 +4,10 @@ namespace App\Exports;
 
 use App\Models\ExcelRow;
 use App\Models\MedicineRows;
+use App\Models\MonthlyData;
 use App\Models\Offer;
 use App\Models\OnlineDrugPrice;
+use App\Models\PeriodicData;
 use App\Models\XmlData;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Collection;
@@ -20,16 +22,12 @@ class NmckExport implements FromCollection, WithHeadings, WithMapping
 {
     protected $fileId;
     protected $offerIds;
-    protected $monthlyData;
-    protected $periodicData;
     protected $openSource;
 
-    public function __construct($fileId, $offerIds, $monthlyData, $periodicData, $openSource)
+    public function __construct($fileId, $offerIds, $openSource)
     {
         $this->fileId = $fileId;
         $this->offerIds = $offerIds;
-        $this->monthlyData = $monthlyData;
-        $this->periodicData = $periodicData;
         $this->openSource = $openSource;
     }
 
@@ -44,8 +42,18 @@ class NmckExport implements FromCollection, WithHeadings, WithMapping
             $averagePriceCommercialOffers = $this->calculateAveragePriceFromCommercialOffers($row->item_name);
             $average_price_both_sources = $this->calculateWeightedAveragePrice($averagePriceOpenSources, $averagePriceCommercialOffers);
             $referencePrice = $this->calculateReferencePrice($row);
-            $weightedAveragePrice = $this->calculateWeightedAveragePrice($averagePriceOpenSources, $averagePriceCommercialOffers);
-            $minimumPrice = min($averagePriceOpenSources, $averagePriceCommercialOffers, $weightedAveragePrice, $referencePrice);
+            $weightedAveragePrice = $this->calculateWeightedAveragePriceFromPeriodicData($row->id);
+            $referencePriceNew = $this->calculateReferencePriceFromMonthlyData($row->id);
+            $prices = array_filter([
+                $average_price_both_sources,
+                $referencePrice,
+                $weightedAveragePrice,
+                $referencePriceNew
+            ], function($value) {
+                return $value !== 0;
+            });
+
+            $minimumPrice = empty($prices) ? 0 : min($prices);
             $priceWithMarkup = $this->calculatePriceWithMarkup($minimumPrice);
             $totalCost = $this->calculateTotalCost($row, $priceWithMarkup);
 
@@ -57,14 +65,14 @@ class NmckExport implements FromCollection, WithHeadings, WithMapping
                 'is_in_vzn' => $row->is_in_vzn ? 'Да' : 'Нет',
                 'average_price_open_sources' => $averagePriceOpenSources != 0 ? $averagePriceOpenSources : "Нет",
                 'average_price_commercial_offers' => $averagePriceCommercialOffers != 0 ? $averagePriceCommercialOffers : "Нет",
-                'average_price_both_sources' => $average_price_both_sources,
-                'reference_price' => $referencePrice,
-                'weighted_average_price' => $weightedAveragePrice,
-                'reference_price_new' => $referencePrice,
-                'minimum_price' => $minimumPrice,
-                'price_with_markup' => $priceWithMarkup,
+                'average_price_both_sources' => $average_price_both_sources != 0 ? $average_price_both_sources : "0",
+                'reference_price' => $referencePrice != 0 ? $referencePrice : "0",
+                'weighted_average_price' => $weightedAveragePrice != 0 ? $weightedAveragePrice : "0",
+                'reference_price_new' => $referencePriceNew != 0 ? $referencePriceNew : "0",
+                'minimum_price' => $minimumPrice != 0 ? $minimumPrice : "0",
+                'price_with_markup' => $priceWithMarkup != 0 ? $priceWithMarkup : "0",
                 'quantity' => $row->quantity,
-                'total_cost' => $totalCost,
+                'total_cost' => $totalCost != 0 ? $totalCost : "0",
             ]);
         }
 
@@ -114,7 +122,6 @@ class NmckExport implements FromCollection, WithHeadings, WithMapping
     }
 
 
-
     protected function calculateAveragePriceFromCommercialOffers($itemName)
     {
         $prices = MedicineRows::whereIn('offer_id', $this->offerIds)
@@ -129,6 +136,38 @@ class NmckExport implements FromCollection, WithHeadings, WithMapping
         }
 
         return $prices->avg();
+    }
+
+    protected function calculateWeightedAveragePriceFromPeriodicData($excelRowId)
+    {
+        $data = PeriodicData::where('excel_row_id', $excelRowId)->get();
+
+        $totalQuantity = $data->sum('quantity');
+        $totalCost = $data->sum(function ($item) {
+            return $item->quantity * $item->price;
+        });
+
+        if ($totalQuantity == 0) {
+            return 0;
+        }
+
+        return $totalCost / $totalQuantity;
+    }
+
+    protected function calculateReferencePriceFromMonthlyData($excelRowId)
+    {
+        $data = MonthlyData::where('excel_row_id', $excelRowId)->get();
+
+        $totalVolume = $data->sum('quantity');
+        $totalCost = $data->sum(function ($item) {
+            return $item->quantity * $item->price;
+        });
+
+        if ($totalVolume == 0) {
+            return 0;
+        }
+
+        return $totalCost / $totalVolume;
     }
 
     protected function calculateWeightedAveragePrice($averagePriceOpenSources, $averagePriceCommercialOffers): float|int
@@ -149,15 +188,12 @@ class NmckExport implements FromCollection, WithHeadings, WithMapping
 
     protected function calculatePriceWithMarkup($minimumPrice)
     {
-        // Логика для расчета цены с оптовой надбавкой и НДС
-        $priceWithMarkup = $minimumPrice * 1.15 * 1.1; // Примерное значение, нужно заменить на реальную логику
-        return $priceWithMarkup;
+        return $minimumPrice * 1.15 * 1.1;
     }
 
     protected function calculateTotalCost($row, $priceWithMarkup)
     {
-        // Логика для расчета общей стоимости
-        return $row->quantity * $priceWithMarkup; // Примерное значение, нужно заменить на реальную логику
+        return $row->quantity * $priceWithMarkup;
     }
 
     protected function extractDosage($itemName)
@@ -199,6 +235,7 @@ class NmckExport implements FromCollection, WithHeadings, WithMapping
         // Замена переносов строк на пробелы
         return str_replace(["\r", "\n"], ' ', $value);
     }
+
     private function getMinPrice(string $drugName): int|float
     {
         if (!$drugName) {
@@ -261,6 +298,7 @@ class NmckExport implements FromCollection, WithHeadings, WithMapping
             return floatval($price);
         });
     }
+
     private function calculateAveragePrice($prices)
     {
         if (count($prices) === 0) return 0;

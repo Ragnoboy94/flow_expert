@@ -185,8 +185,9 @@ export const upload = {
         },
         async prepareNMCKFile({state, commit}, requestData) {
             try {
-                await axios.post('/api/save-data', {requestData});
+                const response = await axios.post('/api/save-data', {requestData});
                 commit('SET_UPLOAD_STATUS', 'Данные успешно сохранены.');
+                return response.data.fileUrl;
             } catch (error) {
                 console.error('Ошибка при подготовке файла НМЦК:', error);
                 throw error;
