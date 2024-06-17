@@ -27,6 +27,7 @@ export const upload = {
             {period: `01.10.${new Date().getFullYear()}`, quantity: 0, period_id: 4}
         ],
         categories: [],
+        nmckFiles: []
     },
     mutations: {
         SET_UPLOAD_STATUS(state, status) {
@@ -101,6 +102,9 @@ export const upload = {
                 {period: `01.10.${new Date().getFullYear()}`, quantity: 0, period_id: 4}
             ];
         },
+        SET_NMCK_FILES(state, files) {
+            state.nmckFiles = files;
+        }
     },
     actions: {
         async uploadFile({commit}, file) {
@@ -264,5 +268,13 @@ export const upload = {
                 throw error;
             }
         },
+        async fetchNmckFiles({commit}) {
+            try {
+                const response = await axios.get('/api/nmck-files');
+                commit('SET_NMCK_FILES', response.data);
+            } catch (error) {
+                console.error('Ошибка при получении списка файлов НМЦК:', error);
+            }
+        }
     }
 }

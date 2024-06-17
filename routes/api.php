@@ -46,4 +46,5 @@ Route::middleware('auth:api')->group(function () {
     Route::put('/files/{fileId}/rows', [LotController::class, 'updateExcelRows']);
     Route::get('/drug-categories', [LotController::class, 'categoryList']);
     Route::get('/files/{fileId}/category/{categoryId}/download', [FileGenerationController::class, 'download']);
+    Route::get('/nmck-files', [NmckController::class, 'getNmckFiles']);
 });

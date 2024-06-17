@@ -15,7 +15,7 @@
                     <div class="flex-1 lg:mr-2 mb-3">
                         <Fieldset class="border-round-3xl border-1 border-green-400" legend="Загруженная потребность">
                             <p class="m-0">
-                                <DataTable v-model:selection="selectedFile" :value="files" selectionMode="single"
+                                <DataTable v-model:selection="selectedFile" :value="files_ready" selectionMode="single"
                                            dataKey="id"
                                            :metaKeySelection="false" @rowSelect="onRowSelect"
                                            @rowUnselect="onRowUnselect"
@@ -79,7 +79,7 @@ export default {
         };
     },
     methods: {
-        ...mapActions('upload', ['fetchFiles', 'prepareNMCKFile', 'fetchOffers']),
+        ...mapActions('upload', ['fetchReadyFiles', 'prepareNMCKFile', 'fetchOffers']),
         onRowSelect(event) {
             this.selectedFile = event.data;
         },
@@ -111,10 +111,10 @@ export default {
         }
     },
     computed: {
-        ...mapState('upload', ['files', 'offers']),
+        ...mapState('upload', ['files_ready', 'offers']),
     },
     created() {
-        this.fetchFiles();
+        this.fetchReadyFiles();
         this.fetchOffers();
     }
 }

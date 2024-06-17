@@ -90,4 +90,12 @@ class NmckController extends Controller
 
         return response()->json(['message' => 'Monthly and periodic data saved successfully!']);
     }
+
+    public function getNmckFiles(Request $request)
+    {
+        $user = Auth::user();
+        $files = NmckFile::where('user_id', $user->id)->get();
+
+        return response()->json($files);
+    }
 }
