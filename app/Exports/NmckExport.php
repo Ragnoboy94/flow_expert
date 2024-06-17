@@ -218,11 +218,10 @@ class NmckExport implements FromCollection, WithHeadings, WithMapping
                 }
                 return $onlinePriceRecord->online_price;
             } else {
-                return "Заглушка";
-                $onlinePrice = $this->getMinPrice($this->cleanString($row['3']));
+                $onlinePrice = $this->getMinPrice($this->cleanString($row->item_name));
                 OnlineDrugPrice::create([
                     'drug_name' => $row->item_name,
-                    'online_price' => $onlinePrice,
+                    'online_price' => $onlinePrice < 9999999.99 ? $onlinePrice : 0,
                 ]);
                 return $onlinePrice;
             }

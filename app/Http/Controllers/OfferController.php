@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Exports\MedicinesRowsExport;
+use App\Jobs\ConvertPdfToExcel;
 use App\Models\MedicineRows;
 use App\Models\Offer;
 use Illuminate\Http\Request;
@@ -66,7 +67,7 @@ class OfferController extends Controller
 
             MedicineRows::where('user_id', Auth::id())->delete();
 
-            //ConvertPdfToExcel::dispatch($offer);
+            ConvertPdfToExcel::dispatch($offer);
 
             return response()->json(['message' => 'Offer created successfully', 'offer' => $offer], 201);
         }

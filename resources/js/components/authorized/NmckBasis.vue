@@ -54,6 +54,10 @@
             </div>
             <Button label="Подготовить файл для скачивания" class="consultation-button" @click="prepareFile"
                     :disabled="!selectedFile"/>
+            <Toast/>
+            <div v-if="loading" class="overlay">
+                <ProgressSpinner></ProgressSpinner>
+            </div>
         </div>
     </section>
     <Footer></Footer>
@@ -68,14 +72,17 @@ import Column from 'primevue/column';
 import InputNumber from "primevue/inputnumber";
 import {mapActions, mapState} from "vuex";
 import Fieldset from "primevue/fieldset";
+import Toast from 'primevue/toast';
+import ProgressSpinner from "primevue/progressspinner";
 
 export default {
-    components: {Header, Footer, DataTable, Checkbox, Column, InputNumber, Fieldset},
+    components: {Header, Footer, DataTable, Checkbox, Column, InputNumber, Fieldset, Toast, ProgressSpinner},
     data() {
         return {
             selectedFile: null,
             openSource: false,
             selectedOffers: [],
+            loading: false
         };
     },
     methods: {
@@ -87,10 +94,11 @@ export default {
             this.selectedFile = null;
         },
         async prepareFile() {
-            if (!this.selectedFile) {
-                alert('Пожалуйста, выберите файл.');
+            if (!this.selectedFile || this.selectedOffers.length === 0) {
+                this.$toast.add({ severity: 'warn', summary: 'Внимание', detail: 'Пожалуйста, выберите файл.' });
                 return;
             }
+            this.loading = true;
 
             const requestData = {
                 fileId: this.selectedFile.id,
@@ -101,8 +109,11 @@ export default {
             try {
                 const fileUrl = await this.prepareNMCKFile(requestData);
                 window.open(fileUrl, '_blank');
+                this.$toast.add({ severity: 'success', summary: 'Успех', detail: 'Файл успешно подготовлен и скачан!' });
             } catch (error) {
-                console.error('Ошибка при подготовке файла:', error);
+                this.$toast.add({ severity: 'error', summary: 'Ошибка', detail: 'Ошибка при подготовке файла.' });
+            } finally {
+                this.loading = false;
             }
         },
         onCellEditComplete(event) {
@@ -123,5 +134,17 @@ export default {
 <style scoped>
 Fieldset {
     margin-bottom: 2%;
+}
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(255, 255, 255, 0.8);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
 }
 </style>
