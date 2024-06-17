@@ -102,12 +102,6 @@ const routes = [
         meta: { requiresAuth: true }
     },
     {
-        path: '/nmck_settings',
-        name: 'NmckSettings',
-        component: NmckSettings,
-        meta: { requiresAuth: true }
-    },
-    {
         path: '/nmck_history',
         name: 'NmckHistory',
         component: NmckHistory,

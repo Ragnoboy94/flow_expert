@@ -13,11 +13,17 @@ class PeriodicData extends Model
     protected $fillable = [
         'user_id',
         'period_id',
-        'quantity'
+        'quantity',
+        'excel_row_id'
     ];
 
     public function user()
     {
         return $this->belongsTo(User::class);
+    }
+
+    public function excelRow()
+    {
+        return $this->belongsTo(ExcelRow::class);
     }
 }

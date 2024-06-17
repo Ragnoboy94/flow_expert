@@ -14,11 +14,17 @@ class MonthlyData extends Model
         'user_id',
         'month_id',
         'price',
-        'quantity'
+        'quantity',
+        'excel_row_id'
     ];
 
     public function user()
     {
         return $this->belongsTo(User::class);
+    }
+
+    public function excelRow()
+    {
+        return $this->belongsTo(ExcelRow::class);
     }
 }

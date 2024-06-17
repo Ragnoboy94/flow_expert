@@ -42,6 +42,7 @@ Route::middleware('auth:api')->group(function () {
     Route::delete('/delete-offer/{fileId}', [DeleteController::class, 'deleteOffer']);
     Route::post('/save-data', [NMCKController::class, 'storeData']);
     Route::get('/get-data', [NMCKController::class, 'getData']);
+    Route::post('/save-monthly-periodic-data', [NmckController::class, 'saveMonthlyAndPeriodicData']);
     Route::put('/files/{fileId}/rows', [LotController::class, 'updateExcelRows']);
     Route::get('/drug-categories', [LotController::class, 'categoryList']);
     Route::get('/files/{fileId}/category/{categoryId}/download', [FileGenerationController::class, 'download']);

@@ -7,24 +7,24 @@ export const upload = {
         offers: [],
         offerRows: [],
         monthlyData: [
-            { month: 'Январь', price: 0, quantity: 0, month_id: 1 },
-            { month: 'Февраль', price: 0, quantity: 0, month_id: 2 },
-            { month: 'Март', price: 0, quantity: 0, month_id: 3 },
-            { month: 'Апрель', price: 0, quantity: 0, month_id: 4 },
-            { month: 'Май', price: 0, quantity: 0, month_id: 5 },
-            { month: 'Июнь', price: 0, quantity: 0, month_id: 6 },
-            { month: 'Июль', price: 0, quantity: 0, month_id: 7 },
-            { month: 'Август', price: 0, quantity: 0, month_id: 8 },
-            { month: 'Сентябрь', price: 0, quantity: 0, month_id: 9 },
-            { month: 'Октябрь', price: 0, quantity: 0, month_id: 10 },
-            { month: 'Ноябрь', price: 0, quantity: 0, month_id: 11 },
-            { month: 'Декабрь', price: 0, quantity: 0, month_id: 12 },
+            {month: 'Январь', price: 0, quantity: 0, month_id: 1},
+            {month: 'Февраль', price: 0, quantity: 0, month_id: 2},
+            {month: 'Март', price: 0, quantity: 0, month_id: 3},
+            {month: 'Апрель', price: 0, quantity: 0, month_id: 4},
+            {month: 'Май', price: 0, quantity: 0, month_id: 5},
+            {month: 'Июнь', price: 0, quantity: 0, month_id: 6},
+            {month: 'Июль', price: 0, quantity: 0, month_id: 7},
+            {month: 'Август', price: 0, quantity: 0, month_id: 8},
+            {month: 'Сентябрь', price: 0, quantity: 0, month_id: 9},
+            {month: 'Октябрь', price: 0, quantity: 0, month_id: 10},
+            {month: 'Ноябрь', price: 0, quantity: 0, month_id: 11},
+            {month: 'Декабрь', price: 0, quantity: 0, month_id: 12},
         ],
         periodicData: [
-            { period: `01.01.${new Date().getFullYear()}`, quantity: 0, period_id: 1 },
-            { period: `01.04.${new Date().getFullYear()}`, quantity: 0, period_id: 2 },
-            { period: `01.07.${new Date().getFullYear()}`, quantity: 0, period_id: 3 },
-            { period: `01.10.${new Date().getFullYear()}`, quantity: 0, period_id: 4 }
+            {period: `01.01.${new Date().getFullYear()}`, quantity: 0, period_id: 1},
+            {period: `01.04.${new Date().getFullYear()}`, quantity: 0, period_id: 2},
+            {period: `01.07.${new Date().getFullYear()}`, quantity: 0, period_id: 3},
+            {period: `01.10.${new Date().getFullYear()}`, quantity: 0, period_id: 4}
         ],
         categories: [],
     },
@@ -38,7 +38,7 @@ export const upload = {
         SET_FILES_READY(state, files) {
             state.files_ready = files;
         },
-        SET_EXCEL_ROWS(state, { fileId, rows }) {
+        SET_EXCEL_ROWS(state, {fileId, rows}) {
             const file = state.files.find(f => f.id === fileId);
             if (file) {
                 file.excelRows = rows;
@@ -62,7 +62,7 @@ export const upload = {
             state.monthlyData = state.monthlyData.map((item) => {
                 const data = monthlyData.find((data) => data.month_id === item.month_id);
                 if (data) {
-                    return { ...item, price: data.price, quantity: data.quantity };
+                    return {...item, price: data.price, quantity: data.quantity};
                 }
                 return item;
             });
@@ -71,7 +71,7 @@ export const upload = {
             state.periodicData = state.periodicData.map((item) => {
                 const data = periodicData.find((data) => data.period_id === item.period_id);
                 if (data) {
-                    return { ...item, quantity: data.quantity };
+                    return {...item, quantity: data.quantity};
                 }
                 return item;
             });
@@ -79,9 +79,31 @@ export const upload = {
         SET_CATEGORIES(state, categories) {
             state.categories = categories;
         },
+        RESET_DATA(state) {
+            state.monthlyData = [
+                {month: 'Январь', price: 0, quantity: 0, month_id: 1},
+                {month: 'Февраль', price: 0, quantity: 0, month_id: 2},
+                {month: 'Март', price: 0, quantity: 0, month_id: 3},
+                {month: 'Апрель', price: 0, quantity: 0, month_id: 4},
+                {month: 'Май', price: 0, quantity: 0, month_id: 5},
+                {month: 'Июнь', price: 0, quantity: 0, month_id: 6},
+                {month: 'Июль', price: 0, quantity: 0, month_id: 7},
+                {month: 'Август', price: 0, quantity: 0, month_id: 8},
+                {month: 'Сентябрь', price: 0, quantity: 0, month_id: 9},
+                {month: 'Октябрь', price: 0, quantity: 0, month_id: 10},
+                {month: 'Ноябрь', price: 0, quantity: 0, month_id: 11},
+                {month: 'Декабрь', price: 0, quantity: 0, month_id: 12},
+            ];
+            state.periodicData = [
+                {period: `01.01.${new Date().getFullYear()}`, quantity: 0, period_id: 1},
+                {period: `01.04.${new Date().getFullYear()}`, quantity: 0, period_id: 2},
+                {period: `01.07.${new Date().getFullYear()}`, quantity: 0, period_id: 3},
+                {period: `01.10.${new Date().getFullYear()}`, quantity: 0, period_id: 4}
+            ];
+        },
     },
     actions: {
-        async uploadFile({ commit }, file) {
+        async uploadFile({commit}, file) {
             let formData = new FormData();
             formData.append('file', file);
             try {
@@ -95,15 +117,15 @@ export const upload = {
                 commit('SET_UPLOAD_STATUS', 'Ошибка в загрузке файла на сервер!');
             }
         },
-        async fetchFiles({ commit, dispatch }) {
+        async fetchFiles({commit, dispatch}) {
             const response = await axios.get('/api/files');
             commit('SET_FILES', response.data);
         },
-        async fetchReadyFiles({ commit }) {
-            const response = await axios.post('/api/files', { 'status_id': 3 });
+        async fetchReadyFiles({commit}) {
+            const response = await axios.post('/api/files', {'status_id': 3});
             commit('SET_FILES_READY', response.data);
         },
-        async fetchExcelRows({ commit }, fileId) {
+        async fetchExcelRows({commit}, fileId) {
             const response = await axios.get(`/api/files/${fileId}/rows`);
             const rows = response.data;
 
@@ -116,18 +138,18 @@ export const upload = {
                 return acc;
             }, {});
 
-            commit('SET_EXCEL_ROWS', { fileId, rows: groupedRows });
+            commit('SET_EXCEL_ROWS', {fileId, rows: groupedRows});
             return groupedRows;
         },
-        async splitLotsAPI({ dispatch }, { fileId, selectedLaw }) {
+        async splitLotsAPI({dispatch}, {fileId, selectedLaw}) {
             try {
-                const response = await axios.post('/api/split-lots', { fileId, selectedLaw });
+                const response = await axios.post('/api/split-lots', {fileId, selectedLaw});
                 await dispatch('fetchReadyFiles');
             } catch (error) {
                 console.error('Ошибка при разбиении на лоты:', error);
             }
         },
-        async uploadOfferFile({ commit }, formData) {
+        async uploadOfferFile({commit}, formData) {
             try {
                 const response = await axios.post('/api/uploadOfferFile', formData, {
                     headers: {
@@ -139,7 +161,7 @@ export const upload = {
                 commit('SET_UPLOAD_STATUS', 'Ошибка в загрузке файла на сервер!');
             }
         },
-        async fetchOffers({ commit }) {
+        async fetchOffers({commit}) {
             try {
                 const response = await axios.get('/api/offers');
                 const offers = response.data.map(data => data.offer);
@@ -153,7 +175,7 @@ export const upload = {
                 console.error('Ошибка при получении списка предложений:', error);
             }
         },
-        async updateMedicineRow({ commit }, updatedRow) {
+        async updateMedicineRow({commit}, updatedRow) {
             try {
                 const response = await axios.put(`/api/medicine-rows/${updatedRow.id}`, updatedRow);
                 commit('UPDATE_MEDICINE_ROW', response.data);
@@ -161,36 +183,25 @@ export const upload = {
                 console.error('Ошибка при обновлении строки:', error);
             }
         },
-        async prepareNMCKFile({ state, commit }, requestData) {
+        async prepareNMCKFile({state, commit}, requestData) {
             try {
-                await axios.post('/api/save-data', {
-                    requestData,
-                    monthlyData: state.monthlyData.map(item => ({
-                        month_id: item.month_id,
-                        price: item.price,
-                        quantity: item.quantity
-                    })),
-                    periodicData: state.periodicData.map(item => ({
-                        period_id: item.period_id,
-                        quantity: item.quantity
-                    }))
-                });
+                await axios.post('/api/save-data', {requestData});
                 commit('SET_UPLOAD_STATUS', 'Данные успешно сохранены.');
             } catch (error) {
                 console.error('Ошибка при подготовке файла НМЦК:', error);
                 throw error;
             }
         },
-        async fetchData({ commit }) {
+        async fetchData({commit}, excelRowId) {
             try {
-                const response = await axios.get('/api/get-data');
+                const response = await axios.get('/api/get-data', {params: {excel_row_id: excelRowId}});
                 commit('SET_MONTHLY_DATA', response.data.monthlyData);
                 commit('SET_PERIODIC_DATA', response.data.periodicData);
             } catch (error) {
                 console.error('Ошибка при получении данных:', error);
             }
         },
-        async deleteDemand({ dispatch }, fileId) {
+        async deleteDemand({dispatch}, fileId) {
             try {
                 const response = await axios.delete('/api/delete-demand/' + fileId);
                 await dispatch('fetchFiles');
@@ -198,7 +209,7 @@ export const upload = {
                 console.error('Ошибка при удалении потребности:', error);
             }
         },
-        async deleteOffer({ dispatch }, fileId) {
+        async deleteOffer({dispatch}, fileId) {
             try {
                 const response = await axios.delete('/api/delete-offer/' + fileId);
                 await dispatch('fetchOffers');
@@ -206,7 +217,7 @@ export const upload = {
                 console.error('Ошибка при удалении предложения:', error);
             }
         },
-        async updateExcelRows({ commit, dispatch }, { fileId, rows }) {
+        async updateExcelRows({commit, dispatch}, {fileId, rows}) {
             try {
                 await axios.put(`/api/files/${fileId}/rows`, rows);
                 await dispatch('fetchExcelRows', fileId);
@@ -214,7 +225,7 @@ export const upload = {
                 console.error('Ошибка при обновлении строк:', error);
             }
         },
-        async fetchCategories({ commit }) {
+        async fetchCategories({commit}) {
             try {
                 const response = await axios.get('/api/drug-categories');
                 commit('SET_CATEGORIES', response.data);
@@ -222,7 +233,7 @@ export const upload = {
                 console.error('Ошибка при загрузке категорий:', error);
             }
         },
-        async downloadCategoryFile({ commit }, { fileId, categoryId }) {
+        async downloadCategoryFile({commit}, {fileId, categoryId}) {
             try {
                 const response = await axios.get(`/api/files/${fileId}/category/${categoryId}/download`);
                 return response.data.fileUrl;
@@ -230,6 +241,27 @@ export const upload = {
                 console.error('Ошибка при скачивании файла:', error);
                 throw error;
             }
-        }
+        },
+        async saveMonthlyAndPeriodicData({state, commit}, excelRowId) {
+            try {
+                await axios.post('/api/save-monthly-periodic-data', {
+                    monthlyData: state.monthlyData.map(item => ({
+                        month_id: item.month_id,
+                        price: item.price,
+                        quantity: item.quantity,
+                        excel_row_id: excelRowId
+                    })),
+                    periodicData: state.periodicData.map(item => ({
+                        period_id: item.period_id,
+                        quantity: item.quantity,
+                        excel_row_id: excelRowId
+                    }))
+                });
+                commit('SET_UPLOAD_STATUS', 'Данные успешно сохранены.');
+            } catch (error) {
+                console.error('Ошибка при сохранении данных:', error);
+                throw error;
+            }
+        },
     }
 }
