@@ -10,7 +10,7 @@
 
     <title>{{ config('app.name', 'Laravel') }}</title>
 
-    <meta name="description" content="Flow Expert."/>
+    <meta name="description" content="FlowExpert."/>
 
     @vite('resources/css/app.css')
 </head>

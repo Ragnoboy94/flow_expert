@@ -7,8 +7,12 @@
                 <h3>Инструкция</h3>
                 <p>Как заказать консультацию по продукту?</p>
             </div>
-            <p>Заполните форму и нажмите на кнопку «Заказать консультацию». Специалист свяжется с вами в ближайшее время!</p>
-            <Image src="../instructions/OrderConsultation.png" alt="Image" width="70%" />
+            <p>Заполните форму и нажмите на кнопку «Заказать консультацию». Специалист свяжет ся с вами в ближайшее время!</p>
+            <Image src="../instructions/OrderConsultation.webp" preview>
+                <template #image>
+                    <img src="/instructions/OrderConsultation.webp" alt="Image" style="width: 85vmin"/>
+                </template>
+            </Image>
         </div>
     </section>
     <Footer></Footer>
@@ -28,5 +32,6 @@ export default {
 .title-section p {
     font-size: 1.0em;
     color: green;
+    text-indent: 0;
 }
 </style>

@@ -62,7 +62,7 @@ export default {
                     link: 'about_company',
                 },
                 {
-                    name: 'Как мне зарегистрироваться на сайте Flow Expert?',
+                    name: 'Как мне зарегистрироваться на сайте FlowExpert?',
                     link: 'register',
                 },
                 {
@@ -110,5 +110,6 @@ export default {
 .title-section p {
     font-size: 1.5em;
     color: #333;
+    text-indent: 0;
 }
 </style>

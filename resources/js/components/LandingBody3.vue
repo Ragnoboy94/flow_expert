@@ -2,7 +2,7 @@
     <section class="landing-block2 flow-expert-ai">
         <div class="content-container" style="max-width: 100%;">
             <div class="title-section">
-                <h3>Flow Expert AI</h3>
+                <h3>FlowExpert AI</h3>
                 <p>— это цифровая платформа для сегмента B2B, которая позволяет:</p>
             </div>
             <div class="flex align-items-stretch flex-column lg:flex-row">
@@ -50,6 +50,9 @@ export default {
 .title-section p {
     font-size: 2.5em;
     color: #333;
+}
+span {
+    text-indent: 3%;
 }
 
 

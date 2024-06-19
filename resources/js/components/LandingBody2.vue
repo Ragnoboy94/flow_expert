@@ -15,7 +15,7 @@
                                 @click="openDialog(index)"/>
                     </template>
                 </Card>
-                <Dialog v-model:visible="dialogVisible[index]" class="xl:w-8 lg:w-9 md:w-10 sm:w-11" :modal="true"
+                <Dialog v-model:visible="dialogVisible[index]" class="xl:w-6 lg:w-7 md:w-8 sm:w-9" :modal="true"
                         :dismissableMask="true">
                     <template #header>
                         <div class="text-center w-full">

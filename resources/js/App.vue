@@ -19,5 +19,10 @@ export default {
 <style>
 body  {
     background-color: gainsboro;
+    font-size: 1.1em;
+    font-family: Palatino
+}
+p {
+    text-indent: 5%;
 }
 </style>

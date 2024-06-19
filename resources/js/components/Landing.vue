@@ -5,7 +5,7 @@
     <LandingBody3></LandingBody3>
     <LandingBody4></LandingBody4>
     <LandingBody5></LandingBody5>
-    <LandingBody6></LandingBody6>
+<!--    <LandingBody6></LandingBody6>-->
     <LandingBody7></LandingBody7>
     <Footer></Footer>
 </template>

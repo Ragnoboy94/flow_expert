@@ -2,10 +2,10 @@
     <section class="landing-block2 how-to-connect-section">
         <div class="content-container" style="max-width: 100%;">
             <div class="title-section">
-                <h3>Как подключить <br>Flow Expert</h3>
+                <h3>Как подключить <br>FlowExpert</h3>
             </div>
             <div class="flex align-items-stretch flex-column lg:flex-row">
-                <div class="flex mt-3 lg:col-6">
+                <div class="flex lg:col-6">
                     <i class="pi pi-search-plus step-icon"></i>
                     <span><u>ШАГ 1</u><br>Оставьте заявку на сайте для обратного звонка с нашим менеджером</span>
                 </div>

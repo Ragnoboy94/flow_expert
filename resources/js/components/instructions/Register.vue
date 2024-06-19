@@ -5,7 +5,7 @@
         <div class="content-container" style="max-width: 100%;">
             <div class="title-section">
                 <h3>Инструкция</h3>
-                <p>Как мне зарегистрироваться на сайте Flow Expert?</p>
+                <p>Как мне зарегистрироваться на сайте FlowExpert?</p>
             </div>
             <p>1. Нажмите на кнопку «Войти»</p>
             <Image src="../instructions/Register1.png" alt="Image" width="70%" />
@@ -30,5 +30,6 @@ export default {
 .title-section p {
     font-size: 1.0em;
     color: green;
+    text-indent: 0;
 }
 </style>

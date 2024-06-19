@@ -361,6 +361,7 @@ export default {
 .title-section p {
     font-size: 1.5em;
     color: #333;
+    text-indent: 0;
 }
 
 .files-table table {

@@ -20,7 +20,7 @@
                         Санкт-Петербурге</b>.</p>
                 </div>
                 <div class="flex-1 image-container hidden lg:block">
-                    <img src="../../pics/landing5_logo.png" alt="FlowExpert Logo" class="about-logo mt-5" width="90%">
+                    <img src="../../pics/landing5_logo.webp" alt="FlowExpert Logo" class="about-logo mt-5" width="90%">
                 </div>
             </div>
             <Card class="card-landing2">
@@ -35,13 +35,13 @@
             <div class="p-grid">
                 <div class="p-col-12">
                     <p class="registry-title">Все наши продукты внесены в Единый реестр программного обеспечения
-                        Министерства цифрового развития, связи и массовых коммуникаций.<br><b>Вместо рутины —
+                        Министерства цифрового развития, связи и массовых коммуникаций.</p><p><b>Вместо рутины —
                             искусственный интеллект!</b></p>
                 </div>
                 <div class="p-col-12">
-                    <h4>Все наши продукты внесены в Единый реестр программного обеспечения Министерства цифрового
+                    <p>Все наши продукты внесены в Единый реестр программного обеспечения Министерства цифрового
                         развития, связи
-                        и массовых коммуникаций:</h4>
+                        и массовых коммуникаций:</p>
                 </div>
                 <div class="flex justify-content-center xl:flex-row flex-column">
                     <a href="/downloads/certificate.pdf" download="Certificate_of_Registration.pdf" class="card-landing2 flex align-items-center justify-content-center" Link>

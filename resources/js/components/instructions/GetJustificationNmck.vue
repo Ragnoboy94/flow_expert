@@ -28,5 +28,6 @@ export default {
 .title-section p {
     font-size: 1.0em;
     color: green;
+    text-indent: 0;
 }
 </style>
