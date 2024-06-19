@@ -8,9 +8,17 @@
                 <p>Как мне зарегистрироваться на сайте FlowExpert?</p>
             </div>
             <p>1. Нажмите на кнопку «Войти»</p>
-            <Image src="../instructions/Register1.png" alt="Image" width="70%" />
+            <Image src="../instructions/Register1.png" preview>
+                <template #image>
+                    <img src="/instructions/Register1.png" alt="Image" style="width: 85vmin"/>
+                </template>
+            </Image>
             <p>2. Нажмите на кнопку «Зарегистрироваться» и заполните предложенную форму. Далее нажмите на кнопку «Зарегистрироваться»</p>
-            <Image src="../instructions/Register2.png" alt="Image" width="70%" />
+            <Image src="../instructions/Register2.png" preview>
+                <template #image>
+                    <img src="/instructions/Register2.png" alt="Image" style="width: 85vmin"/>
+                </template>
+            </Image>
         </div>
     </section>
     <Footer></Footer>

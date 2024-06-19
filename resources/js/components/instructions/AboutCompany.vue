@@ -8,7 +8,11 @@
                 <p>Как мне узнать подробнее вашей компании?</p>
             </div>
             <p>Нажмите на клавишу «О нас»</p>
-            <Image src="../instructions/AboutCompany.png" alt="Image" width="70%" />
+            <Image src="../instructions/AboutCompany.png" preview>
+                <template #image>
+                    <img src="/instructions/AboutCompany.png" alt="Image" style="width: 85vmin"/>
+                </template>
+            </Image>
             <p>Вы можете просмотреть в данном разделе:
                 <br>- Свидетельство о государственной регистрации программы для ЭВМ
                 <br>- Выписка из реестра аккредитованных организаций

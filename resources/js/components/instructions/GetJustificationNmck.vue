@@ -7,7 +7,11 @@
                 <h3>Инструкция</h3>
                 <p>Как мне получить обоснование НМЦК?</p>
             </div>
-            <Image src="../instructions/GetJustificationNmck1.png" alt="Image" width="70%" />
+            <Image src="../instructions/GetJustificationNmck1.png" preview>
+                <template #image>
+                    <img src="/instructions/GetJustificationNmck1.png" alt="Image" style="width: 85vmin"/>
+                </template>
+            </Image>
             <p>Нажмите на клавишу “Скачать протокол” после прохождения всех этапов подготовки к расчету НМЦК. Кнопка подсветится ярким зеленым цветом.</p>
         </div>
     </section>

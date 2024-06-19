@@ -8,12 +8,24 @@
                 <p>Как мне привести начальную потребность медицинского учреждения в требуемый вид?</p>
             </div>
             <p>1. Зайти на страницу «Получение приведенной потребности»</p>
-            <Image src="../instructions/InitialNeeds1.png" alt="Image" width="70%" />
+            <Image src="../instructions/InitialNeeds1.png" preview>
+                <template #image>
+                    <img src="/instructions/InitialNeeds1.png" alt="Image" style="width: 85vmin"/>
+                </template>
+            </Image>
             <p>2. Нажмите на клавишу «Скачать шаблон»</p>
             <p>3. После заполнения шаблона, нажмите кнопку «Загрузить файл»</p>
-            <Image src="../instructions/InitialNeeds2.png" alt="Image" width="70%" />
+            <Image src="../instructions/InitialNeeds2.png" preview>
+                <template #image>
+                    <img src="/instructions/InitialNeeds2.png" alt="Image" style="width: 85vmin"/>
+                </template>
+            </Image>
             <p>FlowExpert AI переведёт потребность в необходимый вид и подготовит файл к дальнейшему использованию</p>
-            <Image src="../instructions/InitialNeeds3.png" alt="Image" width="70%" />
+            <Image src="../instructions/InitialNeeds3.png" preview>
+                <template #image>
+                    <img src="/instructions/InitialNeeds3.png" alt="Image" style="width: 85vmin"/>
+                </template>
+            </Image>
         </div>
     </section>
     <Footer></Footer>

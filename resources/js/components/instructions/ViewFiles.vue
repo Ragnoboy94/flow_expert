@@ -8,7 +8,11 @@
                 <p>Как посмотреть все мои загруженные файлы?</p>
             </div>
             <p>Зайдите в Личный кабинет, здесь вы сможете посмотреть все файлы, которые ранее загружали</p>
-            <Image src="../instructions/ViewFiles.png" alt="Image" width="70%" />
+            <Image src="../instructions/ViewFiles.png" preview>
+                <template #image>
+                    <img src="/instructions/ViewFiles.png" alt="Image" style="width: 85vmin"/>
+                </template>
+            </Image>
         </div>
     </section>
     <Footer></Footer>

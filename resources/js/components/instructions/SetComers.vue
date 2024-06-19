@@ -8,11 +8,23 @@
                 <p>Как мне внести существующие коммерческие предложения для расчета НМЦК?</p>
             </div>
             <p>1. Укажите данные и нажмите загрузить</p>
-            <Image src="../instructions/SetComers1.png" alt="Image" width="70%" />
+            <Image src="../instructions/SetComers1.png" preview>
+                <template #image>
+                    <img src="/instructions/SetComers1.png" alt="Image" style="width: 85vmin"/>
+                </template>
+            </Image>
             <p>2. После загрузки нажмите на кнопку «преобразовать»</p>
-            <Image src="../instructions/SetComers2.png" alt="Image" width="70%" />
+            <Image src="../instructions/SetComers2.png" preview>
+                <template #image>
+                    <img src="/instructions/SetComers2.png" alt="Image" style="width: 85vmin"/>
+                </template>
+            </Image>
             <p>3. Преобразованный файл, который можете редактировать и изменять</p>
-            <Image src="../instructions/SetComers3.png" alt="Image" width="70%" />
+            <Image src="../instructions/SetComers3.png" preview>
+                <template #image>
+                    <img src="/instructions/SetComers3.png" alt="Image" style="width: 85vmin"/>
+                </template>
+            </Image>
         </div>
     </section>
     <Footer></Footer>

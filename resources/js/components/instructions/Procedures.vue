@@ -9,13 +9,29 @@
             </div>
             <p>Процессы, реализуемые на ресурсе FlowExpert представлены ниже:</p>
             <p>1	функция. Приведение потребности в необходимый вид</p>
-            <Image src="../instructions/Procedures1.png" alt="Image" width="70%" />
+            <Image src="../instructions/Procedures1.png" preview>
+                <template #image>
+                    <img src="/instructions/Procedures1.png" alt="Image" style="width: 85vmin"/>
+                </template>
+            </Image>
             <p>2	функция. Формирование лотов</p>
-            <Image src="../instructions/Procedures2.png" alt="Image" width="70%" />
+            <Image src="../instructions/Procedures2.png" preview>
+                <template #image>
+                    <img src="/instructions/Procedures2.png" alt="Image" style="width: 85vmin"/>
+                </template>
+            </Image>
             <p>3	функция. Настройка параметров расчета НМЦК</p>
-            <Image src="../instructions/Procedures3.png" alt="Image" width="70%" />
+            <Image src="../instructions/Procedures3.png" preview>
+                <template #image>
+                    <img src="/instructions/Procedures3.png" alt="Image" style="width: 85vmin"/>
+                </template>
+            </Image>
             <p>4	функция. Обоснование получения НМЦК</p>
-            <Image src="../instructions/Procedures4.png" alt="Image" width="70%" />
+            <Image src="../instructions/Procedures4.png" preview>
+                <template #image>
+                    <img src="/instructions/Procedures4.png" alt="Image" style="width: 85vmin"/>
+                </template>
+            </Image>
         </div>
     </section>
     <Footer></Footer>
