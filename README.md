@@ -30,10 +30,10 @@ docker-compose up -d --build
 ```
 docker-compose exec app bash
 ```
-И запускаем следующие команды
+И запускаем следующие команды. 
 
 ```
-composer install
+composer install или composer update
 php artisan key:generate
 ```
 >Если есть проблемы с композером, то меняем на это в докер композере
@@ -65,11 +65,16 @@ php artisan db:seed
 ```
 Также нужно скачать с сайта https://esklp.egisz.rosminzdrav.ru/for_developers актуальный справочник и положить его в проект в папке public с  именем esklp.xml
 ```
+scp esklp.xml root@ip_адрес:esklp.xml
 php artisan process:xml
 
 php artisan queue:restart 
 php artisan passport:install
-php artisan config:clear
+на все согласиться, скопировать ключ для 2 id и вставить в VUE_CLIENT_SECRET
+php artisan config:cache
+php artisan route:cache
+php artisan view:cache
+php artisan storage:link
 ```
 
 ### Vue3
