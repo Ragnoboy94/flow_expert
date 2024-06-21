@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Exports\NmckExport;
+use App\Jobs\NmckExportJob;
 use App\Models\MonthlyData;
 use App\Models\NmckFile;
 use App\Models\PeriodicData;
@@ -22,17 +23,19 @@ class NmckController extends Controller
             'requestData.openSource' => 'required|boolean',
         ]);
 
-
         $filename = 'nmck_' . now()->timestamp . '.xlsx';
-
         $filePath = 'nmck_files/' . $filename;
-        Excel::store(new NmckExport($data['requestData']['fileId'], $data['requestData']['offerIds'], $data['requestData']['openSource']), $filePath, 'public');
 
-        // Сохранение информации о файле
-        NmckFile::create([
+        $nmckFile = NmckFile::create([
             'user_id' => $user->id,
             'filename' => $filePath,
         ]);
+        if ($data['requestData']['openSource']) {
+            NmckExportJob::dispatch($data['requestData']['fileId'], $data['requestData']['offerIds'], $data['requestData']['openSource'], $filePath, $nmckFile);
+        } else {
+            Excel::store(new NmckExport($data['requestData']['fileId'], $data['requestData']['offerIds'], $data['requestData']['openSource']), $filePath, 'public');
+            $nmckFile->update(['status_id' => 3]);
+        }
 
         return response()->json(['message' => 'Data saved successfully!', 'fileUrl' => asset($filePath)]);
     }
@@ -94,7 +97,7 @@ class NmckController extends Controller
     public function getNmckFiles(Request $request)
     {
         $user = Auth::user();
-        $files = NmckFile::where('user_id', $user->id)->get();
+        $files = NmckFile::where('user_id', $user->id)->where('status_id', 3)->get();
 
         return response()->json($files);
     }

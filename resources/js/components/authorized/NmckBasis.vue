@@ -108,8 +108,16 @@ export default {
 
             try {
                 const fileUrl = await this.prepareNMCKFile(requestData);
-                window.open(fileUrl, '_blank');
-                this.$toast.add({ severity: 'success', summary: 'Успех', detail: 'Файл успешно подготовлен и скачан!' });
+                if (this.openSource) {
+                    this.$toast.add({
+                        severity: 'success',
+                        summary: 'Успех',
+                        detail: 'Файл будет доступен в вашем профиле после обработки.'
+                    });
+                } else {
+                    window.open(fileUrl, '_blank');
+                    this.$toast.add({ severity: 'success', summary: 'Успех', detail: 'Файл успешно подготовлен и скачан!' });
+                }
             } catch (error) {
                 this.$toast.add({ severity: 'error', summary: 'Ошибка', detail: 'Ошибка при подготовке файла.' });
             } finally {
