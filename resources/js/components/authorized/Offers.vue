@@ -94,6 +94,9 @@
                     <Button class="consultation-button" type="button" label="Удалить" @click="deleteDialogVisible = false; deleteOffer(deleteData.id) ; deleteData = null"></Button>
                 </div>
             </Dialog>
+            <div v-if="loading" class="overlay">
+                <ProgressSpinner></ProgressSpinner>
+            </div>
         </div>
     </section>
     <Footer></Footer>
@@ -111,9 +114,10 @@ import Textarea from 'primevue/textarea';
 import Accordion from 'primevue/accordion';
 import AccordionTab from 'primevue/accordiontab';
 import Dialog from "primevue/dialog";
+import ProgressSpinner from "primevue/progressspinner";
 
 export default {
-    components: { Header, Footer, DataTable, Column, InputText, FloatLabel, Textarea, Accordion, AccordionTab, Dialog },
+    components: { Header, Footer, DataTable, Column, InputText, FloatLabel, Textarea, Accordion, AccordionTab, Dialog, ProgressSpinner },
     data() {
         return {
             formData: {
@@ -124,7 +128,8 @@ export default {
             selectedFile: null,
             editingRows: {},
             deleteDialogVisible: false,
-            deleteData: null
+            deleteData: null,
+            loading: false
         };
     },
     computed: {
@@ -149,8 +154,12 @@ export default {
                 formData.append('positions', this.formData.positions);
                 formData.append('file', this.selectedFile);
 
-                await this.uploadOfferFile(formData);
-
+                try {
+                    this.loading = true;
+                    await this.uploadOfferFile(formData);
+                } finally {
+                    this.loading = false;
+                }
                 this.formData.sender = '';
                 this.formData.date = ' ';
                 this.formData.positions = '';
