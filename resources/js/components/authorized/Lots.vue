@@ -201,6 +201,9 @@
                 </Dialog>
                 <Toast/>
             </div>
+            <div v-if="loading" class="overlay">
+                <ProgressSpinner></ProgressSpinner>
+            </div>
         </div>
     </section>
     <Footer></Footer>
@@ -221,6 +224,7 @@ import Dropdown from "primevue/dropdown";
 import Fieldset from "primevue/fieldset";
 import InputNumber from "primevue/inputnumber";
 import Toast from "primevue/toast";
+import ProgressSpinner from "primevue/progressspinner";
 
 export default {
     components: {
@@ -236,7 +240,8 @@ export default {
         Dropdown,
         Fieldset,
         InputNumber,
-        Toast
+        Toast,
+        ProgressSpinner
     },
     data() {
         return {
@@ -249,6 +254,7 @@ export default {
             editCategory: null,
             addDataDialogVisible: false,
             currentFileId: null,
+            loading: false
         };
     },
     computed: {
@@ -265,8 +271,13 @@ export default {
             });
         },
         async splitLots(fileId) {
+            this.loading = true;
             const selectedLaw = this.selectedLaw[fileId];
-            await this.splitLotsAPI({fileId, selectedLaw});
+            try {
+                await this.splitLotsAPI({fileId, selectedLaw});
+            } finally {
+                this.loading = false;
+            }
         },
         async toggleRowExpansion(file) {
             const updatedExpandedRows = {...this.expandedRows};
