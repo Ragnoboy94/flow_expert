@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\DemandFile;
+use App\Models\MedicineRows;
 use App\Models\Offer;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
@@ -33,6 +34,7 @@ class DeleteController extends Controller
             if ($offer->excel_file_path && Storage::disk('public')->exists('/offers/' . $offer->excel_file_path)) {
                 Storage::disk('public')->delete('/offers/' . $offer->excel_file_path);
             }
+            MedicineRows::where('offer_id', $fileId)->delete();
             $offer->delete();
         }
     }

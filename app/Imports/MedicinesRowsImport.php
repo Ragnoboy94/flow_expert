@@ -19,7 +19,6 @@ class MedicinesRowsImport implements ToModel
     public function model(array $row)
     {
         if ((int)$row[0] > 0 && isset($row[6]) && !empty($row['1'])) {
-            $existingRow = MedicineRows::where('trade_name', $this->cleanString($row['3']))->first();
             return new MedicineRows([
                 'offer_id' => $this->offerId,
                 'mnn' => $this->cleanString($row['1']),

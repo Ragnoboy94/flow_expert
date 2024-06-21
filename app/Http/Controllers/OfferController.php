@@ -65,8 +65,6 @@ class OfferController extends Controller
             $offer->file_status_id = 1;
             $offer->save();
 
-            MedicineRows::where('user_id', Auth::id())->delete();
-
             ConvertPdfToExcel::dispatch($offer);
 
             return response()->json(['message' => 'Offer created successfully', 'offer' => $offer], 201);
