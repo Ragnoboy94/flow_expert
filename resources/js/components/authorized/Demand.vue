@@ -9,14 +9,14 @@
             <div class="flex align-items-stretch flex-column lg:flex-row">
                 <div class="flex mt-3 lg:col-6">
                     <a href="/downloads/template.xlsx" class="w-12" download="privedonnaya_potrebnost.xlsx">
-                        <Button class="consultation-button h-3rem" label="Скачать шаблон" icon="pi pi-file-export"
+                        <Button class="consultation-button h-3rem text-green-500 bg-white border-green-500 border-1" label="Скачать шаблон" icon="pi pi-file-export"
                                 icon-pos="right"/>
                     </a>
                 </div>
                 <div class="flex mt-3 lg:col-6">
                     <input type="file" ref="fileInput" @change="handleFileUpload" accept=".xlsx"
                            style="display: none;"/>
-                    <Button class="consultation-button h-3rem text-green-500 bg-white border-green-500 border-1"
+                    <Button class="consultation-button h-3rem "
                             label="Загрузить файл" icon="pi pi-upload" icon-pos="right" @click="triggerFileInput"/>
                 </div>
             </div>

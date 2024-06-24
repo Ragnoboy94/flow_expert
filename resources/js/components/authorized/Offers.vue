@@ -73,7 +73,7 @@
                                     <InputText class="w-12" v-model="data[field]" />
                                 </template>
                             </Column>
-                            <Column field="total" header="Цена (без ндс и оптовой надбавки)" editor="true" style="width: 10%">
+                            <Column field="total" header="Cумма (без ндс и оптовой надбавки)" editor="true" style="width: 10%">
                                 <template #editor="{ data, field }">
                                     <InputText class="w-12" v-model="data[field]" />
                                 </template>

@@ -20,7 +20,7 @@ export default {
 body  {
     background-color: gainsboro;
     font-size: 1.1em;
-    font-family: Palatino
+    font-family: Helvetica;
 }
 p {
     text-indent: 5%;
