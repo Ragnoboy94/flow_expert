@@ -29,6 +29,7 @@ class ExcelRowsImport implements ToModel, WithHeadingRow
                 $category = DrugCategory::firstOrCreate(['name' => $row[9]]);
                 $category_id = $category->id;
             }
+            $is_essential = mb_strtolower($row[10]) === 'присутствует';
 
             return new ExcelRow([
                 'demand_file_id' => $this->demandFileId,
@@ -41,7 +42,8 @@ class ExcelRowsImport implements ToModel, WithHeadingRow
                 'funding_source' => $row[7],
                 'release_form' => $row[8],
                 'drug_category_id' => $category_id,
-                'found' => $row[10],
+                'is_essential' => $is_essential,
+                'found' => $row[11],
             ]);
         }
     }

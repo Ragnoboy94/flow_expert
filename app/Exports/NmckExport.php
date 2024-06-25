@@ -62,7 +62,7 @@ class NmckExport implements FromCollection, WithHeadings, WithMapping
                 'unit' => $row->unit,
                 'release_form' => $row->release_form,
                 'dosage' => $this->extractDosage($row->item_name),
-                'is_in_vzn' => $row->is_in_vzn ? 'Да' : 'Нет',
+                'is_in_vzn' => $row->is_essential ? 'Да' : 'Нет',
                 'average_price_open_sources' => $averagePriceOpenSources != 0 ? $averagePriceOpenSources : "Нет",
                 'average_price_commercial_offers' => $averagePriceCommercialOffers != 0 ? $averagePriceCommercialOffers : "Нет",
                 'average_price_both_sources' => $average_price_both_sources != 0 ? $average_price_both_sources : "0",

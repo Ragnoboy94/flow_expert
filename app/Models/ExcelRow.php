@@ -22,6 +22,7 @@ class ExcelRow extends Model
         'xml_data_id',
         'release_form',
         'drug_category_id',
+        'is_essential',
     ];
 
     public function xmlData()

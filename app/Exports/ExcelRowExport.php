@@ -38,7 +38,8 @@ class ExcelRowExport implements FromCollection, WithHeadings, WithEvents
             'unit',
             'quantity',
             'price',
-            'sum'
+            'sum',
+            'is_essential'
         ]);
     }
 
@@ -51,7 +52,8 @@ class ExcelRowExport implements FromCollection, WithHeadings, WithEvents
             'Ед. изм.',
             'Количество',
             'Цена',
-            'Сумма'
+            'Сумма',
+            'ЖВНЛП'
         ];
     }
 
@@ -61,7 +63,7 @@ class ExcelRowExport implements FromCollection, WithHeadings, WithEvents
             AfterSheet::class => function (AfterSheet $event) {
                 $sheet = $event->sheet->getDelegate();
                 $sheet->insertNewRowBefore(1, 1);
-                $sheet->mergeCells('A1:G1');
+                $sheet->mergeCells('A1:H1');
                 $sheet->setCellValue('A1', $this->categoryName);
                 $sheet->getStyle('A1')->getFont()->setBold(true);
                 $sheet->getStyle('A1')->getFont()->setSize(14);
