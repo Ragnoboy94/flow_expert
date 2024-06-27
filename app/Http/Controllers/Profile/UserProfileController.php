@@ -20,7 +20,6 @@ class UserProfileController extends Controller
 
         $validated = $request->validate([
             'name' => 'sometimes|string|max:255',
-            'position' => 'nullable|string|max:255',
             'company' => 'nullable|string|max:255',
             'inn' => 'nullable|numeric',
             'kpp' => 'nullable|numeric',

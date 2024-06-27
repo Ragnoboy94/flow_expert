@@ -32,7 +32,18 @@ class UploadController extends Controller
 
     public function index(Request $request)
     {
-        $filesToCheck = DemandFile::where('user_id', Auth::id())
+        $user = Auth::user();
+        $filesToCheckQuery = DemandFile::query();
+
+        if ($user->position_id == 1) {
+            $filesToCheckQuery->whereHas('user', function ($query) use ($user) {
+                $query->where('organization_id', $user->organization_id);
+            });
+        } else {
+            $filesToCheckQuery->where('user_id', $user->id);
+        }
+
+        $filesToCheck = $filesToCheckQuery
             ->where('status_id', 2)
             ->whereNotNull('file_work_id')
             ->get();
@@ -41,16 +52,24 @@ class UploadController extends Controller
             CheckAndDownloadProcessedFile::dispatch($file);
         }
 
-        if ($request->status_id) {
-            $allFiles = DemandFile::where('user_id', Auth::id())
-                ->where(function ($query) use ($request) {
-                    $query->where('status_id', $request->status_id)
-                        ->orWhere('status_id', 5);
-                })
-                ->get();
+        $allFilesQuery = DemandFile::query();
+
+        if ($user->position_id == 1) {
+            $allFilesQuery->whereHas('user', function ($query) use ($user) {
+                $query->where('organization_id', $user->organization_id);
+            });
         } else {
-            $allFiles = DemandFile::where('user_id', Auth::id())->get();
+            $allFilesQuery->where('user_id', $user->id);
         }
+
+        if ($request->status_id) {
+            $allFilesQuery->where(function ($query) use ($request) {
+                $query->where('status_id', $request->status_id)
+                    ->orWhere('status_id', 5);
+            });
+        }
+
+        $allFiles = $allFilesQuery->get();
         return response()->json($allFiles);
     }
 

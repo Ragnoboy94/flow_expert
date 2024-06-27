@@ -12,7 +12,7 @@ class LoginController extends Controller
 {
     public function login(Request $request)
     {
-        $request->validate([
+        $validate = $request->validate([
             'phone' => 'required|min:11',
             'password' => 'required|min:8'
         ]);
@@ -25,7 +25,23 @@ class LoginController extends Controller
             'password' => $request->password,
         ]);
 
-        return app()->handle($request);
+        $response = app()->handle($request);
+        $data = json_decode($response->getContent(), true);
+
+        if (isset($data['access_token'])) {
+            $user = User::with('position')->with('organization')->where('phone', $validate['phone'])->first();
+
+            return response()->json([
+                'access_token' => $data['access_token'],
+                'position' => [
+                    'id' => $user->position->id,
+                    'name' => $user->position->name
+                ],
+                'organization_status_id' => $user->organization->status_id
+            ]);
+        }
+
+        return $response;
     }
 
     /**
@@ -37,12 +53,17 @@ class LoginController extends Controller
             'fullName' => 'required',
             'phone' => 'required|min:11',
         ]);
+
         $user = User::where(function ($query) use ($request) {
             $query->where('name', $request->fullName)->orWhere('name', mb_strtolower($request->fullName));
         })->where('phone', $request->phone)->first();
 
         if ($user) {
-            return response()->json(['message' => 'User verified', 'verified' => true]);
+            if ($user->email_verified_at) {
+                return response()->json(['message' => 'User verified', 'verified' => true]);
+            } else {
+                return response()->json(['message' => 'Email не подтвержден', 'verified' => false], 403);
+            }
         } else {
             return response()->json(['message' => 'Пользователь не найден', 'verified' => false], 404);
         }

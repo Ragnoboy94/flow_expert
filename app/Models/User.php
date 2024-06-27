@@ -28,8 +28,12 @@ class User extends Authenticatable
         'inn',
         'kpp',
         'category_id',
-        'role_id'
+        'role_id',
+        'position_id',
+        'organization_id',
+        'verification_token'
     ];
+    protected $appends = ['position_name'];
     public function category()
     {
         return $this->belongsTo(Category::class);
@@ -69,5 +73,19 @@ class User extends Authenticatable
     public function role()
     {
         return $this->belongsTo(Role::class);
+    }
+    public function position()
+    {
+        return $this->belongsTo(Position::class);
+    }
+
+    public function organization()
+    {
+        return $this->belongsTo(Organization::class);
+    }
+
+    public function getPositionNameAttribute()
+    {
+        return $this->position ? $this->position->name : null;
     }
 }

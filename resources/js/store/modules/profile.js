@@ -5,7 +5,7 @@ export const profile = {
     state: () => ({
         user: {
             fullName: '',
-            position: '',
+            position_name: '',
             company: '',
             inn: '',
             kpp: '',

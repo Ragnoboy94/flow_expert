@@ -21,6 +21,7 @@
                                            @rowUnselect="onRowUnselect"
                                            table-style="border-color: green">
                                     <Column field="filename" header="Имя файла"></Column>
+                                    <Column field="author" header="Загрузил"></Column>
                                     <Column field="created_at" header="Дата загрузки">
                                         <template #body="{ data }">
                                             {{ new Date(data.created_at).toLocaleDateString() }}

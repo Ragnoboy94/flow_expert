@@ -16,7 +16,18 @@ class OfferController extends Controller
 {
     public function index()
     {
-        $offers = Offer::where('user_id', Auth::id())->get();
+        $user = Auth::user();
+        $offersQuery = Offer::query();
+
+        if ($user->position_id == 1) {
+            $offersQuery->whereHas('user', function ($query) use ($user) {
+                $query->where('organization_id', $user->organization_id);
+            });
+        } else {
+            $offersQuery->where('user_id', $user->id);
+        }
+
+        $offers = $offersQuery->get();
 
         $response = [];
         foreach ($offers as $offer) {
@@ -74,11 +85,23 @@ class OfferController extends Controller
     }
     public function update(Request $request, $id)
     {
+        $user = Auth::user();
         $row = MedicineRows::findOrFail($id);
+
+        if ($user->position_id == 1 && $row->offer && $row->offer->user->organization_id != $user->organization_id) {
+            return response()->json(['message' => 'Unauthorized'], 403);
+        }
+
+        if ($row->offer && $row->offer->user_id !== $user->id) {
+            return response()->json(['message' => 'Unauthorized'], 403);
+        }
+
         $row->update($request->all());
+
         if ($row->offer) {
             $row->offer->touch();
         }
+
         return response()->json($row);
     }
 

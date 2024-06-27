@@ -95,8 +95,4 @@ export default {
     border-radius: 10px;
 }
 
-.text-header {
-    color: #00a950;
-    text-align: center;
-}
 </style>

@@ -11,11 +11,14 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('users', function (Blueprint $table) {
-            $table->string('company')->nullable();
-            $table->string('inn', 12)->nullable();
-            $table->string('kpp', 9)->nullable();
+        Schema::create('organization_statuses', function (Blueprint $table) {
+            $table->id();
+            $table->string('name');
+            $table->timestamps();
         });
+        Artisan::call('db:seed', [
+            '--class' => 'OrganizationStatusesTableSeeder'
+        ]);
     }
 
     /**
@@ -23,8 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('users', function (Blueprint $table) {
-            $table->dropColumn(['company', 'inn', 'kpp']);
-        });
+        Schema::dropIfExists('organization_statuses');
     }
 };

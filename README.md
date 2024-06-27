@@ -69,6 +69,7 @@ scp esklp.xml root@ip_адрес:esklp.xml
 php artisan process:xml
 
 php artisan queue:restart 
+php artisan schedule:work
 php artisan passport:install
 на все согласиться, скопировать ключ для 2 id и вставить в VUE_CLIENT_SECRET
 php artisan config:cache

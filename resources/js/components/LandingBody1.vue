@@ -35,6 +35,8 @@ export default {
 
 .subtitle {
     margin-bottom: 2rem;
+    font-size: 1.3em;
+    text-indent: 0;
 }
 
 .image-container img {

@@ -15,6 +15,7 @@
                            tableStyle="border-color: green">
                     <Column field="filename" header="Имя файла"></Column>
                     <Column field="status_name" header="Статус"></Column>
+                    <Column field="author" header="Загрузил"></Column>
                     <Column field="count_row" header="Количество позиций"></Column>
                     <Column field="law" header="Выберите закон-основания">
                         <template #body="{ data }">

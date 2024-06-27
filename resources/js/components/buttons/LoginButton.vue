@@ -10,7 +10,9 @@
                 <div v-if="loginStep === 'inputInfo'">
                     <form @submit.prevent="verifyUser">
                         <InputText placeholder="ФИО" v-model="loginInfo.fullName" class="field" required/>
-                        <InputText pattern=".{17,}" title="Номер телефона должен состоять из 11 цифр" v-mask="'# (###) ###-##-##'" placeholder="Телефон" v-model="loginInfo.phone" class="field" required/>
+                        <InputText pattern=".{17,}" title="Номер телефона должен состоять из 11 цифр"
+                                   v-mask="'# (###) ###-##-##'" placeholder="Телефон" v-model="loginInfo.phone"
+                                   class="field" required/>
                         <span v-if="loginErrorText" style="color: red">{{ loginErrorText }}</span>
                         <Button type="submit" label="Далее" class="consultation-button" :disabled="!isLoginValid"/>
                         <div class="forgot-password-container">
@@ -18,7 +20,10 @@
                                     @click="openChangePasswordDialog"/>
                         </div>
                         <div class="user-agreement">
-                            Авторизуясь, я соглашаюсь с условиями <router-link to="user_agreement" target="_blank"><span link class="forgot-password-link">Пользовательского соглашения</span></router-link>.
+                            Авторизуясь, я соглашаюсь с условиями
+                            <router-link to="user_agreement" target="_blank"><span link class="forgot-password-link">Пользовательского соглашения</span>
+                            </router-link>
+                            .
                         </div>
                     </form>
                 </div>
@@ -33,21 +38,47 @@
             <TabPanel header="Зарегистрироваться">
                 <form @submit.prevent="register" class="p-fluid form-layout">
                     <InputText placeholder="ФИО" v-model="registerInfo.fullName" class="field" required/>
-                    <InputText pattern=".{17,}" title="Номер телефона должен состоять из 11 цифр" v-mask="'# (###) ###-##-##'" placeholder="Телефон" v-model="registerInfo.phone" class="field" required/>
-                    <InputText pattern="[^ ]+@[^ ]+\.[a-z]{2,3}" title="Email должен быть настоящим" placeholder="E-mail" v-model="registerInfo.email" class="field" required/>
+                    <InputText pattern=".{17,}" title="Номер телефона должен состоять из 11 цифр"
+                               v-mask="'# (###) ###-##-##'" placeholder="Телефон" v-model="registerInfo.phone"
+                               class="field" required/>
+                    <InputText pattern="[^ ]+@[^ ]+\.[a-z]{2,3}" title="Email должен быть настоящим"
+                               placeholder="E-mail" v-model="registerInfo.email" class="field" required/>
                     <div class="category-item">Хочу зарегистрироваться, как сотрудник</div>
-                    <div v-for="category in categories" :key="category.key" class="flex align-items-center category-item">
-                        <RadioButton v-model="registerInfo.category_id" :inputId="category.key" name="dynamic" :value="category.key"/>
+                    <div v-for="category in categories" :key="category.key"
+                         class="flex align-items-center category-item">
+                        <RadioButton v-model="registerInfo.category_id" :inputId="category.key" name="dynamic"
+                                     :value="category.key"/>
                         <label :for="category.key" class="ml-2">{{ category.name }}</label>
                     </div>
-                    <InputText pattern=".{8,}" title="Пароль должен быль больше 8 символов" type="password" placeholder="Пароль" v-model="registerInfo.password" class="field"
+                    <div>
+                        <h3>Выберите организацию</h3>
+                        <Dropdown v-model="registerInfo.organization_id" :options="organizations" optionLabel="name" optionValue="id" placeholder="Выберите организацию" @change="fetchPositions" class="field" required />
+                    </div>
+                    <div v-if="!registerInfo.organization_id">
+                        <h3>Доступные позиции</h3>
+                        <Dropdown placeholder="Грузятся..." loading class="field" required />
+                    </div>
+                    <div v-else-if="positions.length > 0">
+                        <h3>Доступные позиции</h3>
+                        <Dropdown v-model="registerInfo.position_id" :options="positions" optionLabel="name" optionValue="id" placeholder="Выберите позицию" class="field" required />
+                    </div>
+                    <InputText pattern=".{8,}" title="Пароль должен быль больше 8 символов" type="password"
+                               placeholder="Пароль" v-model="registerInfo.password" class="field"
                                required/>
-                    <InputText pattern=".{8,}" title="Пароль должен быль больше 8 символов" type="password" placeholder="Пароль ещё раз" v-model="registerInfo.password_confirmation"
+                    <InputText pattern=".{8,}" title="Пароль должен быль больше 8 символов" type="password"
+                               placeholder="Пароль ещё раз" v-model="registerInfo.password_confirmation"
                                class="field" required/>
-                    <Button type="submit" label="Зарегистрироваться" class="consultation-button" :disabled="!isRegistrationValid"/>
+                    <Button type="submit" label="Зарегистрироваться" class="consultation-button"
+                            :disabled="!isRegistrationValid"/>
                     <div class="user-agreement">
-                        Продолжая регистрацию, вы соглашаетесь с нашим <router-link to="user_agreement" target="_blank"><span link class="forgot-password-link">пользовательским соглашением</span></router-link>
-                        и <router-link to="privacy_policy" target="_blank"><span link class="forgot-password-link" type="button">политикой конфиденциальности</span></router-link>.
+                        Продолжая регистрацию, вы соглашаетесь с нашим
+                        <router-link to="user_agreement" target="_blank"><span link class="forgot-password-link">пользовательским соглашением</span>
+                        </router-link>
+                        и
+                        <router-link to="privacy_policy" target="_blank"><span link class="forgot-password-link"
+                                                                               type="button">политикой конфиденциальности</span>
+                        </router-link>
+                        .
                     </div>
                 </form>
             </TabPanel>
@@ -61,10 +92,12 @@
             <p>Добро пожаловать в систему. Теперь вы можете воспользоваться всеми функциями платформы.</p>
         </div>
     </Dialog>
-    <Dialog header="Забыли пароль?" v-model:visible="changePasswordDialogVisible" @update:visible="handleDialogVisibilityChange" :modal="true" :closable="true"
+    <Dialog header="Забыли пароль?" v-model:visible="changePasswordDialogVisible"
+            @update:visible="handleDialogVisibilityChange" :modal="true" :closable="true"
             :showHeader="true" :style="{ width: '450px' }">
         <form v-if="!dialogProfileMessage" @submit.prevent="submitPasswordChange">
-            <InputText pattern=".{17,}" title="Номер телефона должен состоять из 11 цифр" v-mask="'# (###) ###-##-##'" placeholder="Телефон" v-model="changePassword.phone" class="field" required/>
+            <InputText pattern=".{17,}" title="Номер телефона должен состоять из 11 цифр" v-mask="'# (###) ###-##-##'"
+                       placeholder="Телефон" v-model="changePassword.phone" class="field" required/>
             <InputText placeholder="ФИО" v-model="changePassword.fullName" class="field" required/>
             <Button type="submit" label="Получить новый пароль" class="consultation-button"/>
         </form>
@@ -72,7 +105,9 @@
             <h3>{{ dialogProfileMessage }}</h3>
         </div>
     </Dialog>
-    <Dialog header="Регистрация" v-model:visible="dialogRegistrationVisible" @update:visible="handleDialogRegistrationVisibilityChange" :modal="true" :showHeader="true" :dismissableMask="true"
+    <Dialog header="Регистрация" v-model:visible="dialogRegistrationVisible"
+            @update:visible="handleDialogRegistrationVisibilityChange" :modal="true" :showHeader="true"
+            :dismissableMask="true"
             :style="{ width: '450px' }">
         <div class="text-center" :style="{ color: dialogRegistrationColor }">
             <h3>{{ dialogRegistrationMessage }}</h3>
@@ -89,6 +124,7 @@ import TabPanel from 'primevue/tabpanel';
 import InputText from 'primevue/inputtext';
 import Button from 'primevue/button';
 import RadioButton from "primevue/radiobutton";
+import Dropdown from "primevue/dropdown";
 
 export default {
     name: 'LoginButton',
@@ -98,7 +134,8 @@ export default {
         TabPanel,
         InputText,
         Button,
-        RadioButton
+        RadioButton,
+        Dropdown
     },
     data() {
         return {
@@ -112,7 +149,7 @@ export default {
         };
     },
     computed: {
-        ...mapState('auth', ['loginInfo', 'loginStep', 'registerInfo', 'isAuthenticated', 'dialogRegistrationMessage', 'dialogRegistrationColor', 'dialogRegistrationVisible', 'loginErrorText']),
+        ...mapState('auth', ['loginInfo', 'loginStep', 'registerInfo', 'isAuthenticated', 'dialogRegistrationMessage', 'dialogRegistrationColor', 'dialogRegistrationVisible', 'loginErrorText', 'positions', 'organizations', 'selectedOrganization']),
         ...mapState('profile', ['dialogProfileMessage', 'dialogProfileColor']),
         categories() {
             return this.$store.state.auth.categories;
@@ -121,11 +158,11 @@ export default {
             return this.loginInfo.fullName.split(' ').filter(Boolean).length >= 2 && this.loginInfo.phone.length === 17;
         },
         isRegistrationValid() {
-            return this.registerInfo.fullName.split(' ').filter(Boolean).length >= 2 && this.registerInfo.phone.length === 17;
+            return this.registerInfo.fullName.split(' ').filter(Boolean).length >= 2 && this.registerInfo.phone.length === 17 && this.registerInfo.position_id > 0 ;
         }
     },
     methods: {
-        ...mapActions('auth', ['verifyUser', 'Logout']),
+        ...mapActions('auth', ['verifyUser', 'Logout', 'fetchPositions', 'fetchOrganizations']),
 
         logout() {
             this.Logout();
@@ -142,11 +179,9 @@ export default {
             this.registerInfo.phone = this.registerInfo.phone.replace(/[^\d]/g, '');
             this.$store.dispatch('auth/register');
         },
-        handleDialogClose(newValue) {
-            if (!newValue && this.isAuthenticated) {
+        handleDialogClose() {
                 const redirectUrl = this.$route.query.redirect || '/';
                 this.$router.push(redirectUrl);
-            }
         },
         openChangePasswordDialog() {
             this.changePasswordDialogVisible = true;
@@ -164,7 +199,10 @@ export default {
                 this.$router.push(redirectUrl);
             }
         },
-    }
+    },
+    mounted() {
+        this.fetchOrganizations();
+    },
 }
 </script>
 
@@ -198,6 +236,6 @@ export default {
 }
 
 .p-radiobutton {
-    margin-right: 0.5rem; /* Добавляем отступ между значком и текстом радиокнопки */
+    margin-right: 0.5rem;
 }
 </style>

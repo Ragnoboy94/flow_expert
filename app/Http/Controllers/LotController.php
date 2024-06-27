@@ -16,9 +16,19 @@ class LotController extends Controller
         $fileId = $request->input('fileId');
         $selectedLaw = $request->input('selectedLaw');
 
-        $file = DemandFile::where('id', $fileId)
-            ->where('user_id', Auth::id())
-            ->firstOrFail();
+        $user = Auth::user();
+
+        if ($user->position_id === 1) {
+            $file = DemandFile::where('id', $fileId)
+                ->whereHas('user', function ($query) use ($user) {
+                    $query->where('organization_id', $user->organization_id);
+                })
+                ->firstOrFail();
+        } else {
+            $file = DemandFile::where('id', $fileId)
+                ->where('user_id', $user->id)
+                ->firstOrFail();
+        }
 
         $file->update(['status_id' => 5, 'law' => $selectedLaw]);
 
@@ -28,9 +38,19 @@ class LotController extends Controller
     }
     public function getExcelRows($fileId)
     {
-        $file = DemandFile::where('id', $fileId)
-            ->where('user_id', Auth::id())
-            ->firstOrFail();
+        $user = Auth::user();
+
+        if ($user->position_id === 1) {
+            $file = DemandFile::where('id', $fileId)
+                ->whereHas('user', function ($query) use ($user) {
+                    $query->where('organization_id', $user->organization_id);
+                })
+                ->firstOrFail();
+        } else {
+            $file = DemandFile::where('id', $fileId)
+                ->where('user_id', $user->id)
+                ->firstOrFail();
+        }
 
         $rows = ExcelRow::where('demand_file_id', $file->id)->with('drugCategory')->get();
 
@@ -38,9 +58,19 @@ class LotController extends Controller
     }
     public function updateExcelRows(Request $request, $fileId)
     {
-        $file = DemandFile::where('id', $fileId)
-            ->where('user_id', Auth::id())
-            ->firstOrFail();
+        $user = Auth::user();
+
+        if ($user->position_id === 1) {
+            $file = DemandFile::where('id', $fileId)
+                ->whereHas('user', function ($query) use ($user) {
+                    $query->where('organization_id', $user->organization_id);
+                })
+                ->firstOrFail();
+        } else {
+            $file = DemandFile::where('id', $fileId)
+                ->where('user_id', $user->id)
+                ->firstOrFail();
+        }
 
         $rows = $request->all();
         foreach ($rows as $row) {
