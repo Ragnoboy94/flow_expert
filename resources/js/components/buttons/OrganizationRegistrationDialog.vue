@@ -25,27 +25,27 @@
                                class="field" required/>
                 </div>
                 <div class="p-field">
-                    <InputText placeholder="ИНН" id="inn" v-model="organization.inn" class="field" required/>
+                    <InputText pattern="\d{10,12}" title="ИНН должен состоять из 10 или 12 цифр" v-mask="'############'" placeholder="ИНН" id="inn" v-model="organization.inn" class="field" required/>
                 </div>
                 <div class="p-field">
-                    <InputText placeholder="Казначейский/расчетный счет" id="account_number"
+                    <InputText pattern="\d{20}" title="Счет должен состоять из 20 цифр" v-mask="'####################'" placeholder="Казначейский/расчетный счет" id="account_number"
                                v-model="organization.account_number" class="field" required/>
                 </div>
                 <div class="p-field">
-                    <InputText placeholder="Банковский счет" id="bank_account" v-model="organization.bank_account"
+                    <InputText pattern="\d{20}" title="Банковский счет должен состоять из 20 цифр" v-mask="'####################'" placeholder="Банковский счет" id="bank_account" v-model="organization.bank_account"
                                class="field" required/>
                 </div>
                 <div class="p-field">
-                    <InputText placeholder="БИК" id="bik" v-model="organization.bik" class="field" required/>
+                    <InputText pattern="\d{9}" title="БИК должен состоять из 9 цифр" v-mask="'#########'" placeholder="БИК" id="bik" v-model="organization.bik" class="field" required/>
                 </div>
                 <div class="p-field">
-                    <InputText placeholder="ОГРН" id="ogrn" v-model="organization.ogrn" class="field" required/>
+                    <InputText pattern="\d{13}" title="ОГРН должен состоять из 13 цифр" placeholder="ОГРН" v-mask="'#############'" id="ogrn" v-model="organization.ogrn" class="field" required/>
                 </div>
                 <div class="p-field">
-                    <InputText placeholder="E-mail" id="email" v-model="organization.email" class="field" required/>
+                    <InputText pattern="[^ ]+@[^ ]+\.[a-z]{2,3}" title="Email должен быть настоящим" placeholder="E-mail" id="email" v-model="organization.email" class="field" required/>
                 </div>
                 <div class="p-field">
-                    <InputText placeholder="Телефон" id="phone" v-model="organization.phone" class="field" required/>
+                    <InputText pattern="\d{10,15}" title="Телефон должен состоять из 10-15 цифр" v-mask="'###############'" placeholder="Телефон" id="phone" v-model="organization.phone" class="field" required/>
                 </div>
                 <div class="p-field">
                     <Button label="Добавить организацию" type="submit" class="consultation-button"/>
