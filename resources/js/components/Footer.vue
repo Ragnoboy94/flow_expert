@@ -26,6 +26,9 @@
             <router-link to="user_agreement" class="flex lg:mt-0 mt-3 lg:align-content-start align-items-center lg:justify-content-start justify-content-center">
                 <span link class="forgot-password-link">Пользовательское соглашение</span>
             </router-link>
+            <router-link to="agree_personal" class="flex lg:mt-0 mt-3 lg:align-content-start align-items-center lg:justify-content-start justify-content-center">
+                <span link class="forgot-password-link">Согласие на обработку персональных данных</span>
+            </router-link>
         </div>
     </section>
 </template>

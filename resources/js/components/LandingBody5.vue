@@ -52,8 +52,8 @@
                         <span>Выписка из реестра аккредитованных организаций </span>
                         <i class="pi pi-file-export registry-icon ml-1"></i>
                     </a>
-                    <a href="/downloads/application.pdf" download="Application_for_Inclusion_in_the_Unified_Register.pdf" class="card-landing2 flex align-items-center justify-content-center" Link>
-                        <span>Заявления о включении связей в единый реестр</span>
+                    <a href="/downloads/application1.pdf" download="Application_for_Inclusion_in_the_Unified_Register.pdf" class="card-landing2 flex align-items-center justify-content-center" Link>
+                        <span>Запись о внесении в единый реестр российского программного обеспечения</span>
                         <i class="pi pi-file-export registry-icon ml-1"></i>
                     </a>
                 </div>
