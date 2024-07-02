@@ -44,7 +44,7 @@ export const organization = {
     actions: {
         async registerOrganization({ state, commit }) {
             try {
-                await axios.post('/api/organizations', state.organization);
+                await axios.post('/api/organizations/register', state.organization);
                 commit('RESET_ORGANIZATION');
             } catch (error) {
                 console.error('Ошибка при регистрации организации:', error);

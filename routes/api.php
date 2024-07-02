@@ -29,6 +29,7 @@ Route::post('organizations/set-trial-period', [OrganizationController::class, 's
 Route::get('/organizations/{organization}/positions', [OrganizationController::class, 'position']);
 Route::get('/organizations', [OrganizationController::class, 'index']);
 Route::post('/users/confirm', [RegisterController::class, 'confirm']);
+Route::post('/organizations/register', [OrganizationController::class, 'store']);
 
 Route::middleware('auth:api')->group(function () {
     Route::get('/profile', [UserProfileController::class, 'index']);
