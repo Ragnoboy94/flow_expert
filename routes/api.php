@@ -12,6 +12,7 @@ use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\DeleteController;
 use App\Http\Controllers\NmckController;
 use App\Http\Controllers\FileGenerationController;
+use App\Http\Controllers\OrganizationController;
 
 //Auth
 Route::post('/login', [LoginController::class, 'login']);
@@ -22,6 +23,13 @@ Route::post('/password/change', [PasswordController::class, 'change'])->middlewa
 Route::post('/password/forgot', [PasswordController::class, 'forgot']);
 
 Route::post('/inquiries', [InquiryController::class, 'store']);
+
+Route::get('organizations/confirm/{uuid}', [OrganizationController::class, 'confirm']);
+Route::post('organizations/set-trial-period', [OrganizationController::class, 'setTrialPeriod']);
+Route::get('/organizations/{organization}/positions', [OrganizationController::class, 'position']);
+Route::get('/organizations', [OrganizationController::class, 'index']);
+Route::post('/users/confirm', [RegisterController::class, 'confirm']);
+Route::post('/organizations/register', [OrganizationController::class, 'store']);
 
 Route::middleware('auth:api')->group(function () {
     Route::get('/profile', [UserProfileController::class, 'index']);
@@ -48,3 +56,4 @@ Route::middleware('auth:api')->group(function () {
     Route::get('/files/{fileId}/category/{categoryId}/download', [FileGenerationController::class, 'download']);
     Route::get('/nmck-files', [NmckController::class, 'getNmckFiles']);
 });
+

@@ -74,3 +74,8 @@
     align-items: center;
     z-index: 1000;
 }
+
+.text-header {
+    color: #00a950;
+    text-align: center;
+}

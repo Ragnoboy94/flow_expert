@@ -24,7 +24,7 @@
                                         <InputText placeholder="ФИО" class="field" required v-model="user.name"/>
                                     </div>
                                     <div class="p-field">
-                                        <InputText placeholder="Должность" class="field" required v-model="user.position"/>
+                                        <InputText placeholder="Должность" class="field" disabled v-model="user.position_name"/>
                                     </div>
                                     <div class="p-field">
                                         <InputText placeholder="Наименование организации" class="field"

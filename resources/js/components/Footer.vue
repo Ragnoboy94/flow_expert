@@ -37,7 +37,7 @@
 import Button from 'primevue/button';
 
 export default {
-    name: 'LandingBody3',
+    name: 'Footer',
     components: {
         Button
     },

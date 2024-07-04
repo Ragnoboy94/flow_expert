@@ -35,6 +35,7 @@
 
             <ConsultationButton/>
             <LogoutButton/>
+            <OrganizationRegistrationDialog/>
         </Sidebar>
     </header>
 </template>
@@ -43,26 +44,21 @@
 import Sidebar from 'primevue/sidebar';
 import ConsultationButton from './buttons/ConsultationButton.vue';
 import LogoutButton from "./buttons/LoginButton.vue";
-
+import OrganizationRegistrationDialog from "./buttons/OrganizationRegistrationDialog.vue";
 
 export default {
     name: 'Header',
     components: {
+        OrganizationRegistrationDialog,
         LogoutButton,
         Sidebar,
-        ConsultationButton
+        ConsultationButton,
     },
     data() {
         return {
             visible: false,
-            showSubMenu: false,
         };
     },
-    methods: {
-        toggleSubMenu() {
-            this.showSubMenu = !this.showSubMenu;
-        },
-    }
 }
 </script>
 

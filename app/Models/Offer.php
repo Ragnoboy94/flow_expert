@@ -9,7 +9,7 @@ class Offer extends Model
 {
     use HasFactory;
 
-    protected $appends = ['file_status_name'];
+    protected $appends = ['file_status_name', 'author'];
     protected $fillable = [
         'sender',
         'date',
@@ -32,5 +32,14 @@ class Offer extends Model
     public function medicineRows()
     {
         return $this->hasMany(MedicineRows::class);
+    }
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
+
+    public function getAuthorAttribute()
+    {
+        return $this->user->name;
     }
 }

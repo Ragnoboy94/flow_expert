@@ -35,6 +35,7 @@
                             </div>
                         </template>
                     </Column>
+                    <Column field="author" header="Загрузил"></Column>
                     <Column field="filename" header="Скачать исходный">
                         <template #body="{ data }">
                             <a :href="`/uploads/${data.filename}`" download>

@@ -4,3 +4,5 @@
 <x-backpack::menu-item title="Пользователи" icon="la la-users" :link="backpack_url('user')" />
 
 <x-backpack::menu-item title="Заказанные консультации" icon="la la-question" :link="backpack_url('inquiry')" />
+
+<x-backpack::menu-item title="Организации" icon="la la-building" :link="backpack_url('organization')" />

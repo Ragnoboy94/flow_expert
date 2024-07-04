@@ -12,7 +12,18 @@ class DeleteController extends Controller
 {
     public function deleteDemand(int $fileId): void
     {
-        $demandFile = DemandFile::where('user_id', Auth::id())->where('id', $fileId)->get()->first();
+        $user = Auth::user();
+
+        if ($user->position_id === 1) {
+            $demandFile = DemandFile::where('id', $fileId)
+                ->whereHas('user', function ($query) use ($user) {
+                    $query->where('organization_id', $user->organization_id);
+                })->first();
+        } else {
+            $demandFile = DemandFile::where('user_id', $user->id)
+                ->where('id', $fileId)->first();
+        }
+
         if ($demandFile) {
             if (Storage::disk('public')->exists('/uploads/' . $demandFile->filename)) {
                 Storage::disk('public')->delete('/uploads/' . $demandFile->filename);
@@ -26,7 +37,18 @@ class DeleteController extends Controller
 
     public function deleteOffer(int $fileId): void
     {
-        $offer = Offer::where('user_id', Auth::id())->where('id', $fileId)->get()->first();
+        $user = Auth::user();
+
+        if ($user->position_id === 1) {
+            $offer = Offer::where('id', $fileId)
+                ->whereHas('user', function ($query) use ($user) {
+                    $query->where('organization_id', $user->organization_id);
+                })->first();
+        } else {
+            $offer = Offer::where('user_id', $user->id)
+                ->where('id', $fileId)->first();
+        }
+
         if ($offer) {
             if (Storage::disk('public')->exists('/offers/' . $offer->file_path)) {
                 Storage::disk('public')->delete('/offers/' . $offer->file_path);

@@ -7,21 +7,21 @@
             <div class="flex align-items-stretch flex-column lg:flex-row">
                 <div class="flex lg:col-6">
                     <i class="pi pi-search-plus step-icon"></i>
-                    <span><u>ШАГ 1</u><br>Оставьте заявку на сайте для обратного звонка с нашим менеджером</span>
+                    <span><u>ШАГ 1</u><br>Оставить заявку на сайте для обратного звонка с нашим менеджером</span>
                 </div>
                 <div class="flex mt-3 lg:col-6">
                     <i class="pi pi-users step-icon"></i>
-                    <span><u>ШАГ 2</u><br>Подключение сервиса и обучающая лекция для всех сотрудников</span>
+                    <span><u>ШАГ 2</u><br>Подключить сервис и прослушать обучающую лекцию для всех сотрудников</span>
                 </div>
             </div>
             <div class="flex align-items-stretch flex-column lg:flex-row">
                 <div class="flex mt-3 lg:col-6">
                     <i class="pi pi-cog step-icon"></i>
-                    <span><u>ШАГ 3</u><br>Пилотное использование системы</span>
+                    <span><u>ШАГ 3</u><br>Опробовать функционал в демоверсионном режиме</span>
                 </div>
                 <div class="flex mt-3 lg:col-6">
                     <i class="pi pi-file step-icon"></i>
-                    <span><u>ШАГ 4</u><br>Лицензионное соглашение</span>
+                    <span><u>ШАГ 4</u><br>Подписать Лицензионное соглашение</span>
                 </div>
             </div>
         </div>

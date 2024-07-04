@@ -48,13 +48,27 @@ class NmckController extends Controller
         ]);
         $excelRowId = $request->input('excel_row_id');
 
-        $monthlyData = MonthlyData::where('user_id', $user->id)
-            ->where('excel_row_id', $excelRowId)
-            ->get();
+        $monthlyData = MonthlyData::where('excel_row_id', $excelRowId)
+            ->where(function ($query) use ($user) {
+                if ($user->position_id === 1) {
+                    $query->whereHas('user', function ($query) use ($user) {
+                        $query->where('organization_id', $user->organization_id);
+                    });
+                } else {
+                    $query->where('user_id', $user->id);
+                }
+            })->get();
 
-        $periodicData = PeriodicData::where('user_id', $user->id)
-            ->where('excel_row_id', $excelRowId)
-            ->get();
+        $periodicData = PeriodicData::where('excel_row_id', $excelRowId)
+            ->where(function ($query) use ($user) {
+                if ($user->position_id === 1) {
+                    $query->whereHas('user', function ($query) use ($user) {
+                        $query->where('organization_id', $user->organization_id);
+                    });
+                } else {
+                    $query->where('user_id', $user->id);
+                }
+            })->get();
 
         return response()->json([
             'monthlyData' => $monthlyData,

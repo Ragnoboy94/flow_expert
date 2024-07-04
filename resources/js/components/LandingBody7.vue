@@ -74,7 +74,7 @@ import Button from 'primevue/button';
 import Dialog from 'primevue/dialog';
 
 export default {
-    name: 'LandingBody3',
+    name: 'LandingBody7',
     components: {
         InputText,
         Textarea,

@@ -12,9 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->string('company')->nullable();
-            $table->string('inn', 12)->nullable();
-            $table->string('kpp', 9)->nullable();
+            $table->uuid('verification_token')->nullable()->after('email_verified_at');
         });
     }
 
@@ -24,7 +22,7 @@ return new class extends Migration
     public function down(): void
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->dropColumn(['company', 'inn', 'kpp']);
+            $table->dropColumn('verification_token');
         });
     }
 };

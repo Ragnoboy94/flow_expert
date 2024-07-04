@@ -22,6 +22,8 @@ export const auth = {
             password: '',
             password_confirmation: '',
             category_id: 3,
+            position_id: null,
+            organization_id: null
         },
         categories: categories,
         loginStep: 'inputInfo',
@@ -29,7 +31,10 @@ export const auth = {
         dialogRegistrationMessage: '',
         dialogRegistrationColor: 'green',
         dialogRegistrationVisible: false,
-        loginErrorText: ''
+        loginErrorText: '',
+        organizations: [],
+        positions: [],
+        position: Cookies.get('position') ? JSON.parse(Cookies.get('position')) : null,
     },
     mutations: {
         SET_LOGIN_ERROR_TEXT(state, text) {
@@ -70,6 +75,19 @@ export const auth = {
         SET_DIALOG_REGISTRATION_VISIBLE(state, visible) {
             state.dialogRegistrationVisible = visible;
         },
+        SET_SELECTED_ORGANIZATION(state, organization) {
+            state.selectedOrganization = organization;
+        },
+        SET_POSITIONS(state, positions) {
+            state.positions = positions;
+        },
+        SET_ORGANIZATIONS(state, organizations) {
+            state.organizations = organizations;
+        },
+        SET_POSITION(state, position) {
+            state.position = position;
+            Cookies.set('position', JSON.stringify(position));
+        },
     },
     actions: {
         async checkAuthentication({commit}) {
@@ -105,6 +123,8 @@ export const auth = {
                 Cookies.set('access_token', access_token, {expires: 1});
                 axios.defaults.headers.common['Authorization'] = access_token;
                 commit('SET_AUTHENTICATED', true);
+                commit('SET_POSITION', response.data.position);
+                Cookies.set('organization_status_id', response.data.organization_status_id);
                 this.showLoginDialog = false;
             } catch (error) {
                 commit('SET_LOGIN_ERROR_TEXT', 'Ошибка авторизации: неверный логин или пароль');
@@ -129,21 +149,10 @@ export const auth = {
             try {
                 const response = await axios.post('/api/register', state.registerInfo);
                 if (response.data.success) {
-                    commit('SET_DIALOG_REGISTRATION_MESSAGE', 'Вы успешно зарегистрировались!');
+                    commit('SET_DIALOG_REGISTRATION_MESSAGE', 'Вы успешно зарегистрировались! Дождитесь подтверждения от организации!');
                     commit('SET_DIALOG_REGISTRATION_COLOR', 'green');
                     commit('SET_DIALOG_REGISTRATION_VISIBLE', true);
-                    const response = await axios.post('/api/login', {
-                        phone: state.registerInfo.phone.replace(/[^\d]/g, ''),
-                        password: state.registerInfo.password
-                    });
-                    Cookies.remove('access_token');
-                    axios.defaults.headers.common['Authorization'] = '';
                     commit('RESET_REGISTER_INFO');
-                    commit('RESET_LOGIN_INFO');
-                    let access_token = 'Bearer ' + response.data.access_token;
-                    Cookies.set('access_token', access_token, {expires: 1});
-                    axios.defaults.headers.common['Authorization'] = access_token;
-                    commit('SET_AUTHENTICATED', true);
                     this.showLoginDialog = false;
                 }
             } catch (error) {
@@ -152,6 +161,22 @@ export const auth = {
                 commit('SET_DIALOG_REGISTRATION_COLOR', 'red');
                 commit('SET_DIALOG_REGISTRATION_VISIBLE', true);
             }
-        }
+        },
+        async fetchPositions({ commit, state }) {
+            try {
+                const response = await axios.get(`/api/organizations/${state.registerInfo.organization_id}/positions`);
+                commit('SET_POSITIONS', response.data);
+            } catch (error) {
+                console.error("Error fetching positions:", error);
+            }
+        },
+        async fetchOrganizations({commit}) {
+            try {
+                const response = await axios.get('/api/organizations');
+                commit('SET_ORGANIZATIONS', response.data);
+            } catch (error) {
+                console.error("Error fetching organizations:", error);
+            }
+        },
     }
 };

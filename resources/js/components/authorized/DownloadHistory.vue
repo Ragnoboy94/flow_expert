@@ -16,6 +16,7 @@
                                         {{ new Date(data.created_at).toLocaleDateString() }}
                                     </template>
                                 </Column>
+                                <Column field="author" header="Загрузил"></Column>
                                 <Column field="filename" header="Скачать исходный">
                                     <template #body="{ data }">
                                         <a :href="`/uploads/${data.filename}`" download>
@@ -38,7 +39,7 @@
                         <Button class="consultation-button" label="Сформированный лот"></Button>
                     </template>
                         <div v-for="file in files_ready" :key="file.id" class="mb-4">
-                            <InlineMessage class="w-full" severity="success">{{ file.filename }}</InlineMessage>
+                            <InlineMessage class="w-full" severity="success">{{ file.filename }} | Загрузил: {{ file.author }}</InlineMessage>
                             <template v-if="categoriesByFile[file.id] && categoriesByFile[file.id].length">
                                 <DataTable :value="categoriesByFile[file.id]" table-style="border-color: green">
                                     <Column field="category" header="Наименование категории">
@@ -81,6 +82,7 @@
                                     {{ new Date(data.created_at).toLocaleDateString() }}
                                 </template>
                             </Column>
+                            <Column field="author" header="Загрузил"></Column>
                             <Column field="file_status_id" header="Скачать обработанный">
                                 <template #body="{ data }">
                                     <a v-if="data.file_status_id === 3" :href="`/offers_export/${data.excel_file_path}`" download>
