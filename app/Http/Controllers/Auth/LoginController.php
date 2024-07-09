@@ -31,17 +31,17 @@ class LoginController extends Controller
         $data = json_decode($response->getContent(), true);
 
         if (isset($data['access_token'])) {
-            $user = User::where('phone', $validate['phone'])->first();
+            $user = User::where('phone', $validate['phone'])->firstOrFail();
 
-            $position = Position::find($user->position_id);
-            $organization = Organization::find($user->organization_id);
+            $position = $user->position()->first();
+            $organization = $user->organization()->first();
 
             return response()->json([
                 'access_token' => $data['access_token'],
-                'position' => $position ? [
-                    'id' => $position->id,
-                    'name' => $position->name
-                ] : null,
+                'position' => [
+                    'id' => $position ? $position->id : null,
+                    'name' => $position ? $position->name : null
+                ],
                 'organization_status_id' => $organization ? $organization->status_id : null
             ]);
         }

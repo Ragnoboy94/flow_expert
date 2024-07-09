@@ -25,6 +25,10 @@ class Organization extends Model
             $model->confirmation_uuid = (string) Str::uuid();
         });
     }
+    public function users()
+    {
+        return $this->hasMany(User::class);
+    }
 
     public function status()
     {
