@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Models\Organization;
+use App\Models\Position;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -29,10 +31,10 @@ class LoginController extends Controller
         $data = json_decode($response->getContent(), true);
 
         if (isset($data['access_token'])) {
-            $user = User::with('position')->with('organization')->where('phone', $validate['phone'])->first();
+            $user = User::where('phone', $validate['phone'])->first();
 
-            $position = $user->position;
-            $organization = $user->organization;
+            $position = Position::find($user->position_id);
+            $organization = Organization::find($user->organization_id);
 
             return response()->json([
                 'access_token' => $data['access_token'],
