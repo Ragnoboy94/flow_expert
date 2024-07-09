@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\LicenseAgreementMail;
 use App\Mail\OrganizationConfirmationMail;
 use App\Models\Organization;
 use App\Models\Position;
@@ -118,6 +119,7 @@ class OrganizationController extends Controller
             ]);
             return response()->json(['message' => 'Trial period set successfully.']);
         }
+        Mail::to($organization->email)->send(new LicenseAgreementMail($organization));
 
         return response()->json(['message' => 'Trial period is already set.']);
     }
