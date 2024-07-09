@@ -76,12 +76,12 @@ class User extends Authenticatable
     }
     public function position()
     {
-        return $this->belongsTo(Position::class);
+        return $this->belongsTo(Position::class, 'position_id');
     }
 
     public function organization()
     {
-        return $this->belongsTo(Organization::class);
+        return $this->belongsTo(Organization::class, 'organization_id');
     }
 
     public function getPositionNameAttribute()
