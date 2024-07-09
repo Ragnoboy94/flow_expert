@@ -33,6 +33,7 @@ class User extends Authenticatable
         'organization_id',
         'verification_token'
     ];
+    protected $appends = ['position_name'];
     public function category()
     {
         return $this->belongsTo(Category::class);
