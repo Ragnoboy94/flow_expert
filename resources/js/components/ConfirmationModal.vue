@@ -9,6 +9,11 @@
             производите оплату лицензионного вознаграждения в размере и сроки, установленные в лицензионном соглашении
             для вашей категории учреждения (организации).
         </p>
+        <p>
+            <a href="/downloads/license.docx"
+               download="License.docx">Лицензионное соглашение
+            </a>
+        </p>
         <Button label="Подтвердить" class="consultation-button" @click="confirm"/>
     </Dialog>
 </template>
