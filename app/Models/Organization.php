@@ -12,7 +12,7 @@ class Organization extends Model
     use CrudTrait;
     use HasFactory;
     protected $fillable = [
-        'name', 'juridical_address', 'postal_address', 'inn', 'account_number',
+        'id', 'name', 'juridical_address', 'postal_address', 'inn', 'account_number',
         'bank_account', 'bik', 'ogrn', 'email', 'phone', 'status_id', 'paid_until',
         'confirmation_uuid', 'confirmed_at'
     ];
@@ -29,9 +29,5 @@ class Organization extends Model
     public function status()
     {
         return $this->belongsTo(OrganizationStatus::class, 'status_id');
-    }
-    public function positions()
-    {
-        return $this->hasMany(Position::class);
     }
 }
