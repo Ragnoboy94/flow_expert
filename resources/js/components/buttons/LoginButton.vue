@@ -55,12 +55,12 @@
                         <Dropdown v-model="registerInfo.organization_id" :options="organizations" optionLabel="name" optionValue="id" placeholder="Выберите организацию" @change="fetchPositions" class="field" required />
                     </div>
                     <div v-if="!registerInfo.organization_id">
-                        <h3>Доступные позиции</h3>
+                        <h3>Доступные должности</h3>
                         <Dropdown placeholder="Грузятся..." loading class="field" required />
                     </div>
                     <div v-else-if="positions.length > 0">
-                        <h3>Доступные позиции</h3>
-                        <Dropdown v-model="registerInfo.position_id" :options="positions" optionLabel="name" optionValue="id" placeholder="Выберите позицию" class="field" required />
+                        <h3>Доступные должности</h3>
+                        <Dropdown v-model="registerInfo.position_id" :options="positions" optionLabel="name" optionValue="id" placeholder="Выберите должность" class="field" required />
                     </div>
                     <InputText pattern=".{8,}" title="Пароль должен быль больше 8 символов" type="password"
                                placeholder="Пароль" v-model="registerInfo.password" class="field"
