@@ -31,13 +31,16 @@ class LoginController extends Controller
         if (isset($data['access_token'])) {
             $user = User::with('position')->with('organization')->where('phone', $validate['phone'])->first();
 
+            $position = $user->position;
+            $organization = $user->organization;
+
             return response()->json([
                 'access_token' => $data['access_token'],
-                'position' => [
-                    'id' => $user->position->id,
-                    'name' => $user->position->name
-                ],
-                'organization_status_id' => $user->organization->status_id
+                'position' => $position ? [
+                    'id' => $position->id,
+                    'name' => $position->name
+                ] : null,
+                'organization_status_id' => $organization ? $organization->status_id : null
             ]);
         }
 
