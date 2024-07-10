@@ -10,6 +10,12 @@
             для вашей категории учреждения (организации).
         </p>
         <p>
+            <a href="/downloads/tariffs.docx"
+               download="tariffs.docx">Тарифы и инструкция
+            </a>
+        </p>
+        <br/>
+        <p>
             <a href="/downloads/license.docx"
                download="License.docx">Лицензионное соглашение
             </a>

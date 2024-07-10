@@ -51,9 +51,12 @@ class LicenseAgreementMail extends Mailable
     public function attachments(): array
     {
         return [
-           /* Attachment::fromPath(public_path('downloads/license.docx'))
+            Attachment::fromPath(public_path('downloads/license.docx'))
                 ->as('license.docx')
-                ->withMime('application/vnd.openxmlformats-officedocument.wordprocessingml.document'),*/
+                ->withMime('application/vnd.openxmlformats-officedocument.wordprocessingml.document'),
+            Attachment::fromPath(public_path('downloads/tariffs.docx'))
+                ->as('tariffs.docx')
+                ->withMime('application/vnd.openxmlformats-officedocument.wordprocessingml.document'),
         ];
     }
 }
